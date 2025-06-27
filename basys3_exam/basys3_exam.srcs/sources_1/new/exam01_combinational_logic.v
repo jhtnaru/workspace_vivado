@@ -10,6 +10,7 @@ module and_gate(
     assign F = A & B;
 endmodule
 
+// 2025. 6. 26
 // 구조적 Modeling, Gate
 module half_adder_structural(
     input A, B,
@@ -134,6 +135,8 @@ module fadder_4bit_structural(
     full_adder_structural fa3 (.A(A[3]), .B(B[3]), .Cin(carry_w[2]), .sum(sum[3]), .carry(carry));
 endmodule
 
+
+// 2025. 6. 27
 // Multiplexer 2 Input 1 Output
 module mux_2_1_d(
     input [1:0] d,
@@ -193,6 +196,7 @@ module mux_demux_test(
     demux_1_4_d demux_4(.d(mux_f), .s(demux_s), .f(f));
 endmodule
 
+// signal → code
 module encoder_4_2(
     input [3:0] signal,
     output reg [1:0] code
@@ -225,6 +229,7 @@ module encoder_4_2(
     end
 endmodule
 
+// code → signal
 module decoder_2_4(
     input [1:0] code,
     output reg [3:0] signal
@@ -252,3 +257,10 @@ module decoder_2_4(
         endcase    
     end
 endmodule
+
+
+
+
+
+
+
