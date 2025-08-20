@@ -7,6 +7,7 @@ module tb_ultrasonic_cntr ();
     wire ultra_trig;
     wire [11:0] distance;
 
+    // Connect in Order
     ultrasonic_cntr dut (clk, reset_p, ultra_echo, ultra_trig, distance);
 
     initial begin                               // Reset
@@ -20,11 +21,11 @@ module tb_ultrasonic_cntr ();
     initial begin
         #10;
         reset_p = 0; #10;
-        wait(ultra_trig);
-        wait(!ultra_trig);
+        wait(ultra_trig);                       // Trig Pin High Signal
+        wait(!ultra_trig);                      // Trig Pin Low Signal
         #10_000;
-        ultra_echo = 1; #200_000;
-        ultra_echo = 0; #100_000;
+        ultra_echo = 1; #1_000_000;             // Echo Pin High Signal, 1ms
+        ultra_echo = 0; #100_000;               // Echo Pin Low Signal
         $stop;
     end
 endmodule

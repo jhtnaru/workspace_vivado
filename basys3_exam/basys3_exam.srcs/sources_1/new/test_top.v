@@ -381,7 +381,8 @@ module ultrasonic_top (
     );
     
     wire [11:0] distance;
-    // Using Module, Data Read & Write, Measurement Distance Value Output
+    // Data Read & Write, Measurement Distance Value Output
+    // Using Module, Connect in Order
     ultrasonic_cntr ultra (clk, reset_p, ultra_echo, ultra_trig, distance, led);
 
     wire [15:0] dist_bcd;

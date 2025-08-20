@@ -557,6 +557,27 @@ module ultrasonic_cntr (
         else if (!cnt_usec_e) cnt_usec = 0;     // Count Clear when Disable
     end
 
+    reg [21:0] div_usec_58;                        // 
+    reg div_usec_58_e;                             // 
+    reg [11:0] cnt_dist;
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            div_usec_58 = 0;              // Count Clear
+            cnt_dist = 0;
+        end
+        else if (clk_usec_nedge && div_usec_58_e) begin    // Count Start when Enable & us Negative Edge
+            if (div_usec_58 >= 57) begin
+                div_usec_58 = 0;
+                cnt_dist = cnt_dist + 1;
+            end
+            else div_usec_58 = div_usec_58 + 1;            // Count During Enable
+        end
+        else if (!cnt_usec_e) begin
+            div_usec_58 = 0;     // Count Clear when Disable
+            cnt_dist = 0;
+        end
+    end
+
     // Edge Detection of Ultrasonic Echo Signal
     wire ultra_nedge, ultra_pedge;
     edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
@@ -564,13 +585,15 @@ module ultrasonic_cntr (
 
     reg [4:0] state, next_state;                // Current & Next State
     assign led [4:0] = state;                   // State LED Output
+    assign led [5] = ultra_trig;                // Trig Signal LED Output
+    assign led [6] = ultra_echo;                // Echo Signal LED Output
     // Change State in Negative Edge
     always @(negedge clk, posedge reset_p) begin
         if (reset_p) state = S_IDLE;            // Basic Standby State
         else state = next_state;                // Change State in Negative Edge
     end
 
-    reg [14:0] echo_time;                       // Echo Pulse Width
+    // reg [14:0] echo_time;                       // Echo Pulse Width
     always @(posedge clk, posedge reset_p) begin
         if (reset_p) begin
             next_state = S_IDLE;                // Basic Standby State
@@ -578,7 +601,7 @@ module ultrasonic_cntr (
         else begin
             case (state)
                 S_IDLE   : begin                // Standby State
-                    if (cnt_usec < 22'd1_000_000) begin // Real 1_000_000, Test 1_000
+                    if (cnt_usec < 22'd200_000) begin   // Real 200_000, Test 1_000
                         cnt_usec_e = 1;         // us Count Enable
                     end
                     else begin
@@ -599,29 +622,33 @@ module ultrasonic_cntr (
                 S_TIRG_L : begin                // Trig Pin Low Signal Transmission
                     ultra_trig = 0;             // Trig Pin Low Signal
                     cnt_usec_e = 1;             // Count for Checking Response Time
-                    if (cnt_usec > 22'd1_000_000) begin   // No Response 1s, Error, Etc..
+                    if (cnt_usec > 22'd200_000) begin   // No Response 200ms, Error, Etc..
                         cnt_usec_e = 0;         // us Count Disable, Clear
                         next_state = S_IDLE;    // Change State S_IDLE
                     end
                     if (ultra_pedge) begin      // Check Echo High Signal
                         cnt_usec_e = 0;         // us Count Disable, Clear
+                        div_usec_58_e = 1;
                         next_state = S_ECHO_H;
                     end
                 end
                 S_ECHO_H : begin                // Echo Pin High Signal Reception
                     cnt_usec_e = 1;             // us Count Enable
-                    if (cnt_usec > 22'd1_000_000) begin   // No Response 1s, Error, Etc..
+                    if (cnt_usec > 22'd25_000) begin   // No Response 25ms, Error, Etc..
                         cnt_usec_e = 0;         // us Count Disable, Clear
+                        div_usec_58_e = 0;
                         next_state = S_IDLE;    // Change State S_IDLE
                     end
                     if (ultra_nedge) begin      // Check Echo Low Signal
-                        echo_time = cnt_usec;   // Echo Pulse Width Record, us
+                        // echo_time = cnt_usec;   // Echo Pulse Width Record, us
+                        distance = cnt_dist;
                         next_state = S_ECHO_L;  // Change State S_ECHO_L
                     end
                 end
                 S_ECHO_L : begin                // Echo Pin Low Signal Reception
                     cnt_usec_e = 0;             // us Count Disable, Clear
-                    distance = echo_time / 58;  // Distance Calculation
+                    div_usec_58_e = 0;
+                    // distance = echo_time / 58;  // Distance Calculation
                     next_state = S_IDLE;        // Change State S_IDLE
                 end
                 default  : next_state = S_IDLE; // Basic Stanby State
