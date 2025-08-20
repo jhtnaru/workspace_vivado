@@ -393,3 +393,23 @@ module ultrasonic_top (
     fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
                 .fnd_value(dist_bcd), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
 endmodule
+
+// 4 x 4 Keypad Value Output
+module keypad_top (
+    input clk, reset_p,
+    input [3:0] row,
+    output [3:0] col,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+    
+    wire [3:0] key_value;
+    wire key_valid;
+    keypad_cntr key_pad (clk, reset_p, row, col, key_value, key_valid, led);
+
+    // FND 4-Digit Output, Hexadecimal
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+                .fnd_value(key_value), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule

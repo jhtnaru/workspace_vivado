@@ -65,14 +65,14 @@ module button_debounce (
 
     always @(posedge clk) begin
         if (btn_sync_1 == btn_state) begin
-            cnt <= 0;           // Input == Before State, Stable State → Counter Reset
+            cnt <= 1;           // Input == Before State, Stable State → Counter Reset
         end
         else begin
-            cnt <= cnt + 1;     // Inpue != Before State, Count Increase
+            cnt <= cnt + 1;     // Input != Before State, Count Increase
             if (cnt >= 1_000_000) begin  // Maintain a Specific Time for Debounce, 10ns * 1,000,000 = 10ms
                 btn_state <= btn_sync_1;
                 clean_btn <= btn_sync_1;
-                cnt <= 0;
+                cnt <= 1;
             end
         end
     end
@@ -526,7 +526,7 @@ module dht11_cntr (
     end
 endmodule
 
-// Ultrasonic Sensor 
+// Ultrasonic Sensor, FSM
 module ultrasonic_cntr (
     input clk, reset_p,
     input ultra_echo,                           // Input Echo Pulse
@@ -652,6 +652,120 @@ module ultrasonic_cntr (
                     next_state = S_IDLE;        // Change State S_IDLE
                 end
                 default  : next_state = S_IDLE; // Basic Stanby State
+            endcase
+        end
+    end
+endmodule
+
+// 4 x 4 Keypad, FSM
+module keypad_cntr (
+    input clk, reset_p,
+    input [3:0] row,                            // Input Row Values when Column is High
+    output reg [3:0] col,                       // Output High Values by Changing Column
+    output reg [3:0] key_value,                 // Output Values According to Row and Column Inputs
+    output reg key_valid,                       // Key Input Flag
+    output [15:0] led                           // for Debugging
+    );
+
+    // Change State Using Shift
+    localparam SCAN_0       = 5'b00001;         // Check Row Value of 1st Column
+    localparam SCAN_1       = 5'b00010;         // Check Row Value of 2nd Column
+    localparam SCAN_2       = 5'b00100;         // Check Row Value of 3rd Column
+    localparam SCAN_3       = 5'b01000;         // Check Row Value of 4th Column
+    localparam KEY_PROCESS  = 5'b10000;         // When Key Input
+
+    assign led[0] = key_valid;
+    assign led[4:1] = col;
+    assign led[8:5] = row;
+
+    reg [19:0] clk_10ms;                        // 2^20ns = 10_485_760ns, About 10ms
+    always @(posedge clk) clk_10ms = clk_10ms + 1;
+
+    wire clk_10ms_pedge, clk_10ms_nedge;
+    // Edge Detection of 20th High-Order Clock bit
+    edge_detector_pos ms_10_ed (.clk(clk), .reset_p(reset_p),
+        .cp(clk_10ms[19]), .p_edge(clk_10ms_pedge), .n_edge(clk_10ms_nedge));
+
+    // State Change Sequential Circuit
+    reg [4:0] state, next_state;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) state = SCAN_0;            // Basic Check 1st Column
+        else if (clk_10ms_pedge) state = next_state;    // Change State when 10ms Positive Edge 
+    end
+
+    // State Processing Combinational Circuit
+    always @* begin                             // All Variables Detection, Combinational Circuit
+        case (state)
+            SCAN_0      : begin                         // Check 1st Column
+                if (row == 0) next_state = SCAN_1;      // Row Value 0 → Change State SCAN_1
+                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
+            end
+            SCAN_1      : begin                         // Check 2nd Column
+                if (row == 0) next_state = SCAN_2;      // Row Value 0 → Change State SCAN_2
+                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
+            end
+            SCAN_2      : begin                         // Check 3rd Column
+                if (row == 0) next_state = SCAN_3;      // Row Value 0 → Change State SCAN_3
+                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
+            end
+            SCAN_3      : begin                         // Check 4th Column
+                if (row == 0) next_state = SCAN_0;      // Row Value 0 → Change State SCAN_0
+                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
+            end
+            KEY_PROCESS : begin                         // When Key Input
+                if (row == 0) next_state = SCAN_0;      // Change Row Value 0 → Change State SCAN_0
+                else next_state = KEY_PROCESS;          // Check High in Any Row → Maintain State KEY_PROCESS
+            end
+            default : next_state = SCAN_0;              // Basic Check 1st Column
+        endcase
+    end
+
+    // Function Implementation Sequential Circuit
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            col = 4'b0001;                      // Basic 1st Column
+            key_value = 0;                      // Key Value Reset
+            key_valid = 0;                      // Key State Reset
+        end
+        else if (clk_10ms_nedge) begin          // Change Column of High Value when 10ms Negative Edge
+            case (state)
+                SCAN_0      : begin             // Check 1st Column
+                    col = 4'b0001;              // 1st Column Output High
+                    key_valid = 0;              // Basic Key Input Flag Clear
+                end
+                SCAN_1      : begin             // Check 2nd Column
+                    col = 4'b0010;              // 2nd Column Output High
+                    key_valid = 0;              // Basic Key Input Flag Clear
+                end
+                SCAN_2      : begin             // Check 3rd Column
+                    col = 4'b0100;              // 3rd Column Output High
+                    key_valid = 0;              // Basic Key Input Flag Clear
+                end
+                SCAN_3      : begin             // Check 4rd Column
+                    col = 4'b1000;              // 4th Column Output High
+                    key_valid = 0;              // Basic Key Input Flag Clear
+                end
+                KEY_PROCESS : begin             // When Key Input
+                    key_valid = 1;              // Basic Key Input Flag Set
+                    case ({row, col})           // Check Row and Column
+                        8'b0001_0001 : key_value = 4'h0;    // 1st Row, 1st Column
+                        8'b0001_0010 : key_value = 4'h1;    // 1st Row, 2nd Column
+                        8'b0001_0100 : key_value = 4'h2;    // 1st Row, 3rd Column
+                        8'b0001_1000 : key_value = 4'h3;    // 1st Row, 4th Column
+                        8'b0010_0001 : key_value = 4'h4;    // 2nd Row, 1st Column
+                        8'b0010_0010 : key_value = 4'h5;    // 2nd Row, 2nd Column
+                        8'b0010_0100 : key_value = 4'h6;    // 2nd Row, 3rd Column
+                        8'b0010_1000 : key_value = 4'h7;    // 2nd Row, 4th Column
+                        8'b0100_0001 : key_value = 4'h8;    // 3rd Row, 1st Column
+                        8'b0100_0010 : key_value = 4'h9;    // 3rd Row, 2nd Column
+                        8'b0100_0100 : key_value = 4'hA;    // 3rd Row, 3rd Column
+                        8'b0100_1000 : key_value = 4'hb;    // 3rd Row, 4th Column
+                        8'b1000_0001 : key_value = 4'hC;    // 4th Row, 1st Column
+                        8'b1000_0010 : key_value = 4'hd;    // 4th Row, 2nd Column
+                        8'b1000_0100 : key_value = 4'hE;    // 4th Row, 3rd Column
+                        8'b1000_1000 : key_value = 4'hF;    // 4th Row, 4th Column
+                    endcase
+                end
             endcase
         end
     end
