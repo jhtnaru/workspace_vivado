@@ -432,7 +432,7 @@ module keypad_top (
                 .fnd_value(fnd_value), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
 endmodule
 
-//
+// Display Text on LCD Using I2C Communication, Keypad Input
 module i2c_txtlcd_top (
     input clk, reset_p,
     input [3:0] btn,
@@ -460,33 +460,35 @@ module i2c_txtlcd_top (
     reg [7:0] send_buffer;
     reg send, rs;
     wire busy;
+    // Using Module, Byte Unit Transmission
     i2c_lcd_send_byte send_byte (clk, reset_p, 7'h27, send_buffer,
         send, rs, scl, sda, busy, led);
     
-    wire [3:0] key_value;// Output Values According to Row and Column Inputs
-    wire key_valid;// Key Input Flag
+    wire [3:0] key_value;                       // Output Values According to Row and Column Inputs
+    wire key_valid;                             // Key Input Flag
     keypad_cntr keypad (clk, reset_p, row, col, key_value, key_valid);
     
-    // Edge Detection of
+    // Edge Detection of Keypad Valid
     wire key_valid_pedge;
     edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
         .cp(key_valid), .p_edge(key_valid_pedge));
 
-    //
-    localparam I2C_IDLE             = 6'b00_0001;
-    localparam I2C_INIT             = 6'b00_0010;
-    localparam SEND_CHARACTER       = 6'b00_0100;
-    localparam SHIFT_RIGHT_DISPLAY  = 6'b00_1000;
-    localparam SHIFT_LEFT_DISPLAY   = 6'b01_0000;
-    localparam SEND_KEY             = 6'b10_0000;
+    // Change State Using Shift
+    localparam I2C_IDLE             = 6'b00_0001;   // Standby State
+    localparam I2C_INIT             = 6'b00_0010;   // LCD Initialization
+    localparam SEND_CHARACTER       = 6'b00_0100;   // Send Each Character to LCD
+    localparam SHIFT_RIGHT_DISPLAY  = 6'b00_1000;   // LCD Display Right Shift
+    localparam SHIFT_LEFT_DISPLAY   = 6'b01_0000;   // LCD Display Left Shift
+    localparam SEND_KEY             = 6'b10_0000;   // Send Keypad Input to LCD
 
+    // Change State in Negative Edge
     reg [5:0] state, next_state;
     always @(negedge clk, posedge reset_p) begin
         if (reset_p) state = I2C_IDLE;
         else state = next_state;
     end
 
-    reg init_flag;
+    reg init_flag;                              // LCD Initialization Flag
     reg [10:0] cnt_data;
     always @(posedge clk, posedge reset_p) begin
         if (reset_p) begin
@@ -500,87 +502,88 @@ module i2c_txtlcd_top (
         end
         else begin
             case (state)
-                I2C_IDLE            : begin
-                    if (init_flag) begin
+                I2C_IDLE            : begin     // Standby State
+                    if (init_flag) begin        // LCD Initialization Complete
+                        // Change State when Button or Keypad Pressed
                         if (btn_pedge[0]) next_state = SEND_CHARACTER;
                         if (btn_pedge[1]) next_state = SHIFT_LEFT_DISPLAY;
                         if (btn_pedge[2]) next_state = SHIFT_RIGHT_DISPLAY;
                         if (key_valid_pedge) next_state = SEND_KEY;
                     end
                     else begin
-                        if (cnt_sysclk < 32'd80_000_00) begin
-                            cnt_sysclk_e = 1;
+                        if (cnt_sysclk < 32'd80_000_00) begin   // Wait 80ms
+                            cnt_sysclk_e = 1;       // System Clock Count Start
                         end
                         else begin
-                            next_state = I2C_INIT;
-                            cnt_sysclk_e = 0;
+                            next_state = I2C_INIT;  // Change State I2C_INIT
+                            cnt_sysclk_e = 0;       // System Clock Count Stop, Clear
                         end
                     end
                 end
-                I2C_INIT            : begin
-                    if (busy) begin
-                        send = 0;
+                I2C_INIT            : begin         // LCD Initialization
+                    if (busy) begin                 // Communicating
+                        send = 0;                   // Wait Transmission
                         if (cnt_data >= 6) begin
-                            cnt_data = 0;
-                            next_state = I2C_IDLE;
+                            cnt_data = 0;           // LCD Initialization 6-Step Complete
+                            next_state = I2C_IDLE;  // Change State I2C_IDLE
                             init_flag = 1;
                         end
                     end
                     else if (!send) begin
-                        case (cnt_data)
-                            0 : send_buffer = 8'h33;    // 
-                            1 : send_buffer = 8'h32;    // 
-                            2 : send_buffer = 8'h28;    // 
-                            3 : send_buffer = 8'h0C;    // Display On & Off Control
+                        case (cnt_data)             // Step-by-Step Command Transmission
+                            0 : send_buffer = 8'h33;    // Function Set & Function Set
+                            1 : send_buffer = 8'h32;    // Function Set & Return Home
+                            2 : send_buffer = 8'h28;    // Function Set Data 4-bit, 2-Lines, 5×8 Dots
+                            3 : send_buffer = 8'h0C;    // Display On, Cursor Off, Blinking Cursor Off
                             4 : send_buffer = 8'h01;    // Clear Display
-                            5 : send_buffer = 8'h06;    // Entry Mode Set
+                            5 : send_buffer = 8'h06;    // Entry Mode Cursor Move Increment
                         endcase
-                        send = 1;
-                        cnt_data = cnt_data + 1;
+                        send = 1;                   // Request Transmission
+                        cnt_data = cnt_data + 1;    // Step Change
                     end
                 end
-                SEND_CHARACTER      : begin
-                    if (busy) begin
-                        next_state = I2C_IDLE;
-                        send = 0;
-                        if (cnt_data >= 25) cnt_data = 0;
-                        else cnt_data = cnt_data + 1;
+                SEND_CHARACTER      : begin         // Send Each Character to LCD
+                    if (busy) begin                 // Communicating
+                        next_state = I2C_IDLE;      // Change State I2C_IDLE
+                        send = 0;                   // Wait Transmission
+                        if (cnt_data >= 25) cnt_data = 0;   // Send to "z"
+                        else cnt_data = cnt_data + 1;   // Next Character
                     end
                     else begin
-                        rs = 1;
-                        send_buffer = "a" + cnt_data;
-                        send = 1;
+                        rs = 1;                     // Data Register Select
+                        send_buffer = "a" + cnt_data;   // Send in Order from "a"
+                        send = 1;                   // Request Transmission
                     end
                 end
-                SHIFT_RIGHT_DISPLAY : begin
-                    if (busy) begin
-                        next_state = I2C_IDLE;
-                        send = 0;
+                SHIFT_RIGHT_DISPLAY : begin         // LCD Display Right Shift
+                    if (busy) begin                 // Communicating
+                        next_state = I2C_IDLE;      // Change State I2C_IDLE
+                        send = 0;                   // Wait Transmission
                     end
                     else begin
-                        rs = 0;
-                        send_buffer = 8'h1C;
-                        send = 1;
+                        rs = 0;                     // Instruction Register Select
+                        send_buffer = 8'h1C;        // Right Shift Command
+                        send = 1;                   // Request Transmission
                     end
                 end
-                SHIFT_LEFT_DISPLAY  : begin
-                    if (busy) begin
-                        next_state = I2C_IDLE;
-                        send = 0;
+                SHIFT_LEFT_DISPLAY  : begin         // LCD Display Left Shift
+                    if (busy) begin                 // Communicating
+                        next_state = I2C_IDLE;      // Change State I2C_IDLE
+                        send = 0;                   // Wait Transmission
                     end
                     else begin
-                        rs = 0;
-                        send_buffer = 8'h18;
-                        send = 1;
+                        rs = 0;                     // Instruction Register Select
+                        send_buffer = 8'h18;        // Left Shift Command
+                        send = 1;                   // Request Transmission
                     end
                 end
-                SEND_KEY            : begin
-                    if (busy) begin
-                        next_state = I2C_IDLE;
-                        send = 0;
+                SEND_KEY            : begin         // Send Keypad Input to LCD
+                    if (busy) begin                 // Communicating
+                        next_state = I2C_IDLE;      // Change State I2C_IDLE
+                        send = 0;                   // Wait Transmission
                     end
                     else begin
-                        rs = 1;
+                        rs = 1;                     // Data Register Select
                         if (key_value < 10) send_buffer = "0" + key_value;
                         else if (key_value == 10) send_buffer = "+";
                         else if (key_value == 11) send_buffer = "-";
@@ -588,12 +591,12 @@ module i2c_txtlcd_top (
                         else if (key_value == 13) send_buffer = "/";
                         else if (key_value == 14) send_buffer = "*";
                         else if (key_value == 15) send_buffer = "=";
-                        send = 1;
+                        send = 1;                   // Request Transmission
                     end
                 end
                 default             : begin
-                    next_state = I2C_IDLE;
-                    send = 0;
+                    next_state = I2C_IDLE;          // Basic Standby
+                    send = 0;                       // Wait Transmission
                 end
             endcase
         end
