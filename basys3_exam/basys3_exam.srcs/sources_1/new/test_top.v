@@ -394,7 +394,7 @@ module ultrasonic_top (
                 .fnd_value(dist_bcd), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
 endmodule
 
-// 4 x 4 Keypad Value Output
+// 4 x 4 Keypad Value Output, Left Shift
 module keypad_top (
     input clk, reset_p,
     input [3:0] row,
@@ -407,9 +407,216 @@ module keypad_top (
     
     wire [3:0] key_value;
     wire key_valid;
+    reg [15:0] fnd_value;
+    reg key_flag;                                   // Prevent Duplicate Processing
     keypad_cntr key_pad (clk, reset_p, row, col, key_value, key_valid, led);
+
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            key_flag = 0;                           // Flag Clear
+            fnd_value = 0;                          // FND Value Reset
+        end
+        else begin
+            if (key_valid && !key_flag) begin       // When New Input Occurs
+                key_flag = 1;                       // Flag Set
+                fnd_value = {fnd_value[11:0], key_value};   // FND Value Left Shift
+            end
+            else if (!key_valid) begin              // When No Input
+                key_flag = 0;                       // Flag Clear
+            end
+        end
+    end
 
     // FND 4-Digit Output, Hexadecimal
     fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
-                .fnd_value(key_value), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
+                .fnd_value(fnd_value), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule
+
+//
+module i2c_txtlcd_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    input [3:0] row,                            // Input Row Values when Column is High
+    output [3:0] col,                           // Output High Values by Changing Column
+    output scl, sda,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    integer cnt_sysclk;
+    reg cnt_sysclk_e;
+    // System Clock Counter
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) cnt_sysclk = 0;
+        else if (cnt_sysclk_e) cnt_sysclk = cnt_sysclk + 1;
+        else cnt_sysclk = 0;
+    end
+
+    reg [7:0] send_buffer;
+    reg send, rs;
+    wire busy;
+    i2c_lcd_send_byte send_byte (clk, reset_p, 7'h27, send_buffer,
+        send, rs, scl, sda, busy, led);
+    
+    wire [3:0] key_value;// Output Values According to Row and Column Inputs
+    wire key_valid;// Key Input Flag
+    keypad_cntr keypad (clk, reset_p, row, col, key_value, key_valid);
+    
+    // Edge Detection of
+    wire key_valid_pedge;
+    edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
+        .cp(key_valid), .p_edge(key_valid_pedge));
+
+    //
+    localparam I2C_IDLE             = 6'b00_0001;
+    localparam I2C_INIT             = 6'b00_0010;
+    localparam SEND_CHARACTER       = 6'b00_0100;
+    localparam SHIFT_RIGHT_DISPLAY  = 6'b00_1000;
+    localparam SHIFT_LEFT_DISPLAY   = 6'b01_0000;
+    localparam SEND_KEY             = 6'b10_0000;
+
+    reg [5:0] state, next_state;
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) state = I2C_IDLE;
+        else state = next_state;
+    end
+
+    reg init_flag;
+    reg [10:0] cnt_data;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            next_state = I2C_IDLE;
+            init_flag = 0;
+            cnt_sysclk_e = 0;
+            send = 0;
+            send_buffer = 0;
+            rs = 0;
+            cnt_data = 0;
+        end
+        else begin
+            case (state)
+                I2C_IDLE            : begin
+                    if (init_flag) begin
+                        if (btn_pedge[0]) next_state = SEND_CHARACTER;
+                        if (btn_pedge[1]) next_state = SHIFT_LEFT_DISPLAY;
+                        if (btn_pedge[2]) next_state = SHIFT_RIGHT_DISPLAY;
+                        if (key_valid_pedge) next_state = SEND_KEY;
+                    end
+                    else begin
+                        if (cnt_sysclk < 32'd80_000_00) begin
+                            cnt_sysclk_e = 1;
+                        end
+                        else begin
+                            next_state = I2C_INIT;
+                            cnt_sysclk_e = 0;
+                        end
+                    end
+                end
+                I2C_INIT            : begin
+                    if (busy) begin
+                        send = 0;
+                        if (cnt_data >= 6) begin
+                            cnt_data = 0;
+                            next_state = I2C_IDLE;
+                            init_flag = 1;
+                        end
+                    end
+                    else if (!send) begin
+                        case (cnt_data)
+                            0 : send_buffer = 8'h33;    // 
+                            1 : send_buffer = 8'h32;    // 
+                            2 : send_buffer = 8'h28;    // 
+                            3 : send_buffer = 8'h0C;    // Display On & Off Control
+                            4 : send_buffer = 8'h01;    // Clear Display
+                            5 : send_buffer = 8'h06;    // Entry Mode Set
+                        endcase
+                        send = 1;
+                        cnt_data = cnt_data + 1;
+                    end
+                end
+                SEND_CHARACTER      : begin
+                    if (busy) begin
+                        next_state = I2C_IDLE;
+                        send = 0;
+                        if (cnt_data >= 25) cnt_data = 0;
+                        else cnt_data = cnt_data + 1;
+                    end
+                    else begin
+                        rs = 1;
+                        send_buffer = "a" + cnt_data;
+                        send = 1;
+                    end
+                end
+                SHIFT_RIGHT_DISPLAY : begin
+                    if (busy) begin
+                        next_state = I2C_IDLE;
+                        send = 0;
+                    end
+                    else begin
+                        rs = 0;
+                        send_buffer = 8'h1C;
+                        send = 1;
+                    end
+                end
+                SHIFT_LEFT_DISPLAY  : begin
+                    if (busy) begin
+                        next_state = I2C_IDLE;
+                        send = 0;
+                    end
+                    else begin
+                        rs = 0;
+                        send_buffer = 8'h18;
+                        send = 1;
+                    end
+                end
+                SEND_KEY            : begin
+                    if (busy) begin
+                        next_state = I2C_IDLE;
+                        send = 0;
+                    end
+                    else begin
+                        rs = 1;
+                        if (key_value < 10) send_buffer = "0" + key_value;
+                        else if (key_value == 10) send_buffer = "+";
+                        else if (key_value == 11) send_buffer = "-";
+                        else if (key_value == 12) send_buffer = " ";
+                        else if (key_value == 13) send_buffer = "/";
+                        else if (key_value == 14) send_buffer = "*";
+                        else if (key_value == 15) send_buffer = "=";
+                        send = 1;
+                    end
+                end
+                default             : begin
+                    next_state = I2C_IDLE;
+                    send = 0;
+                end
+            endcase
+        end
+    end
+endmodule
+
+// Controll LED Using PWM Duty Cycle
+module led_pwm_top  (
+    input clk, reset_p,
+    output led_r, led_g, led_b,
+    output [15:0] led
+    );
+
+    integer cnt_sysclk;
+    always @(posedge clk) cnt_sysclk = cnt_sysclk + 1;
+    // wire [6:0] duty;
+    // assign duty = cnt_sysclk[28:22];
+
+    wire pwm;
+    assign led = {16{pwm}};
+    pwm_Nstep #(.duty_step_N(128)) pwm_led (clk, reset_p, cnt_sysclk[28:22], pwm);
+
+    pwm_Nstep #(.duty_step_N(150)) pwm_led_r (clk, reset_p, cnt_sysclk[27:20], led_r);
+    pwm_Nstep #(.duty_step_N(200)) pwm_led_g (clk, reset_p, cnt_sysclk[28:21], led_g);
+    pwm_Nstep #(.duty_step_N(256)) pwm_led_b (clk, reset_p, cnt_sysclk[29:22], led_b);
 endmodule

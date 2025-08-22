@@ -260,3 +260,4 @@ module edge_detector_pos (
     assign n_edge = ({ff_cur, ff_old} == 2'b01) ? 1'b1 : 1'b0;
 endmodule
 
+
