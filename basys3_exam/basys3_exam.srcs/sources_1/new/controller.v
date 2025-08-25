@@ -1116,7 +1116,7 @@ module i2c_lcd_send_byte (
     end
 endmodule
 
-//
+// PWM Frequency Signal Output According to Duty Ratio
 module pwm_Nstep (
     input clk, reset_p,
     input [31:0] duty,                          // PWM Duty Rate, CCR Capture Compare Register

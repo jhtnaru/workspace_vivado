@@ -615,11 +615,186 @@ module led_pwm_top  (
     // wire [6:0] duty;
     // assign duty = cnt_sysclk[28:22];
 
+    // Controll LED brightness Using PWM
     wire pwm;
     assign led = {16{pwm}};
     pwm_Nstep #(.duty_step_N(128)) pwm_led (clk, reset_p, cnt_sysclk[28:22], pwm);
 
+    // Adjust RGB LED by Changing Duty Ratio
     pwm_Nstep #(.duty_step_N(150)) pwm_led_r (clk, reset_p, cnt_sysclk[27:20], led_r);
     pwm_Nstep #(.duty_step_N(200)) pwm_led_g (clk, reset_p, cnt_sysclk[28:21], led_g);
     pwm_Nstep #(.duty_step_N(256)) pwm_led_b (clk, reset_p, cnt_sysclk[29:22], led_b);
+endmodule
+
+// Servo Motor Control Using PWM
+module sg90_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    output sg90,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    integer cnt_sysclk;
+    always @(posedge clk) cnt_sysclk = cnt_sysclk + 1;
+
+    // Edge Detection of
+    wire cnt_sysclk_pedge;
+    edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
+        .cp(cnt_sysclk[21]), .p_edge(cnt_sysclk_pedge));
+
+    integer step;
+    reg inc_flag, mode;
+    assign led[15] = mode;
+    // Change Mode by Pressing Button
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) mode = 1;
+        else if(btn_pedge[0]) mode = ~mode;
+    end
+
+    // Reciprocation
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            step = 40;
+            inc_flag = 1;
+        end
+        else if (mode) begin
+            if (cnt_sysclk_pedge) begin
+                if (inc_flag) begin         // Reciprocating Motion According to Direction Flag
+                    if (step >= 210) inc_flag = 0;
+                    else step = step + 1;
+                end
+                else begin
+                    if (step <= 40) inc_flag = 1;
+                    else step = step - 1;
+                end
+            end
+        end
+        else if (!mode) begin               // Pressing Button Increases or Decreases Value
+            if (btn_pedge[1]) begin
+                step = step - 1;
+            end
+            else if (btn_pedge[2]) begin
+                step = step + 1;
+            end
+        end
+    end
+
+    // Frequency and Step Settings, Step Max 640, Move 82 ~ 14
+    pwm_Nstep #(.pwm_freq(50), .duty_step_N(1670))
+        pwm_sg90 (clk, reset_p, step, sg90);
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+                .fnd_value(step [11:0]), .hex_bcd(0), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule
+
+// Input 1-Channel ADC Value from Variable Resistor or Photo Sensor
+module adc_top_6 (
+    input clk, reset_p,
+    input vauxp6, vauxn6,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    wire [4:0] channel_out;
+    wire eoc_out;                           // do_out 16-bit, but Actual Value 12-bit
+    wire [15:0] do_out;
+    xadc_wiz_0 adc (                        // Use of Registered IP Module
+        .daddr_in({2'b00, channel_out}),    // Address bus for the dynamic reconfiguration port
+        .dclk_in(clk),                      // Clock input for the dynamic reconfiguration port
+        .den_in(eoc_out),                   // Enable Signal for the dynamic reconfiguration port
+        .reset_in(reset_p),                 // Reset signal for the System Monitor control logic
+        .vauxp6(vauxp6), .vauxn6(vauxn6),   // Auxiliary channel 6
+        .channel_out(channel_out),          // Channel Selection Outputs
+        .do_out(do_out),                    // Output data bus for dynamic reconfiguration port
+        .eoc_out(eoc_out)                   // End of Conversion Signal
+        );
+        // eos_out End of Sequence Signal - If Multiple Channels, End All Channels
+
+    // Edge Detection of EOC
+    wire eoc_pedge;
+    edge_detector_pos eoc_ed (.clk(clk), .reset_p(reset_p),
+        .cp(eoc_out), .p_edge(eoc_pedge));
+
+    reg [11:0] adc_value;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) adc_value = 0;
+        // else if (eoc_pedge) adc_value = do_out[15:4];
+        else if (eoc_pedge) adc_value = do_out[15:8];       // Discard Lower-bits More Stable
+    end
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+                .fnd_value(adc_value), .hex_bcd(0), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule
+
+// Input 2-Channel ADC Value from Joystick
+module adc_sequence2_top (
+    input clk, reset_p,
+    input vauxp6, vauxn6,                       // XA1
+    input vauxp14, vauxn14,                     // XA2
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output led_r, led_g, led_b,
+    output [15:0] led
+    );
+
+    wire [4:0] channel_out;
+    wire [15:0] do_out;                         // do_out 16-bit, but Actual Value 12-bit
+    wire eoc_out;
+    xadc_joystick joystick_adc (                // Use of Registered IP Module
+        .daddr_in({2'b00, channel_out}),        // Address bus for the dynamic reconfiguration port
+        .dclk_in(clk),                          // Clock input for the dynamic reconfiguration port
+        .den_in(eoc_out),                       // Enable Signal for the dynamic reconfiguration port
+        .reset_in(reset_p),                     // Reset signal for the System Monitor control logic
+        .vauxp6(vauxp6), .vauxn6(vauxn6),       // Auxiliary channel 6
+        .vauxp14(vauxp14), .vauxn14(vauxn14),   // Auxiliary channel 14
+        .channel_out(channel_out),              // Channel Selection Outputs
+        .do_out(do_out),                        // Output data bus for dynamic reconfiguration port
+        .eoc_out(eoc_out)                       // End of Conversion Signal
+        );
+
+    // Edge Detection of EOC
+    wire eoc_pedge;
+    edge_detector_pos eoc_ed (.clk(clk), .reset_p(reset_p),
+        .cp(eoc_out), .p_edge(eoc_pedge));
+
+    reg [11:0] adc_value_x, adc_value_y;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            adc_value_x = 0;
+            adc_value_y = 0;
+        end
+        else if (eoc_pedge) begin
+            case (channel_out[3:0])
+                6  : adc_value_x = do_out[15:4];
+                14 : adc_value_y = do_out[15:4];
+            endcase
+        end
+    end
+
+    wire [7:0] adcx_bcd, adcy_bcd;
+    // BCD Format Conversion
+    bin_to_dec bcd_adcx (.bin(adc_value_x[11:6]), .bcd(adcx_bcd));  // Discard Lower-bits More Stable
+    bin_to_dec bcd_adcy (.bin(adc_value_y[11:6]), .bcd(adcy_bcd));
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+                .fnd_value({adcx_bcd, adcy_bcd}), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
+
+    // Get Joystick ADC Value and Control LED
+    pwm_Nstep #(.duty_step_N(128)) pwm_led_g (clk, reset_p, adc_value_x[11:5], led_r);
+    pwm_Nstep #(.duty_step_N(128)) pwm_led_b (clk, reset_p, adc_value_y[11:5], led_b);
 endmodule
