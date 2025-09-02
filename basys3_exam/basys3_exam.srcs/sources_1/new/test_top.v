@@ -603,6 +603,184 @@ module i2c_txtlcd_top (
     end
 endmodule
 
+//
+module i2c_lcdtest_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    output scl, sda,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    integer cnt_sysclk;
+    reg cnt_sysclk_e;
+    // System Clock Counter
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) cnt_sysclk = 0;
+        else if (cnt_sysclk_e) cnt_sysclk = cnt_sysclk + 1;
+        else cnt_sysclk = 0;
+    end
+
+    reg [7:0] send_buffer;
+    reg send, rs;
+    wire busy;
+    // Using Module, Byte Unit Transmission
+    i2c_lcd_send_byte send_byte (clk, reset_p, 7'h27, send_buffer,
+        send, rs, scl, sda, busy, led);
+    
+    // Change State Using Shift
+    localparam I2C_IDLE       = 6'b00_0001;   // Standby State
+    localparam I2C_INIT       = 6'b00_0010;   // LCD Initialization
+    localparam SEND_CHARACTER = 6'b00_0100;   // Send Each Character to LCD
+    localparam SEND_STRING_1  = 6'b00_1000;
+    localparam SEND_STRING_2  = 6'b01_0000;
+    localparam MOVE_CURSOR    = 6'b10_0000;
+
+    localparam SEND_CHAR = 2'b01;
+    localparam WAIT_BUSY = 2'b10;
+
+    // Change State in Negative Edge
+    reg [5:0] state, next_state;
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) state = I2C_IDLE;
+        else state = next_state;
+    end
+
+    reg init_flag;                              // LCD Initialization Flag
+    reg move_flag;
+    reg [10:0] cnt_data;
+    reg [3:0] cnt_string;
+    reg [8*16-1:0] str_1;
+    reg [8*16-1:0] str_2;
+    initial begin
+        str_1 = "Hello Vivado !@#";
+        str_2 = "LCD Testing 123@";
+    end
+
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            next_state = I2C_IDLE;
+            init_flag = 0;
+            cnt_sysclk_e = 0;
+            send = 0;
+            send_buffer = 0;
+            rs = 0;
+            cnt_data = 0;
+            cnt_string = 0;
+            move_flag = 1;
+        end
+        else begin
+            case (state)
+                I2C_IDLE            : begin     // Standby State
+                    if (init_flag) begin        // LCD Initialization Complete
+                        // Change State when Button or Keypad Pressed
+                        if (btn_pedge[0]) next_state = SEND_CHARACTER;
+                        if (btn_pedge[1]) next_state = SEND_STRING_1;
+                        if (btn_pedge[2]) next_state = SEND_STRING_2;
+                        if (btn_pedge[3]) next_state = MOVE_CURSOR;
+                    end
+                    else begin
+                        if (cnt_sysclk < 32'd80_000_00) begin   // Wait 80ms
+                            cnt_sysclk_e = 1;       // System Clock Count Start
+                        end
+                        else begin
+                            next_state = I2C_INIT;  // Change State I2C_INIT
+                            cnt_sysclk_e = 0;       // System Clock Count Stop, Clear
+                        end
+                    end
+                end
+                I2C_INIT            : begin         // LCD Initialization
+                    if (busy) begin                 // Communicating
+                        send = 0;                   // Wait Transmission
+                        if (cnt_data >= 6) begin
+                            cnt_data = 0;           // LCD Initialization 6-Step Complete
+                            next_state = I2C_IDLE;  // Change State I2C_IDLE
+                            init_flag = 1;
+                        end
+                    end
+                    else if (!send) begin
+                        case (cnt_data)             // Step-by-Step Command Transmission
+                            0 : send_buffer = 8'h33;    // Function Set & Function Set
+                            1 : send_buffer = 8'h32;    // Function Set & Return Home
+                            2 : send_buffer = 8'h28;    // Function Set Data 4-bit, 2-Lines, 5×8 Dots
+                            3 : send_buffer = 8'h0C;    // Display On, Cursor Off, Blinking Cursor Off
+                            4 : send_buffer = 8'h01;    // Clear Display
+                            5 : send_buffer = 8'h06;    // Entry Mode Cursor Move Increment
+                        endcase
+                        send = 1;                   // Request Transmission
+                        cnt_data = cnt_data + 1;    // Step Change
+                    end
+                end
+                SEND_CHARACTER      : begin         // Send Each Character to LCD
+                    if (busy) begin                 // Communicating
+                        next_state = I2C_IDLE;      // Change State I2C_IDLE
+                        send = 0;                   // Wait Transmission
+                        if (cnt_data >= 25) cnt_data = 0;   // Send to "z"
+                        else cnt_data = cnt_data + 1;   // Next Character
+                    end
+                    else begin
+                        rs = 1;                     // Data Register Select
+                        send_buffer = "a" + cnt_data;   // Send in Order from "a"
+                        send = 1;                   // Request Transmission
+                    end
+                end
+                SEND_STRING_1 : begin         // LCD Display Right Shift
+                    if (busy) begin
+                        send = 0;
+                        if (cnt_string >= 16) begin
+                            cnt_string = 0;
+                            next_state = I2C_IDLE;
+                        end
+                    end
+                    else if (!send) begin
+                        rs = 1;
+                        send_buffer = str_1[8*(16-cnt_string)-1 -: 8];
+                        send = 1;
+                        cnt_string = cnt_string + 1;
+                    end
+                end
+                SEND_STRING_2  : begin
+                    if (busy) begin
+                        send = 0;
+                        next_state = I2C_IDLE;
+                        if (cnt_string >= 15) begin
+                            cnt_string = 0;
+                        end
+                        else begin
+                            cnt_string = cnt_string + 1;
+                        end
+                    end
+                    else begin
+                        rs = 1;
+                        send_buffer = str_1[8*(16-cnt_string)-1 -: 8];
+                        send = 1;
+                    end
+                end
+                MOVE_CURSOR  : begin
+                    if (busy) begin                 // Communicating
+                        next_state = I2C_IDLE;      // Change State I2C_IDLE
+                        send = 0;                   // Wait Transmission
+                    end
+                    else begin
+                        rs = 0;                     // Instruction Register Select
+                        send_buffer = 8'h80;        // Right Shift Command
+                        send = 1;                   // Request Transmission
+                    end
+                end
+                default             : begin
+                    next_state = I2C_IDLE;          // Basic Standby
+                    send = 0;                       // Wait Transmission
+                end
+            endcase
+        end
+    end
+endmodule
+
 // Controll LED Using PWM Duty Cycle
 module led_pwm_top  (
     input clk, reset_p,
@@ -708,8 +886,8 @@ module adc_top_6 (
     );
 
     wire [4:0] channel_out;
-    wire eoc_out;                           // do_out 16-bit, but Actual Value 12-bit
-    wire [15:0] do_out;
+    wire [15:0] do_out;                     // do_out 16-bit, but Actual Value 12-bit
+    wire eoc_out;
     xadc_wiz_0 adc (                        // Use of Registered IP Module
         .daddr_in({2'b00, channel_out}),    // Address bus for the dynamic reconfiguration port
         .dclk_in(clk),                      // Clock input for the dynamic reconfiguration port
@@ -730,8 +908,8 @@ module adc_top_6 (
     reg [11:0] adc_value;
     always @(posedge clk, posedge reset_p) begin
         if (reset_p) adc_value = 0;
-        // else if (eoc_pedge) adc_value = do_out[15:4];
-        else if (eoc_pedge) adc_value = do_out[15:8];       // Discard Lower-bits More Stable
+        else if (eoc_pedge) adc_value = do_out[15:4];
+        // else if (eoc_pedge) adc_value = do_out[15:8];       // Discard Lower-bits More Stable
     end
 
     // FND 4-Digit Output
@@ -798,3 +976,241 @@ module adc_sequence2_top (
     pwm_Nstep #(.duty_step_N(128)) pwm_led_g (clk, reset_p, adc_value_x[11:5], led_r);
     pwm_Nstep #(.duty_step_N(128)) pwm_led_b (clk, reset_p, adc_value_y[11:5], led_b);
 endmodule
+
+//
+module fnd_direct_top (
+    input clk, reset_p,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    integer cnt_sysclk;
+    // System Clock Counter
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) cnt_sysclk <= 0;
+        else cnt_sysclk <= cnt_sysclk + 1;
+    end
+    
+    // Edge Detection of
+    wire cnt_sysclk_pedge;
+    edge_detector_pos eoc_ed (.clk(clk), .reset_p(reset_p),
+        .cp(cnt_sysclk[25]), .p_edge(cnt_sysclk_pedge));
+
+    reg [31:0] fnd_value;
+
+    reg [3:0] cnt_data;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            cnt_data <= 0;
+        end
+        else if (cnt_sysclk_pedge) begin
+            if (cnt_data >= 11) cnt_data <= 0;
+            else cnt_data <= cnt_data + 1;
+        end
+    end
+
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 0);
+        end
+        else begin
+            case (cnt_data)
+                4'd0    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 0);
+                4'd1    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 1);
+                4'd2    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 2);
+                4'd3    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 3);
+                4'd4    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 11);
+                4'd5    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 19);
+                4'd6    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 27);
+                4'd7    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 28);
+                4'd8    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 29);
+                4'd9    : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 24);
+                4'd10   : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 16);
+                4'd11   : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 8);
+                default : fnd_value <= 32'hFF_FF_FF_FF & ~(32'b1 << 0);
+            endcase
+        end
+    end
+
+    // reg [3:0] digit_in;
+    // wire [6:0] seg_out;
+    // reg [6:0] fnd_seg_1, fnd_seg_2, fnd_seg_3, fnd_seg_4;
+    // seg_decoder_a (2'b1, digit_in, seg_out);
+
+    // always @(posedge clk, posedge reset_p) begin
+    //     if (reset_p) begin
+    //         digit_in <= 0;
+    //         fnd_seg_1 <= seg_out;
+    //         fnd_seg_2 <= seg_out;
+    //         fnd_seg_3 <= seg_out;
+    //         fnd_seg_4 <= seg_out;
+    //     end
+    //     else if (cnt_sysclk_pedge) begin
+    //         if (digit_in == 9) begin
+    //             digit_in <= 0;
+    //         end
+    //         else begin
+    //             digit_in <= digit_in + 1;
+    //         end
+    //         fnd_seg_1 <= fnd_seg_2;
+    //         fnd_seg_2 <= fnd_seg_3;
+    //         fnd_seg_3 <= fnd_seg_4;
+    //         fnd_seg_4 <= seg_out;
+    //     end
+    // end
+
+    // assign fnd_value = {1'b1, fnd_seg_1, 1'b1, fnd_seg_2, 1'b1, fnd_seg_3, 1'b1, fnd_seg_4};
+    fnd_cntr_direct_a fnd (clk, reset_p, fnd_value, seg_7, dp, com);
+endmodule
+
+//
+module sensor_cnt_top (
+    input clk, reset_p,
+    input sensor,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    wire sensor_pedge, sensor_nedge;
+    // btn_cntr sensor_btn (clk, reset_p, sensor, sensor_pedge, sensor_nedge);
+    edge_detector_pos sensor_ed (clk, reset_p, sensor, sensor_pedge, sensor_ndege);
+
+    reg led_sensor;
+    reg [11:0] cnt_pedge, cnt_nedge;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            cnt_pedge <= 0;
+            cnt_nedge <= 0;
+        end
+        else if (sensor_pedge) begin
+            cnt_pedge <= cnt_pedge + 1;
+        end
+        else if (sensor_nedge) begin
+            cnt_nedge <= cnt_nedge + 1;
+        end
+    end
+
+    wire led_state;
+    assign led_state = ~sensor;
+    assign led[3:0] = {4{sensor}};
+    assign led[7:4] = {4{led_state}};
+
+    wire [7:0] pedge_bcd, nedge_bcd;
+    // BCD Format Conversion
+    bin_to_dec bcd_pe (.bin(cnt_pedge), .bcd(pedge_bcd));  // Discard Lower-bits More Stable
+    bin_to_dec bcd_ne (.bin(cnt_nedge), .bcd(nedge_bcd));
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+        .fnd_value({pedge_bcd, nedge_bcd}), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule
+
+
+module sensor_test_top (
+    input clk, reset_p,
+    input sensor,
+    output [15:0] led
+    );
+
+    wire led_state;
+    assign led_state = ~sensor;
+    assign led[3:0] = {4{sensor}};
+    assign led[7:4] = {4{led_state}};
+endmodule
+
+//
+module fan_motor_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    output reg fan,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    reg fan_mode;
+    assign led[0] = fan_mode;
+    assign led[1] = fan;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) fan_mode <= 0;
+        else if (btn_pedge[0]) fan_mode <= ~fan_mode;
+    end
+
+    reg [7:0] fan_duty;
+    wire fan_pwm;
+    pwm_Nstep pwm_fan (clk, reset_p, fan_duty, fan_pwm);
+
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            fan <= 0;
+        end
+        else if (!fan_mode) begin
+            if (btn_pedge[1]) fan <= 0;
+            else if (btn_pedge[2]) fan <= 1;
+        end
+        else begin
+            fan <= fan_pwm;
+        end
+    end
+
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            fan_duty <= 0;
+        end
+        else if (btn_pedge[1]) begin
+            if (fan_duty <= 5) fan_duty <= 0;
+            else fan_duty = fan_duty - 5;
+        end
+        else if (btn_pedge[2]) begin
+            if (fan_duty <= 195) fan_duty <= 195;
+            else fan_duty = fan_duty + 5;
+        end
+    end
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+        .fnd_value(speed), .hex_bcd(0), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule
+
+// 기본
+module basic_top (
+    input clk, reset_p,
+    input [15:0] sw,
+    input [3:0] btn,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge, btn_nedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0], btn_nedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1], btn_nedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2], btn_nedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3], btn_nedge[3]);
+
+    integer cnt_sysclk;
+    reg cnt_sysclk_e;
+    // System Clock Counter
+    always @(negedge clk, posedge reset_p) begin
+        if (reset_p) cnt_sysclk = 0;
+        else if (cnt_sysclk_e) cnt_sysclk = cnt_sysclk + 1;
+        else cnt_sysclk = 0;
+    end
+
+    assign led = sw;
+
+    reg [15:0] cnt_fnd;
+endmodule
+

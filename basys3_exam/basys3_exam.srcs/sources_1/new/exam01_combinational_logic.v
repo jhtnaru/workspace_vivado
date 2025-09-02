@@ -10,7 +10,6 @@ module and_gate(
     assign F = A & B;
 endmodule
 
-// 2025. 6. 26
 // 구조적 Modeling, Gate
 module half_adder_structural(
     input A, B,
@@ -57,7 +56,6 @@ module half_adder_dataflow(
     assign carry = sum_value[1];
 endmodule
 
-
 module full_adder_behavioral(
     input A, B, Cin,
     output reg sum, carry
@@ -77,7 +75,6 @@ module full_adder_behavioral(
         endcase            
     end    
 endmodule 
-
 
 module full_adder_structural(
     input A, B, Cin,
@@ -135,8 +132,6 @@ module fadder_4bit_structural(
     full_adder_structural fa3 (.A(A[3]), .B(B[3]), .Cin(carry_w[2]), .sum(sum[3]), .carry(carry));
 endmodule
 
-
-// 2025. 6. 27
 // Multiplexer 2 Input 1 Output
 module mux_2_1_d(
     input [1:0] d,

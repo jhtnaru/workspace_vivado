@@ -1164,3 +1164,63 @@ module pwm_Nstep (
         end
     end
 endmodule
+
+//
+module stepper_cntr (
+    input clk, reset_p,       
+    input start_motor,              // 모터 구동 시작 신호, high일 때만 구동
+    input motor_dir,                // 모터의 회전 방향 1'b1 = 시계 방향, 1'b0 = 반시계 방향
+    output reg [3:0] motor_out,     // 모터 드라이버로 출력되는 4개의 신호 (IN1, IN2, IN3, IN4)
+    output [15:0] led
+    );
+
+    reg [23:0] cnt_sysclk = 0;      //스텝 지연 시간을 제어하기 위한 카운터
+    reg [2:0] step_index = 0;       //배열의 인덱스를 나타냄  0에서 7까지 반복하며 모터를 회전
+    reg [3:0] half_step [7:0];      //8개의 하프 스텝 시퀀스를 배열로 정의
+
+    initial begin
+        half_step[0] = 4'b1000;
+        half_step[1] = 4'b1100;
+        half_step[2] = 4'b0100;
+        half_step[3] = 4'b0110;
+        half_step[4] = 4'b0010;
+        half_step[5] = 4'b0011;
+        half_step[6] = 4'b0001;
+        half_step[7] = 4'b1001;
+    end
+
+    assign led[0] = start_motor;
+    assign led[1] = motor_dir;
+    assign led[5:2] = motor_out;
+    always @(posedge clk or posedge reset_p) begin
+        if (reset_p)begin
+            cnt_sysclk <= 0;
+            step_index <= 0;
+            motor_out <= 4'b0000;
+        end else begin
+            if (start_motor) begin
+                if (cnt_sysclk >= 200_000) begin
+                    cnt_sysclk <= 0;
+                    motor_out <= half_step[step_index];
+                    if (motor_dir) begin // 시계 방향
+                        if (step_index >= 7) step_index <= 0;
+                        else step_index = step_index + 1;
+                    end
+                    else begin // 반시계 방향
+                        if (step_index <= 0) step_index <= 7;
+                        else step_index <= step_index - 1;
+                    end
+                // 방향 로직에 상관없이 밑에 코드는 동일        
+                end
+                else begin
+                    cnt_sysclk <= cnt_sysclk + 1;
+                end
+            end
+            else begin // 정지 동작 
+                cnt_sysclk <= 0;
+                step_index <= 0;
+                motor_out <= 4'b0000;
+            end
+        end
+    end
+endmodule
