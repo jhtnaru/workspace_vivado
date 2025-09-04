@@ -1189,7 +1189,7 @@ module basic_top (
     input [15:0] sw,
     input [3:0] btn,
     output [6:0] seg_7,
-    output dp,
+    output reg dp,
     output [3:0] com,
     output [15:0] led
     );
@@ -1200,17 +1200,78 @@ module basic_top (
     btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2], btn_nedge[2]);
     btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3], btn_nedge[3]);
 
-    integer cnt_sysclk;
-    reg cnt_sysclk_e;
-    // System Clock Counter
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) cnt_sysclk = 0;
-        else if (cnt_sysclk_e) cnt_sysclk = cnt_sysclk + 1;
-        else cnt_sysclk = 0;
-    end
-
     assign led = sw;
 
+    integer cnt_sysclk;
+    reg cnt_sysclk_e;
     reg [15:0] cnt_fnd;
+    reg [1:0] cnt_dp;
+    reg [3:0] dp_in;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            cnt_sysclk_e <= 1;
+            cnt_sysclk <= 0;
+            cnt_fnd <= 0;
+            dp <= 1'b1;
+            dp_in <= 4'b1111;
+        end
+        else if (btn_pedge[0]) cnt_sysclk_e <= ~cnt_sysclk_e;
+        else if (btn_pedge[1]) cnt_fnd[7:4] <= cnt_fnd[7:4] + 1;
+        else if (btn_pedge[2]) cnt_fnd[11:8] <= cnt_fnd[11:8] + 1;
+        else if (btn_pedge[3]) cnt_fnd[15:12] <= cnt_fnd[15:12] + 1;
+        else begin
+            if (cnt_sysclk_e) begin
+                if (cnt_sysclk >= 99_999_999) begin
+                    cnt_sysclk <= 0;
+                    cnt_dp <= cnt_dp + 1;
+                    if (cnt_fnd[3:0] >= 4'd9) begin
+                        cnt_fnd[3:0] <= 0;
+                        if (cnt_fnd[7:4] >= 4'd9) begin
+                            cnt_fnd[7:4] <= 0;
+                            if (cnt_fnd[11:8] >= 4'd9) begin
+                                cnt_fnd[11:8] <= 0;
+                                if (cnt_fnd[15:12] >= 4'd9) begin
+                                    cnt_fnd[15:12] <= 0;
+                                end
+                                else begin
+                                    cnt_fnd[15:12] <= cnt_fnd[15:12] + 1;
+                                end
+                            end
+                            else begin
+                                cnt_fnd[11:8] <= cnt_fnd[11:8] + 1;
+                            end
+                        end
+                        else begin
+                            cnt_fnd[7:4] <= cnt_fnd[7:4] + 1;
+                        end
+                    end
+                    else begin
+                        cnt_fnd[3:0] <= cnt_fnd[3:0] + 1;
+                    end
+                end
+                else cnt_sysclk <= cnt_sysclk + 1;
+            end
+            else begin
+                cnt_sysclk <= 0;
+            end
+            case (cnt_dp)
+                2'd0   : dp_in <= 4'b1110;
+                2'd1   : dp_in <= 4'b1101;
+                2'd2   : dp_in <= 4'b1011;
+                2'd3   : dp_in <= 4'b0111;
+                default: dp_in <= 4'b1111;
+            endcase
+            case (com)
+                4'b1110 : dp <= dp_in[0];
+                4'b1101 : dp <= dp_in[1];
+                4'b1011 : dp <= dp_in[2];
+                4'b0111 : dp <= dp_in[3];
+                default : dp <= 1'b1;
+            endcase
+        end
+    end
+
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+        .fnd_value(cnt_fnd), .hex_bcd(1), .seg_7(seg_7), .dp(), .com(com));
 endmodule
 
