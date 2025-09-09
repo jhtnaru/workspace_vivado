@@ -25,27 +25,23 @@
 .hw/
 .hwvivado/
 .xsim/
-*.runs/
-*.ip_user_files/
-*.tmp/
-*.restore/
-*.project/
-*.crashreport/
-*.xgui/
+.runs/
+.tmp/
+.restore/
+.project/
+.crashreport/
+.xgui/
+.ip_cache/
+.data/
 
-# Vivado HLS
+# Vivado HLS (if used)
 *.rpt
 *.db
-*.log
 *.hls_prj/
 *.syn/
 *.impl/
 *.cproject
 *.settings/
-
-# Vivado-generated SDK/Platform files
-.sdk/
-.vscode/
 
 # OS or editor related
 .DS_Store
@@ -53,4 +49,3 @@ Thumbs.db
 *.swp
 *.swo
 *.bak
-*.tmp
