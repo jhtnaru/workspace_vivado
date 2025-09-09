@@ -437,6 +437,8 @@ module port_test_top(
     input [15:0] sw,
     input [3:0] btn,
     output [7:0] JA,
+    output [7:0] JB,
+    output [7:0] JC,
     output [6:0] seg_7,
     output dp,
     output [3:0] com,
@@ -445,4 +447,5 @@ module port_test_top(
 
     assign led = sw;
     assign JA = sw [7:0];
+    assign JB = sw [15:8];
 endmodule
