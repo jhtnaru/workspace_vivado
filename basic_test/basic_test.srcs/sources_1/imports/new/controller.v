@@ -1202,15 +1202,14 @@ module stepper_cntr (
                 if (cnt_sysclk >= 200_000) begin
                     cnt_sysclk <= 0;
                     motor_out <= half_step[step_index];
-                    if (motor_dir) begin // 시계 방향
+                    if (motor_dir) begin    // 시계 방향
                         if (step_index >= 7) step_index <= 0;
                         else step_index = step_index + 1;
                     end
-                    else begin // 반시계 방향
+                    else begin              // 반시계 방향
                         if (step_index <= 0) step_index <= 7;
                         else step_index <= step_index - 1;
                     end
-                // 방향 로직에 상관없이 밑에 코드는 동일        
                 end
                 else begin
                     cnt_sysclk <= cnt_sysclk + 1;

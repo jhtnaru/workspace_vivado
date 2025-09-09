@@ -798,22 +798,22 @@ module keypad_cntr (
                 KEY_PROCESS : begin             // When Key Input
                     key_valid = 1;              // Basic Key Input Flag Set
                     case ({row, col})           // Check Row and Column
-                        8'b0001_0001 : key_value = 4'h7;    // S1
-                        8'b0001_0010 : key_value = 4'h8;    // S2
-                        8'b0001_0100 : key_value = 4'h9;    // S3
-                        8'b0001_1000 : key_value = 4'hA;    // S4
+                        8'b0001_0001 : key_value = 4'h0;    // S1
+                        8'b0001_0010 : key_value = 4'h1;    // S2
+                        8'b0001_0100 : key_value = 4'h2;    // S3
+                        8'b0001_1000 : key_value = 4'h3;    // S4
                         8'b0010_0001 : key_value = 4'h4;    // S5
                         8'b0010_0010 : key_value = 4'h5;    // S6
                         8'b0010_0100 : key_value = 4'h6;    // S7
-                        8'b0010_1000 : key_value = 4'hb;    // S8
-                        8'b0100_0001 : key_value = 4'h1;    // S9
-                        8'b0100_0010 : key_value = 4'h2;    // S10
-                        8'b0100_0100 : key_value = 4'h3;    // S11
-                        8'b0100_1000 : key_value = 4'hE;    // S12
-                        8'b1000_0001 : key_value = 4'hC;    // S13
-                        8'b1000_0010 : key_value = 4'h0;    // S14
-                        8'b1000_0100 : key_value = 4'hF;    // S15
-                        8'b1000_1000 : key_value = 4'hd;    // S16
+                        8'b0010_1000 : key_value = 4'h7;    // S8
+                        8'b0100_0001 : key_value = 4'h8;    // S9
+                        8'b0100_0010 : key_value = 4'h9;    // S10
+                        8'b0100_0100 : key_value = 4'ha;    // S11
+                        8'b0100_1000 : key_value = 4'hb;    // S12
+                        8'b1000_0001 : key_value = 4'hc;    // S13
+                        8'b1000_0010 : key_value = 4'hd;    // S14
+                        8'b1000_0100 : key_value = 4'he;    // S15
+                        8'b1000_1000 : key_value = 4'hf;    // S16
                     endcase
                 end
             endcase
