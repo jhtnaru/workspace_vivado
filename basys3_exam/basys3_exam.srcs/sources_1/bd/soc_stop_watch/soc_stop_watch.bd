@@ -24,9 +24,9 @@
       "mdm_1": "",
       "axi_uartlite_0": "",
       "axi_smc": "",
-      "myip_stop_watch_0": "",
       "axi_gpio_0": "",
-      "axi_iic_0": ""
+      "axi_iic_0": "",
+      "myip_stop_watch_0": ""
     },
     "interface_ports": {
       "usb_uart": {
@@ -566,13 +566,6 @@
           }
         }
       },
-      "myip_stop_watch_0": {
-        "vlnv": "user.org:user:myip_stop_watch:1.0",
-        "ip_revision": "2",
-        "xci_name": "soc_stop_watch_myip_stop_watch_0_0",
-        "xci_path": "ip/soc_stop_watch_myip_stop_watch_0_0/soc_stop_watch_myip_stop_watch_0_0.xci",
-        "inst_hier_path": "myip_stop_watch_0"
-      },
       "axi_gpio_0": {
         "vlnv": "xilinx.com:ip:axi_gpio:2.0",
         "ip_revision": "35",
@@ -594,6 +587,13 @@
         "xci_name": "soc_stop_watch_axi_iic_0_0",
         "xci_path": "ip/soc_stop_watch_axi_iic_0_0/soc_stop_watch_axi_iic_0_0.xci",
         "inst_hier_path": "axi_iic_0"
+      },
+      "myip_stop_watch_0": {
+        "vlnv": "user.org:user:myip_stop_watch:1.0",
+        "ip_revision": "4",
+        "xci_name": "soc_stop_watch_myip_stop_watch_0_1",
+        "xci_path": "ip/soc_stop_watch_myip_stop_watch_0_1/soc_stop_watch_myip_stop_watch_0_1.xci",
+        "inst_hier_path": "myip_stop_watch_0"
       }
     },
     "interface_nets": {
@@ -679,9 +679,9 @@
           "microblaze_riscv_0_local_memory/LMB_Clk",
           "axi_smc/aclk",
           "axi_uartlite_0/s_axi_aclk",
-          "myip_stop_watch_0/s00_axi_aclk",
           "axi_gpio_0/s_axi_aclk",
-          "axi_iic_0/s_axi_aclk"
+          "axi_iic_0/s_axi_aclk",
+          "myip_stop_watch_0/s00_axi_aclk"
         ]
       },
       "proc_sys_reset_0_bus_struct_reset": {
@@ -701,9 +701,9 @@
           "proc_sys_reset_0/peripheral_aresetn",
           "axi_uartlite_0/s_axi_aresetn",
           "axi_smc/aresetn",
-          "myip_stop_watch_0/s00_axi_aresetn",
           "axi_gpio_0/s_axi_aresetn",
-          "axi_iic_0/s_axi_aresetn"
+          "axi_iic_0/s_axi_aresetn",
+          "myip_stop_watch_0/s00_axi_aresetn"
         ]
       },
       "reset_1": {

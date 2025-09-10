@@ -2,7 +2,7 @@
 //Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-//Date        : Tue Sep  9 15:18:43 2025
+//Date        : Wed Sep 10 11:55:09 2025
 //Host        : user16-B70TV-AN5TB8W running 64-bit Ubuntu 24.04.3 LTS
 //Command     : generate_target soc_stop_watch.bd
 //Design      : soc_stop_watch
@@ -223,7 +223,7 @@ module microblaze_riscv_0_local_memory_imp_JF9TWY
         .web({microblaze_riscv_0_ilmb_cntlr_WE[0],microblaze_riscv_0_ilmb_cntlr_WE[1],microblaze_riscv_0_ilmb_cntlr_WE[2],microblaze_riscv_0_ilmb_cntlr_WE[3]}));
 endmodule
 
-(* CORE_GENERATION_INFO = "soc_stop_watch,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=soc_stop_watch,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=15,numReposBlks=14,numNonXlnxBlks=1,numHierBlks=1,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=4,da_board_cnt=3,da_clkrst_cnt=1,da_microblaze_riscv_cnt=1,synth_mode=None}" *) (* HW_HANDOFF = "soc_stop_watch.hwdef" *) 
+(* CORE_GENERATION_INFO = "soc_stop_watch,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=soc_stop_watch,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=15,numReposBlks=14,numNonXlnxBlks=1,numHierBlks=1,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=5,da_board_cnt=3,da_clkrst_cnt=1,da_microblaze_riscv_cnt=1,synth_mode=None}" *) (* HW_HANDOFF = "soc_stop_watch.hwdef" *) 
 module soc_stop_watch
    (iic_rtl_scl_i,
     iic_rtl_scl_o,
@@ -265,11 +265,11 @@ module soc_stop_watch
   wire axi_smc_M00_AXI_WREADY;
   wire [3:0]axi_smc_M00_AXI_WSTRB;
   wire axi_smc_M00_AXI_WVALID;
-  wire [4:0]axi_smc_M01_AXI_ARADDR;
+  wire [5:0]axi_smc_M01_AXI_ARADDR;
   wire [2:0]axi_smc_M01_AXI_ARPROT;
   wire axi_smc_M01_AXI_ARREADY;
   wire axi_smc_M01_AXI_ARVALID;
-  wire [4:0]axi_smc_M01_AXI_AWADDR;
+  wire [5:0]axi_smc_M01_AXI_AWADDR;
   wire [2:0]axi_smc_M01_AXI_AWPROT;
   wire axi_smc_M01_AXI_AWREADY;
   wire axi_smc_M01_AXI_AWVALID;
@@ -634,7 +634,7 @@ module soc_stop_watch
         .ILMB_wait(microblaze_riscv_0_ilmb_1_WAIT),
         .LMB_Clk(microblaze_riscv_0_Clk),
         .SYS_Rst(proc_sys_reset_0_bus_struct_reset));
-  soc_stop_watch_myip_stop_watch_0_0 myip_stop_watch_0
+  soc_stop_watch_myip_stop_watch_0_1 myip_stop_watch_0
        (.s00_axi_aclk(microblaze_riscv_0_Clk),
         .s00_axi_araddr(axi_smc_M01_AXI_ARADDR),
         .s00_axi_aresetn(proc_sys_reset_0_peripheral_aresetn),

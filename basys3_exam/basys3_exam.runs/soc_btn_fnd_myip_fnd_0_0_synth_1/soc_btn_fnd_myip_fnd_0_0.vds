@@ -1,0 +1,300 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Wed Sep  3 16:34:05 2025
+# Process ID         : 88579
+# Current directory  : /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_myip_fnd_0_0_synth_1
+# Command line       : vivado -log soc_btn_fnd_myip_fnd_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_btn_fnd_myip_fnd_0_0.tcl
+# Log file           : /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_myip_fnd_0_0_synth_1/soc_btn_fnd_myip_fnd_0_0.vds
+# Journal file       : /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_myip_fnd_0_0_synth_1/vivado.jou
+# Running On         : user16-B70TV-AN5TB8W
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : Intel(R) Core(TM) i5-6400 CPU @ 2.70GHz
+# CPU Frequency      : 2700.072 MHz
+# CPU Physical cores : 4
+# CPU Logical cores  : 4
+# Host memory        : 16648 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 20943 MB
+# Available Virtual  : 13904 MB
+#-----------------------------------------------------------
+source soc_btn_fnd_myip_fnd_0_0.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/user16/workspace_vivado/ip_repo/myip_fnd_1_0'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/user16/Tools/Vivado/2024.2/data/ip'.
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: soc_btn_fnd_myip_fnd_0_0
+Command: synth_design -top soc_btn_fnd_myip_fnd_0_0 -part xc7a35tcpg236-1 -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 88673
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1858.180 ; gain = 407.828 ; free physical = 941 ; free virtual = 11317
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'soc_btn_fnd_myip_fnd_0_0' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_myip_fnd_0_0/synth/soc_btn_fnd_myip_fnd_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'myip_fnd' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd.v:4]
+INFO: [Synth 8-6157] synthesizing module 'myip_fnd_slave_lite_v1_0_S00_AXI' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:4]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:147]
+INFO: [Synth 8-226] default block is never used [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:225]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:310]
+INFO: [Synth 8-6157] synthesizing module 'fnd_cntr' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/controller.v:4]
+INFO: [Synth 8-6157] synthesizing module 'bin_to_dec' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:312]
+INFO: [Synth 8-6155] done synthesizing module 'bin_to_dec' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:312]
+INFO: [Synth 8-6157] synthesizing module 'anode_selector' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:295]
+INFO: [Synth 8-226] default block is never used [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:301]
+INFO: [Synth 8-6155] done synthesizing module 'anode_selector' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:295]
+INFO: [Synth 8-6157] synthesizing module 'seg_decoder_a' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:257]
+INFO: [Synth 8-226] default block is never used [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:265]
+INFO: [Synth 8-226] default block is never used [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:284]
+INFO: [Synth 8-6155] done synthesizing module 'seg_decoder_a' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/exam01_combinational_logic.v:257]
+INFO: [Synth 8-6155] done synthesizing module 'fnd_cntr' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/src/controller.v:4]
+WARNING: [Synth 8-689] width (32) of port connection 'fnd_value' does not match port width (16) of module 'fnd_cntr' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:348]
+WARNING: [Synth 8-689] width (32) of port connection 'hex_bcd' does not match port width (1) of module 'fnd_cntr' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:348]
+INFO: [Synth 8-6155] done synthesizing module 'myip_fnd_slave_lite_v1_0_S00_AXI' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd_slave_lite_v1_0_S00_AXI.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'myip_fnd' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/0f6c/hdl/myip_fnd.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'soc_btn_fnd_myip_fnd_0_0' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_myip_fnd_0_0/synth/soc_btn_fnd_myip_fnd_0_0.v:53]
+WARNING: [Synth 8-7129] Port S_AXI_AWPROT[2] in module myip_fnd_slave_lite_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_AWPROT[1] in module myip_fnd_slave_lite_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_AWPROT[0] in module myip_fnd_slave_lite_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_ARPROT[2] in module myip_fnd_slave_lite_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_ARPROT[1] in module myip_fnd_slave_lite_v1_0_S00_AXI is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_AXI_ARPROT[0] in module myip_fnd_slave_lite_v1_0_S00_AXI is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1938.148 ; gain = 487.797 ; free physical = 763 ; free virtual = 11139
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1955.961 ; gain = 505.609 ; free physical = 763 ; free virtual = 11140
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1955.961 ; gain = 505.609 ; free physical = 763 ; free virtual = 11140
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1955.961 ; gain = 0.000 ; free physical = 763 ; free virtual = 11140
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2098.711 ; gain = 0.000 ; free physical = 688 ; free virtual = 11065
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2098.711 ; gain = 0.000 ; free physical = 688 ; free virtual = 11065
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2098.711 ; gain = 648.359 ; free physical = 527 ; free virtual = 10930
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2106.715 ; gain = 656.363 ; free physical = 527 ; free virtual = 10930
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2106.715 ; gain = 656.363 ; free physical = 527 ; free virtual = 10930
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_write_reg' in module 'myip_fnd_slave_lite_v1_0_S00_AXI'
+INFO: [Synth 8-802] inferred FSM for state register 'state_read_reg' in module 'myip_fnd_slave_lite_v1_0_S00_AXI'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    Idle |                               00 |                               00
+                   Waddr |                               01 |                               10
+                   Wdata |                               10 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_write_reg' using encoding 'sequential' in module 'myip_fnd_slave_lite_v1_0_S00_AXI'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    Idle |                               00 |                               00
+                   Raddr |                               01 |                               10
+                   Rdata |                               10 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_read_reg' using encoding 'sequential' in module 'myip_fnd_slave_lite_v1_0_S00_AXI'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2106.715 ; gain = 656.363 ; free physical = 525 ; free virtual = 10908
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input    4 Bit       Adders := 24    
+	   2 Input    3 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 8     
+	                5 Bit    Registers := 2     
+	                4 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 5     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 8     
+	   8 Input   32 Bit        Muxes := 8     
+	   2 Input   16 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 18    
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 1     
+	   3 Input    2 Bit        Muxes := 2     
+	   2 Input    2 Bit        Muxes := 5     
+	   2 Input    1 Bit        Muxes := 2     
+	   3 Input    1 Bit        Muxes := 13    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port s00_axi_awprot[2] in module soc_btn_fnd_myip_fnd_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_awprot[1] in module soc_btn_fnd_myip_fnd_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_awprot[0] in module soc_btn_fnd_myip_fnd_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_arprot[2] in module soc_btn_fnd_myip_fnd_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_arprot[1] in module soc_btn_fnd_myip_fnd_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axi_arprot[0] in module soc_btn_fnd_myip_fnd_0_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 2106.715 ; gain = 656.363 ; free physical = 535 ; free virtual = 10918
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 2123.715 ; gain = 673.363 ; free physical = 256 ; free virtual = 10639
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 2123.715 ; gain = 673.363 ; free physical = 256 ; free virtual = 10639
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 2141.738 ; gain = 691.387 ; free physical = 240 ; free virtual = 10623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |CARRY4 |     5|
+|2     |LUT1   |     2|
+|3     |LUT2   |    37|
+|4     |LUT3   |     8|
+|5     |LUT4   |    10|
+|6     |LUT5   |    13|
+|7     |LUT6   |   123|
+|8     |MUXF7  |    32|
+|9     |FDCE   |     4|
+|10    |FDRE   |   288|
++------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.551 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 7 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 2293.551 ; gain = 700.449 ; free physical = 209 ; free virtual = 10493
+Synthesis Optimization Complete : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2293.559 ; gain = 843.199 ; free physical = 209 ; free virtual = 10493
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2293.559 ; gain = 0.000 ; free physical = 209 ; free virtual = 10493
+INFO: [Netlist 29-17] Analyzing 37 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2317.562 ; gain = 0.000 ; free physical = 368 ; free virtual = 10652
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: cb9639f6
+INFO: [Common 17-83] Releasing license: Synthesis
+43 Infos, 15 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:41 ; elapsed = 00:00:39 . Memory (MB): peak = 2317.562 ; gain = 875.215 ; free physical = 368 ; free virtual = 10652
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1476.748; main = 1384.945; forked = 226.051
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3077.953; main = 2317.566; forked = 924.211
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2341.574 ; gain = 0.000 ; free physical = 368 ; free virtual = 10652
+INFO: [Common 17-1381] The checkpoint '/home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_myip_fnd_0_0_synth_1/soc_btn_fnd_myip_fnd_0_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP soc_btn_fnd_myip_fnd_0_0, cache-ID = cfa6fc9720189136
+INFO: [Coretcl 2-1174] Renamed 4 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2341.574 ; gain = 0.000 ; free physical = 337 ; free virtual = 10646
+INFO: [Common 17-1381] The checkpoint '/home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_myip_fnd_0_0_synth_1/soc_btn_fnd_myip_fnd_0_0.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file soc_btn_fnd_myip_fnd_0_0_utilization_synth.rpt -pb soc_btn_fnd_myip_fnd_0_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Wed Sep  3 16:34:49 2025...

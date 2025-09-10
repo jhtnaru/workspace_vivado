@@ -1,0 +1,677 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Wed Sep  3 10:20:35 2025
+# Process ID         : 18498
+# Current directory  : /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1
+# Command line       : vivado -log soc_btn_fnd_microblaze_riscv_0_1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_btn_fnd_microblaze_riscv_0_1.tcl
+# Log file           : /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/soc_btn_fnd_microblaze_riscv_0_1.vds
+# Journal file       : /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/vivado.jou
+# Running On         : user16-B70TV-AN5TB8W
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : Intel(R) Core(TM) i5-6400 CPU @ 2.70GHz
+# CPU Frequency      : 2700.000 MHz
+# CPU Physical cores : 4
+# CPU Logical cores  : 4
+# Host memory        : 16648 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 20943 MB
+# Available Virtual  : 14531 MB
+#-----------------------------------------------------------
+source soc_btn_fnd_microblaze_riscv_0_1.tcl -notrace
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: soc_btn_fnd_microblaze_riscv_0_1
+Command: synth_design -top soc_btn_fnd_microblaze_riscv_0_1 -part xc7a35tcpg236-1 -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 18821
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1863.180 ; gain = 421.766 ; free physical = 173 ; free virtual = 9869
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'soc_btn_fnd_microblaze_riscv_0_1' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/synth/soc_btn_fnd_microblaze_riscv_0_1.vhd:116]
+	Parameter C_FREQ bound to: 100000000 - type: integer 
+	Parameter C_USE_CONFIG_RESET bound to: 0 - type: integer 
+	Parameter C_NUM_SYNC_FF_CLK bound to: 2 - type: integer 
+	Parameter C_NUM_SYNC_FF_CLK_IRQ bound to: 1 - type: integer 
+	Parameter C_NUM_SYNC_FF_CLK_DEBUG bound to: 2 - type: integer 
+	Parameter C_NUM_SYNC_FF_DBG_CLK bound to: 1 - type: integer 
+	Parameter C_NUM_SYNC_FF_DBG_TRACE_CLK bound to: 2 - type: integer 
+	Parameter C_FAULT_TOLERANT bound to: 0 - type: integer 
+	Parameter C_ECC_USE_CE_EXCEPTION bound to: 0 - type: integer 
+	Parameter C_LOCKSTEP_SLAVE bound to: 0 - type: integer 
+	Parameter C_LOCKSTEP_MASTER bound to: 0 - type: integer 
+	Parameter C_TEMPORAL_DEPTH bound to: 0 - type: integer 
+	Parameter C_FAMILY bound to: artix7 - type: string 
+	Parameter C_PART bound to: xc7a35tcpg236-1 - type: string 
+	Parameter C_DATA_SIZE bound to: 32 - type: integer 
+	Parameter C_LMB_DATA_SIZE bound to: 32 - type: integer 
+	Parameter C_INSTR_SIZE bound to: 32 - type: integer 
+	Parameter C_IADDR_SIZE bound to: 32 - type: integer 
+	Parameter C_PIADDR_SIZE bound to: 32 - type: integer 
+	Parameter C_DADDR_SIZE bound to: 32 - type: integer 
+	Parameter C_PDADDR_SIZE bound to: 32 - type: integer 
+	Parameter C_INSTANCE bound to: soc_btn_fnd_microblaze_riscv_0_1 - type: string 
+	Parameter C_AVOID_PRIMITIVES bound to: 0 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_INTERCONNECT bound to: 2 - type: integer 
+	Parameter C_BASE_VECTORS bound to: 64'b0000000000000000000000000000000000000000000000000000000000000000 
+	Parameter C_ARCHID bound to: 64'b0000000000000000000000000000000000000000000000000000000000000001 
+	Parameter C_IMPID bound to: 64'b0000000000000000000000000000000000000000000000000000000000000001 
+	Parameter C_HARTID bound to: 64'b0000000000000000000000000000000000000000000000000000000000000000 
+	Parameter C_M_AXI_DP_THREAD_ID_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_DP_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_DP_ADDR_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_DP_EXCLUSIVE_ACCESS bound to: 0 - type: integer 
+	Parameter C_M_AXI_D_BUS_EXCEPTION bound to: 1 - type: integer 
+	Parameter C_M_AXI_IP_THREAD_ID_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_IP_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_IP_ADDR_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_I_BUS_EXCEPTION bound to: 1 - type: integer 
+	Parameter C_D_LMB bound to: 1 - type: integer 
+	Parameter C_D_LMB_PROTOCOL bound to: 0 - type: integer 
+	Parameter C_D_AXI bound to: 1 - type: integer 
+	Parameter C_I_LMB bound to: 1 - type: integer 
+	Parameter C_I_LMB_PROTOCOL bound to: 0 - type: integer 
+	Parameter C_I_AXI bound to: 0 - type: integer 
+	Parameter C_S_AXI bound to: 0 - type: integer 
+	Parameter C_USE_MULDIV bound to: 2 - type: integer 
+	Parameter C_USE_ATOMIC bound to: 0 - type: integer 
+	Parameter C_USE_FPU bound to: 0 - type: integer 
+	Parameter C_USE_COMPRESSION bound to: 1 - type: integer 
+	Parameter C_USE_BITMAN bound to: 0 - type: integer 
+	Parameter C_FSL_LINKS bound to: 0 - type: integer 
+	Parameter C_USE_EXTENDED_FSL_INSTR bound to: 0 - type: integer 
+	Parameter C_MMU_PRIVILEGED_INSTR bound to: 0 - type: integer 
+	Parameter C_FSL_EXCEPTION bound to: 0 - type: integer 
+	Parameter C_IMPRECISE_EXCEPTIONS bound to: 0 - type: integer 
+	Parameter C_MISALIGNED_EXCEPTIONS bound to: 1 - type: integer 
+	Parameter C_ILL_INSTR_EXCEPTION bound to: 1 - type: integer 
+	Parameter C_PMP_ENTRIES bound to: 0 - type: integer 
+	Parameter C_PMP_GRANULARITY bound to: 2 - type: integer 
+	Parameter C_USE_INTERRUPT bound to: 0 - type: integer 
+	Parameter C_USE_NON_SECURE bound to: 0 - type: integer 
+	Parameter C_USE_EXT_BRK bound to: 0 - type: integer 
+	Parameter C_USE_EXT_NM_BRK bound to: 0 - type: integer 
+	Parameter C_USE_SLEEP bound to: 0 - type: integer 
+	Parameter C_USE_MMU bound to: 0 - type: integer 
+	Parameter C_USE_BARREL bound to: 1 - type: integer 
+	Parameter C_USE_COUNTERS bound to: 1 - type: integer 
+	Parameter C_USE_BRANCH_TARGET_CACHE bound to: 0 - type: integer 
+	Parameter C_BRANCH_TARGET_CACHE_SIZE bound to: 0 - type: integer 
+	Parameter C_PC_WIDTH bound to: 17 - type: integer 
+	Parameter C_DEBUG_ENABLED bound to: 1 - type: integer 
+	Parameter C_DEBUG_INTERFACE bound to: 0 - type: integer 
+	Parameter C_NUMBER_OF_PC_BRK bound to: 1 - type: integer 
+	Parameter C_NUMBER_OF_RD_ADDR_BRK bound to: 0 - type: integer 
+	Parameter C_NUMBER_OF_WR_ADDR_BRK bound to: 0 - type: integer 
+	Parameter C_DEBUG_EVENT_COUNTERS bound to: 0 - type: integer 
+	Parameter C_DEBUG_LATENCY_COUNTERS bound to: 0 - type: integer 
+	Parameter C_DEBUG_COUNTER_WIDTH bound to: 64 - type: integer 
+	Parameter C_DEBUG_TRACE_SIZE bound to: 0 - type: integer 
+	Parameter C_DEBUG_EXTERNAL_TRACE bound to: 0 - type: integer 
+	Parameter C_DEBUG_TRACE_ASYNC_RESET bound to: 0 - type: integer 
+	Parameter C_DEBUG_PROFILE_SIZE bound to: 0 - type: integer 
+	Parameter C_INTERRUPT_IS_EDGE bound to: 0 - type: integer 
+	Parameter C_EDGE_IS_POSITIVE bound to: 1 - type: integer 
+	Parameter C_ASYNC_INTERRUPT bound to: 1 - type: integer 
+	Parameter C_ASYNC_WAKEUP bound to: 3 - type: integer 
+	Parameter C_M0_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S0_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M1_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S1_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M2_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S2_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M3_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S3_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M4_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S4_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M5_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S5_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M6_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S6_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M7_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S7_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M8_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S8_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M9_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S9_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M10_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S10_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M11_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S11_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M12_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S12_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M13_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S13_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M14_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S14_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M15_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S15_AXIS_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_ICACHE_BASEADDR bound to: 64'b0000000000000000000000000000000000000000000000000000000000000000 
+	Parameter C_ICACHE_HIGHADDR bound to: 64'b0000000000000000000000000000000000111111111111111111111111111111 
+	Parameter C_USE_ICACHE bound to: 0 - type: integer 
+	Parameter C_ICACHE_BYTE_SIZE bound to: 4096 - type: integer 
+	Parameter C_ICACHE_LINE_LEN bound to: 4 - type: integer 
+	Parameter C_ICACHE_STREAMS bound to: 0 - type: integer 
+	Parameter C_ICACHE_VICTIMS bound to: 0 - type: integer 
+	Parameter C_ICACHE_FORCE_TAG_LUTRAM bound to: 0 - type: integer 
+	Parameter C_ICACHE_DATA_WIDTH bound to: 0 - type: integer 
+	Parameter C_M_AXI_IC_THREAD_ID_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_IC_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_IC_ADDR_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_IC_USER_VALUE bound to: 31 - type: integer 
+	Parameter C_M_AXI_IC_AWUSER_WIDTH bound to: 5 - type: integer 
+	Parameter C_M_AXI_IC_ARUSER_WIDTH bound to: 5 - type: integer 
+	Parameter C_M_AXI_IC_WUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_IC_RUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_IC_BUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_DCACHE_BASEADDR bound to: 64'b0000000000000000000000000000000000000000000000000000000000000000 
+	Parameter C_DCACHE_HIGHADDR bound to: 64'b0000000000000000000000000000000000111111111111111111111111111111 
+	Parameter C_USE_DCACHE bound to: 0 - type: integer 
+	Parameter C_DCACHE_BYTE_SIZE bound to: 4096 - type: integer 
+	Parameter C_DCACHE_LINE_LEN bound to: 4 - type: integer 
+	Parameter C_DCACHE_USE_WRITEBACK bound to: 0 - type: integer 
+	Parameter C_DCACHE_VICTIMS bound to: 0 - type: integer 
+	Parameter C_DCACHE_FORCE_TAG_LUTRAM bound to: 0 - type: integer 
+	Parameter C_DCACHE_DATA_WIDTH bound to: 0 - type: integer 
+	Parameter C_M_AXI_DC_THREAD_ID_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_DC_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_DC_ADDR_WIDTH bound to: 32 - type: integer 
+	Parameter C_M_AXI_DC_EXCLUSIVE_ACCESS bound to: 0 - type: integer 
+	Parameter C_M_AXI_DC_USER_VALUE bound to: 31 - type: integer 
+	Parameter C_M_AXI_DC_AWUSER_WIDTH bound to: 5 - type: integer 
+	Parameter C_M_AXI_DC_ARUSER_WIDTH bound to: 5 - type: integer 
+	Parameter C_M_AXI_DC_WUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_DC_RUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_M_AXI_DC_BUSER_WIDTH bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'riscv' declared at '/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ipshared/f9dd/hdl/microblaze_riscv_v1_0_vh_rfs.vhd:128013' bound to instance 'U0' of component 'riscv' [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/synth/soc_btn_fnd_microblaze_riscv_0_1.vhd:829]
+INFO: [Synth 8-256] done synthesizing module 'soc_btn_fnd_microblaze_riscv_0_1' (0#1) [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/synth/soc_btn_fnd_microblaze_riscv_0_1.vhd:116]
+WARNING: [Synth 8-7129] Port Clk in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Reset in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Config_Reset in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[fflags] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[frm] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[fcsr] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[cycle] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[instret] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[cycleh] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[instreth] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[hpmcounter] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[hpmcounterh] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[stream] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mstatus] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[misa] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mie] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mtvec] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mscratch] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mepc] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mcause] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mtval] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mip] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mvendorid] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[marchid] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mimpid] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mhartid] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mstream] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mwfi] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[medeleg] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mideleg] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[menvcfg] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mcounteren] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mcountinhibit] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mcycle] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[minstret] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mcycleh] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[minstreth] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mhpmevent] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mhpmcounter] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[mhpmcounterh] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[dcsr] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[dpc] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[sstatus] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[stvec] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[sie] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[sip] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[sscratch] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[sepc] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[scause] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[stval] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[senvcfg] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[satp] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[scounteren] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[tselect] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[tdata1] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[tdata2] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[tdata3] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[tinfo] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[tcontrol] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[pmp_cfg] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[pmp_cfgh] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Sel_CSR[pmp_addr] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[6] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[5] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[4] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[3] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[2] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[1] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_CSR_Number[0] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_Write_CSR in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[31] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[30] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[29] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[28] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[27] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[26] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[25] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[24] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[23] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[22] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[21] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[20] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[19] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[18] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[17] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[16] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[15] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[14] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[13] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[12] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[11] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[10] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[9] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[8] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[7] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[6] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[5] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[4] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[3] in module pmp_checker is either unconnected or has no load
+WARNING: [Synth 8-7129] Port EX_ALU_Result[2] in module pmp_checker is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:17 ; elapsed = 00:00:27 . Memory (MB): peak = 2182.719 ; gain = 741.305 ; free physical = 171 ; free virtual = 9074
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:27 . Memory (MB): peak = 2182.719 ; gain = 741.305 ; free physical = 171 ; free virtual = 9073
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:27 . Memory (MB): peak = 2182.719 ; gain = 741.305 ; free physical = 171 ; free virtual = 9073
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.22 ; elapsed = 00:00:00.24 . Memory (MB): peak = 2182.719 ; gain = 0.000 ; free physical = 281 ; free virtual = 9085
+INFO: [Netlist 29-17] Analyzing 638 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1_ooc_debug.xdc] for cell 'U0'
+Finished Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1_ooc_debug.xdc] for cell 'U0'
+Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1_ooc.xdc] for cell 'U0'
+Finished Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1_ooc.xdc] for cell 'U0'
+Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1.xdc] for cell 'U0'
+Finished Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1.xdc] for cell 'U0'
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_btn_fnd/ip/soc_btn_fnd_microblaze_riscv_0_1/soc_btn_fnd_microblaze_riscv_0_1.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/soc_btn_fnd_microblaze_riscv_0_1_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/soc_btn_fnd_microblaze_riscv_0_1_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2246.750 ; gain = 0.000 ; free physical = 262 ; free virtual = 9067
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 411 instances were transformed.
+  FDE => FDRE: 32 instances
+  FDR => FDRE: 37 instances
+  FDS => FDSE: 1 instance 
+  LUT6_2 => LUT6_2 (LUT5, LUT6): 80 instances
+  MUXCY_L => MUXCY: 245 instances
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 16 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.12 . Memory (MB): peak = 2246.750 ; gain = 0.000 ; free physical = 261 ; free virtual = 9066
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:30 ; elapsed = 00:00:41 . Memory (MB): peak = 2246.750 ; gain = 805.336 ; free physical = 203 ; free virtual = 8706
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:30 ; elapsed = 00:00:41 . Memory (MB): peak = 2254.754 ; gain = 813.340 ; free physical = 203 ; free virtual = 8706
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property KEEP_HIERARCHY = SOFT for U0. (constraint file  /home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/dont_touch.xdc, line 9).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:41 . Memory (MB): peak = 2254.754 ; gain = 813.340 ; free physical = 202 ; free virtual = 8706
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:34 ; elapsed = 00:00:45 . Memory (MB): peak = 2254.754 ; gain = 813.340 ; free physical = 394 ; free virtual = 8834
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   64 Bit       Adders := 2     
+	   3 Input   33 Bit       Adders := 1     
+	   2 Input   32 Bit       Adders := 1     
+	   2 Input   14 Bit       Adders := 1     
+	   2 Input    7 Bit       Adders := 1     
+	   2 Input    6 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
+	   2 Input      1 Bit         XORs := 103   
+	   3 Input      1 Bit         XORs := 1     
++---Registers : 
+	             4096 Bit    Registers := 1     
+	               64 Bit    Registers := 2     
+	               42 Bit    Registers := 1     
+	               34 Bit    Registers := 1     
+	               33 Bit    Registers := 1     
+	               32 Bit    Registers := 31    
+	               31 Bit    Registers := 1     
+	               29 Bit    Registers := 1     
+	               23 Bit    Registers := 1     
+	               16 Bit    Registers := 1     
+	               15 Bit    Registers := 1     
+	               14 Bit    Registers := 1     
+	               12 Bit    Registers := 1     
+	                8 Bit    Registers := 1     
+	                7 Bit    Registers := 3     
+	                6 Bit    Registers := 2     
+	                5 Bit    Registers := 4     
+	                4 Bit    Registers := 2     
+	                3 Bit    Registers := 5     
+	                2 Bit    Registers := 28    
+	                1 Bit    Registers := 304   
++---Muxes : 
+	   2 Input   64 Bit        Muxes := 9     
+	   2 Input   34 Bit        Muxes := 1     
+	   2 Input   33 Bit        Muxes := 9     
+	   2 Input   32 Bit        Muxes := 37    
+	   3 Input   32 Bit        Muxes := 1     
+	   4 Input   32 Bit        Muxes := 3     
+	   2 Input   18 Bit        Muxes := 2     
+	   2 Input   16 Bit        Muxes := 1     
+	   2 Input   14 Bit        Muxes := 1     
+	   2 Input   12 Bit        Muxes := 3     
+	   2 Input    8 Bit        Muxes := 1     
+	   2 Input    7 Bit        Muxes := 1     
+	   2 Input    6 Bit        Muxes := 5     
+	   2 Input    5 Bit        Muxes := 13    
+	   3 Input    5 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 3     
+	   7 Input    4 Bit        Muxes := 1     
+	   3 Input    3 Bit        Muxes := 1     
+	   6 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 8     
+	   2 Input    2 Bit        Muxes := 26    
+	   4 Input    2 Bit        Muxes := 2     
+	   3 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 342   
+	   5 Input    1 Bit        Muxes := 1     
+	   7 Input    1 Bit        Muxes := 4     
+	   3 Input    1 Bit        Muxes := 1     
+	   6 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[0].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[1].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[2].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[3].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[4].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[5].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[6].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[7].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[8].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[9].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[10].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[11].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[12].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[13].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/PC_Module_I/Instruction_Prefetch_Mux[14].Gen_Instr_DFF/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/Using_FPGA_2.ex_is_lr_instr_Inst/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/Using_FPGA_2.ex_is_sc_instr_Inst/Using_FPGA.Native) is unused and will be removed from module riscv.
+INFO: [Synth 8-3332] Sequential element (riscv_core_I/Base.Core/Decode_I/Using_FPGA_2.ex_is_amo_instr_Inst/Using_FPGA.Native) is unused and will be removed from module riscv.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:52 ; elapsed = 00:01:06 . Memory (MB): peak = 2270.762 ; gain = 829.348 ; free physical = 1231 ; free virtual = 9657
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+ROM: Preliminary Mapping Report
++-------------------------------------------+----------------------------+---------------+----------------+
+|Module Name                                | RTL Object                 | Depth x Width | Implemented As | 
++-------------------------------------------+----------------------------+---------------+----------------+
+|microblaze_riscv_v1_0_3_Barrel_Shifter_gti | Barrel32.two_comp_table[0] | 32x5          | LUT            | 
+|microblaze_riscv_v1_0_3_Barrel_Shifter_gti | Barrel32.two_comp_table[0] | 32x5          | LUT            | 
++-------------------------------------------+----------------------------+---------------+----------------+
+
+
+Distributed RAM: Preliminary Mapping Report (see note below)
+-------NONE-------
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:02 ; elapsed = 00:01:18 . Memory (MB): peak = 2270.762 ; gain = 829.348 ; free physical = 1929 ; free virtual = 10353
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:01:10 ; elapsed = 00:01:27 . Memory (MB): peak = 2324.309 ; gain = 882.895 ; free physical = 1523 ; free virtual = 10030
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:12 ; elapsed = 00:01:30 . Memory (MB): peak = 2340.324 ; gain = 898.910 ; free physical = 1097 ; free virtual = 9620
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[31] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[30] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[29] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[28] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[27] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[26] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[25] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[24] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[23] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[22] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[21] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[20] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[19] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[18] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[17] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[16] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[15] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[14] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[13] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[12] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[11] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[10] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[9] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[8] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[7] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[6] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[5] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[4] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[3] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[2] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[1] to constant 0
+INFO: [Synth 8-3295] tying undriven pin riscv_core_I/Base.Core/Data_Flow_I/Operand_Select_I/of_op2_tmp_inferred:in0[0] to constant 0
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:16 ; elapsed = 00:01:35 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2152 ; free virtual = 10675
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:17 ; elapsed = 00:01:35 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2152 ; free virtual = 10675
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:17 ; elapsed = 00:01:36 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2134 ; free virtual = 10657
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:17 ; elapsed = 00:01:36 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2134 ; free virtual = 10657
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:17 ; elapsed = 00:01:36 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2134 ; free virtual = 10657
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:17 ; elapsed = 00:01:36 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2141 ; free virtual = 10665
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Dynamic Shift Register Report:
++------------+--------------------+--------+------------+--------+---------+--------+--------+--------+
+|Module Name | RTL Name           | Length | Data Width | SRL16E | SRLC32E | Mux F7 | Mux F8 | Mux F9 | 
++------------+--------------------+--------+------------+--------+---------+--------+--------+--------+
+|dsrl        | PC_Buffer_reg[3]   | 32     | 32         | 32     | 0       | 0      | 0      | 0      | 
+|dsrl__1     | data_buffer_reg[2] | 32     | 32         | 32     | 0       | 0      | 0      | 0      | 
++------------+--------------------+--------+------------+--------+---------+--------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++-------------------------------+--------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name                    | DSP Mapping        | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++-------------------------------+--------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|MB_DSP48E1                     | (A*B)'             | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 1    | 
+|MB_DSP48E1__parameterized1_582 | PCIN>>17+(A*B)'    | 30     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 1    | 0    | 
+|MB_DSP48E1__parameterized1     | PCIN+(A*B)'        | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 1    | 0    | 
+|MB_DSP48E1__parameterized3     | (PCIN>>17+(A*B)')' | 30     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 1    | 1    | 
++-------------------------------+--------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |CARRY4  |    53|
+|2     |DSP48E1 |     4|
+|5     |LUT1    |    67|
+|6     |LUT2    |   181|
+|7     |LUT3    |   361|
+|8     |LUT4    |   397|
+|9     |LUT5    |   258|
+|10    |LUT6    |  1077|
+|12    |MUXCY_L |   223|
+|13    |MUXF7   |    20|
+|14    |RAM32M  |    16|
+|15    |SRL16E  |    48|
+|16    |XORCY   |   176|
+|17    |FDCE    |    10|
+|18    |FDE     |    32|
+|19    |FDPE    |     1|
+|20    |FDR     |    22|
+|21    |FDRE    |  1107|
+|22    |FDS     |     1|
+|23    |FDSE    |    21|
++------+--------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:17 ; elapsed = 00:01:36 . Memory (MB): peak = 2442.137 ; gain = 1000.723 ; free physical = 2141 ; free virtual = 10664
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 11095 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:13 ; elapsed = 00:01:31 . Memory (MB): peak = 2442.137 ; gain = 936.691 ; free physical = 2141 ; free virtual = 10664
+Synthesis Optimization Complete : Time (s): cpu = 00:01:18 ; elapsed = 00:01:37 . Memory (MB): peak = 2442.145 ; gain = 1000.723 ; free physical = 2141 ; free virtual = 10664
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.1 ; elapsed = 00:00:00.1 . Memory (MB): peak = 2442.145 ; gain = 0.000 ; free physical = 2220 ; free virtual = 10743
+INFO: [Netlist 29-17] Analyzing 627 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2466.148 ; gain = 0.000 ; free physical = 2233 ; free virtual = 10757
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 210 instances were transformed.
+  (MUXCY,XORCY) => CARRY4: 59 instances
+  FDE => FDRE: 32 instances
+  FDR => FDRE: 22 instances
+  FDS => FDSE: 1 instance 
+  LUT6_2 => LUT6_2 (LUT5, LUT6): 80 instances
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 16 instances
+
+Synth Design complete | Checksum: d9c29e88
+INFO: [Common 17-83] Releasing license: Synthesis
+73 Infos, 101 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:28 ; elapsed = 00:01:46 . Memory (MB): peak = 2466.148 ; gain = 1032.738 ; free physical = 2210 ; free virtual = 10733
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1580.110; main = 1499.291; forked = 212.640
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3264.539; main = 2466.152; forked = 924.211
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2490.160 ; gain = 0.000 ; free physical = 2216 ; free virtual = 10739
+INFO: [Common 17-1381] The checkpoint '/home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/soc_btn_fnd_microblaze_riscv_0_1.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP soc_btn_fnd_microblaze_riscv_0_1, cache-ID = 15d105f95513b5c7
+INFO: [Coretcl 2-1174] Renamed 906 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.08 . Memory (MB): peak = 2490.160 ; gain = 0.000 ; free physical = 2143 ; free virtual = 10679
+INFO: [Common 17-1381] The checkpoint '/home/user16/workspace_vivado/basys3_exam/basys3_exam.runs/soc_btn_fnd_microblaze_riscv_0_1_synth_1/soc_btn_fnd_microblaze_riscv_0_1.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file soc_btn_fnd_microblaze_riscv_0_1_utilization_synth.rpt -pb soc_btn_fnd_microblaze_riscv_0_1_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Wed Sep  3 10:22:35 2025...

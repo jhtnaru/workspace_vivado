@@ -1,0 +1,13 @@
+vhdl xil_defaultlib  \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_proc_sys_reset_0_0/sim/soc_ultrasonic_proc_sys_reset_0_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_microblaze_riscv_0_0/sim/soc_ultrasonic_microblaze_riscv_0_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_dlmb_v10_0/sim/soc_ultrasonic_dlmb_v10_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_ilmb_v10_0/sim/soc_ultrasonic_ilmb_v10_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_dlmb_bram_if_cntlr_0/sim/soc_ultrasonic_dlmb_bram_if_cntlr_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_ilmb_bram_if_cntlr_0/sim/soc_ultrasonic_ilmb_bram_if_cntlr_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_mdm_1_0/sim/soc_ultrasonic_mdm_1_0.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_axi_uartlite_0_1/sim/soc_ultrasonic_axi_uartlite_0_1.vhd" \
+"../../../bd/soc_ultrasonic/ip/soc_ultrasonic_axi_smc_0/bd_0/ip/ip_1/sim/bd_ebb4_psr_aclk_0.vhd" \
+
+# Do not sort compile order
+nosort

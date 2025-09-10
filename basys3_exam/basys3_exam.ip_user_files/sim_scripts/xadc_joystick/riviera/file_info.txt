@@ -1,0 +1,2 @@
+xadc_joystick.v,verilog,xil_defaultlib,../../../../basys3_exam.gen/sources_1/ip/xadc_joystick/xadc_joystick.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v
