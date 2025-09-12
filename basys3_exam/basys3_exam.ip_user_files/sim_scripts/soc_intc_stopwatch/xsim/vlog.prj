@@ -1,0 +1,17 @@
+verilog xil_defaultlib --include "/home/user16/Tools/Vivado/2024.2/data/xilinx_vip/include" --include "../../../../basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ipshared/3cbc" --include "../../../../basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ipshared/ec67/hdl" \
+"../../../bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_clk_wiz_0/soc_intc_stopwatch_clk_wiz_0_clk_wiz.v" \
+"../../../bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_clk_wiz_0/soc_intc_stopwatch_clk_wiz_0.v" \
+"../../../bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_lmb_bram_0/sim/soc_intc_stopwatch_lmb_bram_0.v" \
+"../../../bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0/sim/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0.v" \
+"../../../bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0/sim/soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0.v" \
+"../../../bd/soc_intc_stopwatch/ipshared/8509/hdl/myip_stop_watch_slave_lite_v1_0_S00_AXI.v" \
+"../../../bd/soc_intc_stopwatch/ipshared/8509/hdl/myip_stop_watch.v" \
+"../../../bd/soc_intc_stopwatch/ipshared/8509/src/controller.v" \
+"../../../bd/soc_intc_stopwatch/ipshared/8509/src/exam02_sequential_logic.v" \
+"../../../bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_myip_stop_watch_0_0/sim/soc_intc_stopwatch_myip_stop_watch_0_0.v" \
+"../../../bd/soc_intc_stopwatch/sim/soc_intc_stopwatch.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

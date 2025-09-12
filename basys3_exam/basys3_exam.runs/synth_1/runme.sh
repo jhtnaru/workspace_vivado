@@ -37,4 +37,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log soc_watch_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_watch_wrapper.tcl
+EAStep vivado -log soc_intc_stopwatch_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_intc_stopwatch_wrapper.tcl
