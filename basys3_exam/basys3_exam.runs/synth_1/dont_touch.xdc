@@ -3,123 +3,115 @@
 
 # XDC: imports/workspace_vivado/Basys-3-Master.xdc
 
-# Block Designs: bd/soc_intc_stopwatch/soc_intc_stopwatch.bd
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch || ORIG_REF_NAME==soc_intc_stopwatch} -quiet] -quiet
+# Block Designs: bd/soc_fan_motor/soc_fan_motor.bd
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor || ORIG_REF_NAME==soc_fan_motor} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_proc_sys_reset_0_0/soc_intc_stopwatch_proc_sys_reset_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_proc_sys_reset_0_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_proc_sys_reset_0_0/soc_fan_motor_proc_sys_reset_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_fan_motor_proc_sys_reset_0_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_clk_wiz_0/soc_intc_stopwatch_clk_wiz_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_clk_wiz_0 || ORIG_REF_NAME==soc_intc_stopwatch_clk_wiz_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_clk_wiz_0/soc_fan_motor_clk_wiz_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_clk_wiz_0 || ORIG_REF_NAME==soc_fan_motor_clk_wiz_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_0/soc_intc_stopwatch_microblaze_riscv_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_0/soc_fan_motor_microblaze_riscv_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_dlmb_v10_0/soc_intc_stopwatch_dlmb_v10_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_dlmb_v10_0 || ORIG_REF_NAME==soc_intc_stopwatch_dlmb_v10_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_dlmb_v10_0/soc_fan_motor_dlmb_v10_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_dlmb_v10_0 || ORIG_REF_NAME==soc_fan_motor_dlmb_v10_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_ilmb_v10_0/soc_intc_stopwatch_ilmb_v10_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_ilmb_v10_0 || ORIG_REF_NAME==soc_intc_stopwatch_ilmb_v10_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_ilmb_v10_0/soc_fan_motor_ilmb_v10_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_ilmb_v10_0 || ORIG_REF_NAME==soc_fan_motor_ilmb_v10_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_dlmb_bram_if_cntlr_0/soc_intc_stopwatch_dlmb_bram_if_cntlr_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_dlmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_intc_stopwatch_dlmb_bram_if_cntlr_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_dlmb_bram_if_cntlr_0/soc_fan_motor_dlmb_bram_if_cntlr_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_dlmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_fan_motor_dlmb_bram_if_cntlr_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_ilmb_bram_if_cntlr_0/soc_intc_stopwatch_ilmb_bram_if_cntlr_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_ilmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_intc_stopwatch_ilmb_bram_if_cntlr_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_ilmb_bram_if_cntlr_0/soc_fan_motor_ilmb_bram_if_cntlr_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_ilmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_fan_motor_ilmb_bram_if_cntlr_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_lmb_bram_0/soc_intc_stopwatch_lmb_bram_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_lmb_bram_0 || ORIG_REF_NAME==soc_intc_stopwatch_lmb_bram_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_lmb_bram_0/soc_fan_motor_lmb_bram_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_lmb_bram_0 || ORIG_REF_NAME==soc_fan_motor_lmb_bram_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_fan_motor_microblaze_riscv_0_axi_periph_imp_xbar_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_periph_imp_xbar_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_periph_imp_xbar_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_0/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_periph_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_periph_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_periph_0/soc_fan_motor_microblaze_riscv_0_axi_periph_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_periph_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_periph_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_intc_0/soc_fan_motor_microblaze_riscv_0_axi_intc_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_intc_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0/soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_xlconcat_0/soc_fan_motor_microblaze_riscv_0_xlconcat_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_xlconcat_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_xlconcat_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_mdm_1_0/soc_intc_stopwatch_mdm_1_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_mdm_1_0 || ORIG_REF_NAME==soc_intc_stopwatch_mdm_1_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_mdm_1_0/soc_fan_motor_mdm_1_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_mdm_1_0 || ORIG_REF_NAME==soc_fan_motor_mdm_1_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_uartlite_0_0/soc_intc_stopwatch_axi_uartlite_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_uartlite_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_uartlite_0_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_axi_uartlite_0_0/soc_fan_motor_axi_uartlite_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_axi_uartlite_0_0 || ORIG_REF_NAME==soc_fan_motor_axi_uartlite_0_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_gpio_0_0/soc_intc_stopwatch_axi_gpio_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_gpio_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_gpio_0_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_axi_gpio_0_0/soc_fan_motor_axi_gpio_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_axi_gpio_0_0 || ORIG_REF_NAME==soc_fan_motor_axi_gpio_0_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_iic_0_0/soc_intc_stopwatch_axi_iic_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_iic_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_iic_0_0} -quiet] -quiet
+# IP: bd/soc_fan_motor/ip/soc_fan_motor_myip_fan_0_0/soc_fan_motor_myip_fan_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_fan_motor_myip_fan_0_0 || ORIG_REF_NAME==soc_fan_motor_myip_fan_0_0} -quiet] -quiet
 
-# IP: bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_myip_stop_watch_0_0/soc_intc_stopwatch_myip_stop_watch_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_myip_stop_watch_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_myip_stop_watch_0_0} -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_proc_sys_reset_0_0/soc_fan_motor_proc_sys_reset_0_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_fan_motor_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_proc_sys_reset_0_0/soc_intc_stopwatch_proc_sys_reset_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_proc_sys_reset_0_0/soc_fan_motor_proc_sys_reset_0_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_fan_motor_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_proc_sys_reset_0_0/soc_intc_stopwatch_proc_sys_reset_0_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_clk_wiz_0/soc_fan_motor_clk_wiz_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_clk_wiz_0 || ORIG_REF_NAME==soc_fan_motor_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_clk_wiz_0/soc_intc_stopwatch_clk_wiz_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_clk_wiz_0 || ORIG_REF_NAME==soc_intc_stopwatch_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_clk_wiz_0/soc_fan_motor_clk_wiz_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_clk_wiz_0 || ORIG_REF_NAME==soc_fan_motor_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_clk_wiz_0/soc_intc_stopwatch_clk_wiz_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_clk_wiz_0 || ORIG_REF_NAME==soc_intc_stopwatch_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_clk_wiz_0/soc_fan_motor_clk_wiz_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_clk_wiz_0/soc_intc_stopwatch_clk_wiz_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_0/soc_fan_motor_microblaze_riscv_0_0.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_0/soc_intc_stopwatch_microblaze_riscv_0_0.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_0/soc_fan_motor_microblaze_riscv_0_0_ooc_debug.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_0/soc_intc_stopwatch_microblaze_riscv_0_0_ooc_debug.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_dlmb_v10_0/soc_fan_motor_dlmb_v10_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_dlmb_v10_0/soc_intc_stopwatch_dlmb_v10_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_ilmb_v10_0/soc_fan_motor_ilmb_v10_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_ilmb_v10_0/soc_intc_stopwatch_ilmb_v10_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_dlmb_bram_if_cntlr_0/soc_fan_motor_dlmb_bram_if_cntlr_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_dlmb_bram_if_cntlr_0/soc_intc_stopwatch_dlmb_bram_if_cntlr_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_ilmb_bram_if_cntlr_0/soc_fan_motor_ilmb_bram_if_cntlr_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_ilmb_bram_if_cntlr_0/soc_intc_stopwatch_ilmb_bram_if_cntlr_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_lmb_bram_0/soc_fan_motor_lmb_bram_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_lmb_bram_0/soc_intc_stopwatch_lmb_bram_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_fan_motor_microblaze_riscv_0_axi_periph_imp_xbar_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_intc_stopwatch_microblaze_riscv_0_axi_periph_imp_xbar_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_intc_0/soc_fan_motor_microblaze_riscv_0_axi_intc_0.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_intc_0/soc_fan_motor_microblaze_riscv_0_axi_intc_0_clocks.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_fan_motor_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0_clocks.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_microblaze_riscv_0_axi_intc_0/soc_fan_motor_microblaze_riscv_0_axi_intc_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0/soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_mdm_1_0/soc_fan_motor_mdm_1_0.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_mdm_1_0 || ORIG_REF_NAME==soc_fan_motor_mdm_1_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_mdm_1_0/soc_intc_stopwatch_mdm_1_0.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_mdm_1_0 || ORIG_REF_NAME==soc_intc_stopwatch_mdm_1_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_mdm_1_0/soc_fan_motor_mdm_1_0_ooc_trace.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_mdm_1_0/soc_intc_stopwatch_mdm_1_0_ooc_trace.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_axi_uartlite_0_0/soc_fan_motor_axi_uartlite_0_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_axi_uartlite_0_0 || ORIG_REF_NAME==soc_fan_motor_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_uartlite_0_0/soc_intc_stopwatch_axi_uartlite_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_uartlite_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_axi_uartlite_0_0/soc_fan_motor_axi_uartlite_0_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_uartlite_0_0/soc_intc_stopwatch_axi_uartlite_0_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_axi_uartlite_0_0/soc_fan_motor_axi_uartlite_0_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_axi_uartlite_0_0 || ORIG_REF_NAME==soc_fan_motor_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_uartlite_0_0/soc_intc_stopwatch_axi_uartlite_0_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_uartlite_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_axi_gpio_0_0/soc_fan_motor_axi_gpio_0_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_axi_gpio_0_0 || ORIG_REF_NAME==soc_fan_motor_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_gpio_0_0/soc_intc_stopwatch_axi_gpio_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_gpio_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_axi_gpio_0_0/soc_fan_motor_axi_gpio_0_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_gpio_0_0/soc_intc_stopwatch_axi_gpio_0_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_axi_gpio_0_0/soc_fan_motor_axi_gpio_0_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_fan_motor_axi_gpio_0_0 || ORIG_REF_NAME==soc_fan_motor_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_gpio_0_0/soc_intc_stopwatch_axi_gpio_0_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_gpio_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
-
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_iic_0_0/soc_intc_stopwatch_axi_iic_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_intc_stopwatch_axi_iic_0_0 || ORIG_REF_NAME==soc_intc_stopwatch_axi_iic_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
-
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/ip/soc_intc_stopwatch_axi_iic_0_0/soc_intc_stopwatch_axi_iic_0_0_ooc.xdc
-
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_intc_stopwatch/soc_intc_stopwatch_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_fan_motor/soc_fan_motor_ooc.xdc

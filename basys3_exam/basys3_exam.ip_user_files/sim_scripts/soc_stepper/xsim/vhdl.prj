@@ -1,0 +1,14 @@
+vhdl xil_defaultlib  \
+"../../../bd/soc_stepper/ip/soc_stepper_proc_sys_reset_0_0/sim/soc_stepper_proc_sys_reset_0_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_microblaze_riscv_0_0/sim/soc_stepper_microblaze_riscv_0_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_dlmb_v10_0/sim/soc_stepper_dlmb_v10_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_ilmb_v10_0/sim/soc_stepper_ilmb_v10_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_dlmb_bram_if_cntlr_0/sim/soc_stepper_dlmb_bram_if_cntlr_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_ilmb_bram_if_cntlr_0/sim/soc_stepper_ilmb_bram_if_cntlr_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_microblaze_riscv_0_axi_intc_0/sim/soc_stepper_microblaze_riscv_0_axi_intc_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_mdm_1_0/sim/soc_stepper_mdm_1_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_axi_uartlite_0_0/sim/soc_stepper_axi_uartlite_0_0.vhd" \
+"../../../bd/soc_stepper/ip/soc_stepper_axi_gpio_0_0/sim/soc_stepper_axi_gpio_0_0.vhd" \
+
+# Do not sort compile order
+nosort

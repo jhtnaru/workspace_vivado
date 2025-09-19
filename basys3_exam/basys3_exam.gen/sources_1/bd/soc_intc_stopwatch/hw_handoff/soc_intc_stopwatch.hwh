@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Sep 12 15:16:38 2025" VIVADOVERSION="2024.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Sep 15 09:17:31 2025" VIVADOVERSION="2024.2">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.2" DEVICE="7a35t" NAME="soc_intc_stopwatch" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -1607,7 +1607,11 @@
         <PARAMETER NAME="C_HIGHADDR" VALUE="0x4060FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="O" NAME="interrupt" SENSITIVITY="EDGE_RISING" SIGIS="INTERRUPT"/>
+        <PORT DIR="O" NAME="interrupt" SENSITIVITY="EDGE_RISING" SIGIS="INTERRUPT" SIGNAME="axi_uartlite_0_interrupt">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="microblaze_riscv_0_xlconcat" PORT="In1"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="I" NAME="rx" SIGIS="undef" SIGNAME="axi_uartlite_0_rx">
           <CONNECTIONS>
             <CONNECTION INSTANCE="soc_intc_stopwatch_imp" PORT="usb_uart_rxd"/>
@@ -4622,7 +4626,7 @@
       </ADDRESSBLOCKS>
       <PARAMETERS>
         <PARAMETER NAME="C_ADDR_WIDTH" VALUE="32"/>
-        <PARAMETER NAME="C_ASYNC_INTR" VALUE="0xFFFFFFFE"/>
+        <PARAMETER NAME="C_ASYNC_INTR" VALUE="0xFFFFFFFC"/>
         <PARAMETER NAME="C_CASCADE_MASTER" VALUE="0"/>
         <PARAMETER NAME="C_DISABLE_SYNCHRONIZERS" VALUE="1"/>
         <PARAMETER NAME="C_ENABLE_ASYNC" VALUE="0"/>
@@ -4664,7 +4668,7 @@
             <CONNECTION INSTANCE="microblaze_riscv_0" PORT="Interrupt_Address"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="1" NAME="intr" RIGHT="0" SENSITIVITY="NULL:LEVEL_HIGH" SIGIS="INTERRUPT" SIGNAME="microblaze_riscv_0_xlconcat_dout">
+        <PORT DIR="I" LEFT="1" NAME="intr" RIGHT="0" SENSITIVITY="EDGE_RISING:LEVEL_HIGH" SIGIS="INTERRUPT" SIGNAME="microblaze_riscv_0_xlconcat_dout">
           <CONNECTIONS>
             <CONNECTION INSTANCE="microblaze_riscv_0_xlconcat" PORT="dout"/>
           </CONNECTIONS>
@@ -7016,7 +7020,11 @@
             <CONNECTION INSTANCE="axi_btn_gpio_0" PORT="ip2intc_irpt"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="0" NAME="In1" RIGHT="0" SIGIS="undef"/>
+        <PORT DIR="I" LEFT="0" NAME="In1" RIGHT="0" SIGIS="undef" SIGNAME="axi_uartlite_0_interrupt">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="axi_uartlite_0" PORT="interrupt"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="O" LEFT="1" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="microblaze_riscv_0_xlconcat_dout">
           <CONNECTIONS>
             <CONNECTION INSTANCE="microblaze_riscv_0_axi_intc" PORT="intr"/>

@@ -155,7 +155,7 @@ ARCHITECTURE soc_intc_stopwatch_microblaze_riscv_0_axi_intc_0_arch OF soc_intc_s
   ATTRIBUTE X_INTERFACE_INFO OF interrupt_address: SIGNAL IS "xilinx.com:interface:mbinterrupt:1.0 interrupt ADDRESS";
   ATTRIBUTE X_INTERFACE_INFO OF intr: SIGNAL IS "xilinx.com:signal:interrupt:1.0 interrupt_input INTERRUPT";
   ATTRIBUTE X_INTERFACE_MODE OF intr: SIGNAL IS "slave interrupt_input";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF intr: SIGNAL IS "XIL_INTERFACENAME interrupt_input, SENSITIVITY NULL:LEVEL_HIGH, PortWidth 2";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF intr: SIGNAL IS "XIL_INTERFACENAME interrupt_input, SENSITIVITY EDGE_RISING:LEVEL_HIGH, PortWidth 2";
   ATTRIBUTE X_INTERFACE_INFO OF irq: SIGNAL IS "xilinx.com:interface:mbinterrupt:1.0 interrupt INTERRUPT";
   ATTRIBUTE X_INTERFACE_MODE OF irq: SIGNAL IS "master interrupt";
   ATTRIBUTE X_INTERFACE_PARAMETER OF irq: SIGNAL IS "XIL_INTERFACENAME interrupt, SENSITIVITY LEVEL_HIGH, LOW_LATENCY 1";
@@ -204,7 +204,7 @@ BEGIN
       C_KIND_OF_INTR => X"fffffffe",
       C_KIND_OF_EDGE => X"FFFFFFFF",
       C_KIND_OF_LVL => X"FFFFFFFF",
-      C_ASYNC_INTR => X"FFFFFFFE",
+      C_ASYNC_INTR => X"FFFFFFFC",
       C_NUM_SYNC_FF => 2,
       C_ADDR_WIDTH => 32,
       C_IVAR_RESET_VALUE => X"0000000000000010",

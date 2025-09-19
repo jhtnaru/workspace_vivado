@@ -30,7 +30,7 @@ eval( EAInclude(ISEJScriptLib) );
 // pre-commands:
 ISETouchFile( "write_bitstream", "begin" );
 ISEStep( "vivado",
-         "-log soc_intc_stopwatch_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source soc_intc_stopwatch_wrapper.tcl -notrace" );
+         "-log soc_fan_motor_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source soc_fan_motor_wrapper.tcl -notrace" );
 
 
 

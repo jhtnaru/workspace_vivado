@@ -2,7 +2,7 @@
 //Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-//Date        : Fri Sep 12 15:16:37 2025
+//Date        : Mon Sep 15 09:17:30 2025
 //Host        : user16-B70TV-AN5TB8W running 64-bit Ubuntu 24.04.3 LTS
 //Command     : generate_target soc_intc_stopwatch.bd
 //Design      : soc_intc_stopwatch
@@ -963,6 +963,7 @@ module soc_intc_stopwatch
   (* X_INTERFACE_INFO = "xilinx.com:interface:uart:1.0 usb_uart TxD" *) output usb_uart_txd;
 
   wire axi_gpio_0_ip2intc_irpt;
+  wire axi_uartlite_0_interrupt;
   wire iic_rtl_scl_i;
   wire iic_rtl_scl_o;
   wire iic_rtl_scl_t;
@@ -1167,7 +1168,8 @@ module soc_intc_stopwatch
         .sda_o(iic_rtl_sda_o),
         .sda_t(iic_rtl_sda_t));
   soc_intc_stopwatch_axi_uartlite_0_0 axi_uartlite_0
-       (.rx(usb_uart_rxd),
+       (.interrupt(axi_uartlite_0_interrupt),
+        .rx(usb_uart_rxd),
         .s_axi_aclk(microblaze_riscv_0_Clk),
         .s_axi_araddr(microblaze_riscv_0_axi_periph_M01_AXI_ARADDR[3:0]),
         .s_axi_aresetn(proc_sys_reset_0_peripheral_aresetn),
@@ -1429,7 +1431,7 @@ module soc_intc_stopwatch
         .SYS_Rst(proc_sys_reset_0_bus_struct_reset));
   soc_intc_stopwatch_microblaze_riscv_0_xlconcat_0 microblaze_riscv_0_xlconcat
        (.In0(axi_gpio_0_ip2intc_irpt),
-        .In1(1'b0),
+        .In1(axi_uartlite_0_interrupt),
         .dout(microblaze_riscv_0_intr));
   soc_intc_stopwatch_myip_stop_watch_0_0 myip_stop_watch_0
        (.s00_axi_aclk(microblaze_riscv_0_Clk),

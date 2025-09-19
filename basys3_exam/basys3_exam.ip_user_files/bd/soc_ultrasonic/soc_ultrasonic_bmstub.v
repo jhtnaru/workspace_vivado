@@ -9,7 +9,10 @@ module soc_ultrasonic (
   reset,
   sys_clock,
   usb_uart_rxd,
-  usb_uart_txd
+  usb_uart_txd,
+  led_0,
+  ultra_echo_0,
+  ultra_trig_0
 );
 
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.RESET RST" *)
@@ -25,6 +28,12 @@ module soc_ultrasonic (
   input usb_uart_rxd;
   (* X_INTERFACE_INFO = "xilinx.com:interface:uart:1.0 usb_uart TxD" *)
   output usb_uart_txd;
+  (* X_INTERFACE_IGNORE = "true" *)
+  output [15:0]led_0;
+  (* X_INTERFACE_IGNORE = "true" *)
+  input ultra_echo_0;
+  (* X_INTERFACE_IGNORE = "true" *)
+  output ultra_trig_0;
 
   // stub module has no contents
 

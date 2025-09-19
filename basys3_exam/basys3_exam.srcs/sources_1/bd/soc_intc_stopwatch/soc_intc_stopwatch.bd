@@ -1214,6 +1214,12 @@
           "microblaze_riscv_0_xlconcat/In0"
         ]
       },
+      "axi_uartlite_0_interrupt": {
+        "ports": [
+          "axi_uartlite_0/interrupt",
+          "microblaze_riscv_0_xlconcat/In1"
+        ]
+      },
       "mdm_1_debug_sys_rst": {
         "ports": [
           "mdm_1/Debug_SYS_Rst",

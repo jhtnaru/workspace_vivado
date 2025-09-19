@@ -1182,3 +1182,173 @@ module fan_motor_top (
     fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
         .fnd_value(speed), .hex_bcd(0), .seg_7(seg_7), .dp(dp), .com(com));
 endmodule
+
+module rtc_test_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    inout rtc_dat,
+    output rtc_clk, rtc_rst,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+    
+    reg read_en;
+    wire [7:0] sec, min, hour;
+    wire [7:0] date, month, day, year;
+    wire data_valid, busy;
+    rtc_read_cntr rtc_read (.clk(clk), .reset_p(reset_p),
+        .read_en(read_en), .rtc_dat(rtc_dat), .rtc_clk(rtc_clk), .rtc_rst(rtc_rst),
+        .sec(sec), .min(min), .hour(hour), .date(date), .month(month), .day(day), .year(year),
+        .data_valid(data_valid), .busy(busy));
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    wire [15:0] fnd_value;
+    reg [1:0] fnd_cnt;
+
+    assign led[7:0] = hour;
+    assign led[15:8] = date;
+    assign fnd_value = {min, sec};
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            read_en <= 0;
+            fnd_cnt <= 0;
+        end
+        else begin
+            if (btn_pedge[0] && !busy) read_en <= 1;
+            if (data_valid) read_en <= 0;
+            if (btn_pedge[1]) begin
+                if (fnd_cnt >= 2) fnd_cnt <= 0;
+                else fnd_cnt <= fnd_cnt + 1;
+            end
+        end
+    end
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+        .fnd_value(fnd_value), .hex_bcd(1), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule
+
+module stepper_test_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    output [3:0] step_out,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    reg [4:0] step_mode;
+    reg step_start;
+    reg [11:0] step_angle;
+    reg step_dir;
+    stepper_cntr stepby (.clk(clk), .reset_p(reset_p),
+        .step_mode(step_mode), .step_start(step_start), .step_angle(step_angle), .step_dir(step_dir),
+        .step_out(step_out));
+    
+    assign led[0] = step_start;
+    assign led[1] = step_dir;
+    assign led[6:2] = step_mode;
+    assign led[10:7] = step_acnt;
+
+    reg [3:0] step_acnt = 1;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            step_mode <= 4'b0001;
+            step_start <= 0;
+            step_angle <= 90;
+            step_dir <= 1;
+            step_acnt <= 1;
+        end
+        else begin
+            if (btn_pedge[0]) begin
+                step_start <= ~step_start;
+            end
+            else if (btn_pedge[1]) begin
+                if (step_mode == 5'b10000) step_mode <= 5'b00001;
+                else step_mode <= step_mode << 1;
+            end
+            else if (btn_pedge[2]) begin
+                step_dir <= ~step_dir;
+            end
+            else if (btn_pedge[3]) begin
+                if (step_angle >= 720) begin
+                    step_angle <= 90;
+                    step_acnt <= 1;
+                end
+                else begin
+                    step_angle <= step_angle + 90;
+                    step_acnt <= step_acnt + 1;
+                end
+            end
+        end
+    end
+endmodule
+
+//
+module fan_test_top (
+    input clk, reset_p,
+    input [3:0] btn,
+    output [1:0] fan_out,
+    output [6:0] seg_7,
+    output dp,
+    output [3:0] com,
+    output [15:0] led
+    );
+
+    wire [3:0] btn_pedge;
+    btn_cntr btn0 (clk, reset_p, btn[0], btn_pedge[0]);
+    btn_cntr btn1 (clk, reset_p, btn[1], btn_pedge[1]);
+    btn_cntr btn2 (clk, reset_p, btn[2], btn_pedge[2]);
+    btn_cntr btn3 (clk, reset_p, btn[3], btn_pedge[3]);
+
+    reg [2:0] fan_mode = 3'b001;
+    reg fan_start = 0;
+    reg fan_dir = 1;
+    reg [7:0] fan_duty = 100;
+    fan_cntr fan_motor (.clk(clk), .reset_p(reset_p),
+        .fan_mode(fan_mode), .fan_start(fan_start), .fan_dir(fan_dir),
+        .fan_duty(fan_duty), .fan_out(fan_out));
+    
+    assign led[0] = fan_start;
+    assign led[1] = fan_dir;
+    assign led[4:2] = fan_mode;
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            fan_mode <= 3'b001;
+            fan_start <= 0;
+            fan_dir <= 1;
+            fan_duty <= 100;
+        end
+        else begin
+            if (btn_pedge[0]) begin
+                fan_start <= ~fan_start;
+            end
+            else if (btn_pedge[1]) begin
+                if (fan_mode == 3'b100) fan_mode <= 3'b001;
+                else fan_mode <= fan_mode << 1;
+            end
+            else if (btn_pedge[2]) begin
+                fan_dir <= ~fan_dir;
+            end
+            else if (btn_pedge[3]) begin
+                if (fan_duty >= 250) fan_duty <= 100;
+                else fan_duty <= fan_duty + 10;
+            end
+        end
+    end
+
+    // FND 4-Digit Output
+    fnd_cntr fnd (.clk(clk), .reset_p(reset_p),
+        .fnd_value(fan_duty), .hex_bcd(0), .seg_7(seg_7), .dp(dp), .com(com));
+endmodule

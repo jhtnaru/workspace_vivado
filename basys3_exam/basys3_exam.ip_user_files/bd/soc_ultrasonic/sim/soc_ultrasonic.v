@@ -2,7 +2,7 @@
 //Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-//Date        : Fri Sep  5 14:41:46 2025
+//Date        : Fri Sep  5 14:45:37 2025
 //Host        : user16-B70TV-AN5TB8W running 64-bit Ubuntu 24.04.3 LTS
 //Command     : generate_target soc_ultrasonic.bd
 //Design      : soc_ultrasonic
@@ -223,14 +223,20 @@ module microblaze_riscv_0_local_memory_imp_1GP0RWI
         .web({microblaze_riscv_0_ilmb_cntlr_WE[0],microblaze_riscv_0_ilmb_cntlr_WE[1],microblaze_riscv_0_ilmb_cntlr_WE[2],microblaze_riscv_0_ilmb_cntlr_WE[3]}));
 endmodule
 
-(* CORE_GENERATION_INFO = "soc_ultrasonic,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=soc_ultrasonic,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=12,numReposBlks=11,numNonXlnxBlks=0,numHierBlks=1,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=1,da_board_cnt=2,da_clkrst_cnt=1,da_microblaze_riscv_cnt=1,synth_mode=None}" *) (* HW_HANDOFF = "soc_ultrasonic.hwdef" *) 
+(* CORE_GENERATION_INFO = "soc_ultrasonic,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=soc_ultrasonic,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=13,numReposBlks=12,numNonXlnxBlks=1,numHierBlks=1,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=2,da_board_cnt=2,da_clkrst_cnt=1,da_microblaze_riscv_cnt=1,synth_mode=None}" *) (* HW_HANDOFF = "soc_ultrasonic.hwdef" *) 
 module soc_ultrasonic
-   (reset,
+   (led_0,
+    reset,
     sys_clock,
+    ultra_echo_0,
+    ultra_trig_0,
     usb_uart_rxd,
     usb_uart_txd);
+  output [15:0]led_0;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.RESET RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH" *) input reset;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.SYS_CLOCK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.SYS_CLOCK, CLK_DOMAIN soc_ultrasonic_sys_clock, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input sys_clock;
+  input ultra_echo_0;
+  output ultra_trig_0;
   (* X_INTERFACE_INFO = "xilinx.com:interface:uart:1.0 usb_uart RxD" *) (* X_INTERFACE_MODE = "Master" *) input usb_uart_rxd;
   (* X_INTERFACE_INFO = "xilinx.com:interface:uart:1.0 usb_uart TxD" *) output usb_uart_txd;
 
@@ -251,6 +257,26 @@ module soc_ultrasonic
   wire axi_smc_M00_AXI_WREADY;
   wire [3:0]axi_smc_M00_AXI_WSTRB;
   wire axi_smc_M00_AXI_WVALID;
+  wire [4:0]axi_smc_M01_AXI_ARADDR;
+  wire [2:0]axi_smc_M01_AXI_ARPROT;
+  wire axi_smc_M01_AXI_ARREADY;
+  wire axi_smc_M01_AXI_ARVALID;
+  wire [4:0]axi_smc_M01_AXI_AWADDR;
+  wire [2:0]axi_smc_M01_AXI_AWPROT;
+  wire axi_smc_M01_AXI_AWREADY;
+  wire axi_smc_M01_AXI_AWVALID;
+  wire axi_smc_M01_AXI_BREADY;
+  wire [1:0]axi_smc_M01_AXI_BRESP;
+  wire axi_smc_M01_AXI_BVALID;
+  wire [31:0]axi_smc_M01_AXI_RDATA;
+  wire axi_smc_M01_AXI_RREADY;
+  wire [1:0]axi_smc_M01_AXI_RRESP;
+  wire axi_smc_M01_AXI_RVALID;
+  wire [31:0]axi_smc_M01_AXI_WDATA;
+  wire axi_smc_M01_AXI_WREADY;
+  wire [3:0]axi_smc_M01_AXI_WSTRB;
+  wire axi_smc_M01_AXI_WVALID;
+  wire [15:0]led_0;
   wire mdm_1_debug_sys_rst;
   wire microblaze_riscv_0_Clk;
   wire [31:0]microblaze_riscv_0_M_AXI_DP_ARADDR;
@@ -305,6 +331,8 @@ module soc_ultrasonic
   wire [0:0]proc_sys_reset_0_peripheral_aresetn;
   wire reset;
   wire sys_clock;
+  wire ultra_echo_0;
+  wire ultra_trig_0;
   wire usb_uart_rxd;
   wire usb_uart_txd;
 
@@ -326,6 +354,25 @@ module soc_ultrasonic
         .M00_AXI_wready(axi_smc_M00_AXI_WREADY),
         .M00_AXI_wstrb(axi_smc_M00_AXI_WSTRB),
         .M00_AXI_wvalid(axi_smc_M00_AXI_WVALID),
+        .M01_AXI_araddr(axi_smc_M01_AXI_ARADDR),
+        .M01_AXI_arprot(axi_smc_M01_AXI_ARPROT),
+        .M01_AXI_arready(axi_smc_M01_AXI_ARREADY),
+        .M01_AXI_arvalid(axi_smc_M01_AXI_ARVALID),
+        .M01_AXI_awaddr(axi_smc_M01_AXI_AWADDR),
+        .M01_AXI_awprot(axi_smc_M01_AXI_AWPROT),
+        .M01_AXI_awready(axi_smc_M01_AXI_AWREADY),
+        .M01_AXI_awvalid(axi_smc_M01_AXI_AWVALID),
+        .M01_AXI_bready(axi_smc_M01_AXI_BREADY),
+        .M01_AXI_bresp(axi_smc_M01_AXI_BRESP),
+        .M01_AXI_bvalid(axi_smc_M01_AXI_BVALID),
+        .M01_AXI_rdata(axi_smc_M01_AXI_RDATA),
+        .M01_AXI_rready(axi_smc_M01_AXI_RREADY),
+        .M01_AXI_rresp(axi_smc_M01_AXI_RRESP),
+        .M01_AXI_rvalid(axi_smc_M01_AXI_RVALID),
+        .M01_AXI_wdata(axi_smc_M01_AXI_WDATA),
+        .M01_AXI_wready(axi_smc_M01_AXI_WREADY),
+        .M01_AXI_wstrb(axi_smc_M01_AXI_WSTRB),
+        .M01_AXI_wvalid(axi_smc_M01_AXI_WVALID),
         .S00_AXI_araddr(microblaze_riscv_0_M_AXI_DP_ARADDR),
         .S00_AXI_arprot(microblaze_riscv_0_M_AXI_DP_ARPROT),
         .S00_AXI_arready(microblaze_riscv_0_M_AXI_DP_ARREADY),
@@ -460,6 +507,31 @@ module soc_ultrasonic
         .ILMB_wait(microblaze_riscv_0_ilmb_1_WAIT),
         .LMB_Clk(microblaze_riscv_0_Clk),
         .SYS_Rst(proc_sys_reset_0_bus_struct_reset));
+  soc_ultrasonic_myip_ultrasonic_0_0 myip_ultrasonic_0
+       (.led(led_0),
+        .s00_axi_aclk(microblaze_riscv_0_Clk),
+        .s00_axi_araddr(axi_smc_M01_AXI_ARADDR),
+        .s00_axi_aresetn(proc_sys_reset_0_peripheral_aresetn),
+        .s00_axi_arprot(axi_smc_M01_AXI_ARPROT),
+        .s00_axi_arready(axi_smc_M01_AXI_ARREADY),
+        .s00_axi_arvalid(axi_smc_M01_AXI_ARVALID),
+        .s00_axi_awaddr(axi_smc_M01_AXI_AWADDR),
+        .s00_axi_awprot(axi_smc_M01_AXI_AWPROT),
+        .s00_axi_awready(axi_smc_M01_AXI_AWREADY),
+        .s00_axi_awvalid(axi_smc_M01_AXI_AWVALID),
+        .s00_axi_bready(axi_smc_M01_AXI_BREADY),
+        .s00_axi_bresp(axi_smc_M01_AXI_BRESP),
+        .s00_axi_bvalid(axi_smc_M01_AXI_BVALID),
+        .s00_axi_rdata(axi_smc_M01_AXI_RDATA),
+        .s00_axi_rready(axi_smc_M01_AXI_RREADY),
+        .s00_axi_rresp(axi_smc_M01_AXI_RRESP),
+        .s00_axi_rvalid(axi_smc_M01_AXI_RVALID),
+        .s00_axi_wdata(axi_smc_M01_AXI_WDATA),
+        .s00_axi_wready(axi_smc_M01_AXI_WREADY),
+        .s00_axi_wstrb(axi_smc_M01_AXI_WSTRB),
+        .s00_axi_wvalid(axi_smc_M01_AXI_WVALID),
+        .ultra_echo(ultra_echo_0),
+        .ultra_trig(ultra_trig_0));
   soc_ultrasonic_proc_sys_reset_0_0 proc_sys_reset_0
        (.aux_reset_in(1'b1),
         .bus_struct_reset(proc_sys_reset_0_bus_struct_reset),
