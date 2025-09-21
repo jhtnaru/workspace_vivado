@@ -1372,6 +1372,7 @@ module servo_cntr (
                         end
                         ONETIME  : begin
                             if (step < (40 + servo_angle)) step <= step + 1;
+                            else if (step > (40 + servo_angle)) step <= step - 1;
                         end
                         default  : begin
                             if (step <= 40) servo_dir <= 1;
@@ -1602,6 +1603,79 @@ module fan_cntr (
         end
         else begin
             fan_out <= 2'b00;
+        end
+    end
+endmodule
+
+//
+module sensor_adc_cntr (
+    input clk, reset_p,
+    input vauxp6, vauxn6,                       // XA1
+    input vauxp14, vauxn14,                     // XA2
+    output reg [11:0] adc_value1, adc_value2
+    );
+
+    wire [4:0] channel_out;
+    wire [15:0] do_out;                         // do_out 16-bit, but Actual Value 12-bit
+    wire eoc_out;
+    xadc_wiz_0 adc_0 (.daddr_in({2'b00, channel_out}), .dclk_in(clk),
+        .den_in(eoc_out), .reset_in(reset_p),
+        .vauxp6(vauxp6), .vauxn6(vauxn6), .vauxp14(vauxp14), .vauxn14(vauxn14),
+        .channel_out(channel_out), .do_out(do_out), .eoc_out(eoc_out));
+    
+    // Edge Detection of EOC
+    wire eoc_pedge;
+    edge_detector_pos eoc_ed (.clk(clk), .reset_p(reset_p), .cp(eoc_out), .p_edge(eoc_pedge));
+
+
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            adc_value1 <= 0;
+            adc_value2 <= 0;
+        end
+        else if (eoc_pedge) begin
+            case (channel_out[3:0])
+                6  : adc_value1 <= do_out[15:4];
+                14 : adc_value2 <= do_out[15:4];
+            endcase
+        end
+    end
+endmodule
+
+//
+module sensor_dgt_cntr (
+    input clk, reset_p,
+    input sensor,
+    output reg sensor_out
+    );
+    
+    reg [27:0] cnt_on = 0;
+    reg [27:0] cnt_off = 0;
+    
+    // 메인 클럭(clk)을 사용하여 동기식 로직 작성
+    always @(posedge clk, posedge reset_p) begin
+        if (reset_p) begin
+            cnt_on <= 0;
+            cnt_off <= 0;
+            sensor_out <= 0;
+        end
+        else begin
+            if (sensor) begin
+                cnt_off <= 0;
+                if (cnt_on >= 200_000_000) begin
+                    sensor_out <= 1;
+                    cnt_on <= 0;
+                end
+                else cnt_on <= cnt_on + 1;
+            end
+            else if (!sensor) begin
+                cnt_on <= 0;
+                if (cnt_off >= 200_000_000) begin
+                    sensor_out <= 0;
+                    cnt_off <= 0;
+                end
+                else cnt_off <= cnt_off + 1;
+            end
         end
     end
 endmodule

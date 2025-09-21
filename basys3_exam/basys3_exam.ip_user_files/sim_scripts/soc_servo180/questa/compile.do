@@ -184,10 +184,10 @@ vcom -work xil_defaultlib -64 -93  \
 "../../../bd/soc_servo180/ip/soc_servo180_axi_gpio_0_0/sim/soc_servo180_axi_gpio_0_0.vhd" \
 
 vlog -work xil_defaultlib -64 -incr -mfcu  "+incdir+../../../../basys3_exam.gen/sources_1/bd/soc_servo180/ipshared/3cbc" "+incdir+../../../../basys3_exam.gen/sources_1/bd/soc_servo180/ipshared/ec67/hdl" "+incdir+/home/user16/Tools/Vivado/2024.2/data/xilinx_vip/include" \
-"../../../bd/soc_servo180/ipshared/28da/hdl/myip_servo180_slave_lite_v1_0_S00_AXI.v" \
-"../../../bd/soc_servo180/ipshared/28da/src/controller.v" \
-"../../../bd/soc_servo180/ipshared/28da/src/exam02_sequential_logic.v" \
-"../../../bd/soc_servo180/ipshared/28da/hdl/myip_servo180.v" \
+"../../../bd/soc_servo180/ipshared/39a7/hdl/myip_servo180_slave_lite_v1_0_S00_AXI.v" \
+"../../../bd/soc_servo180/ipshared/39a7/src/controller.v" \
+"../../../bd/soc_servo180/ipshared/39a7/src/exam02_sequential_logic.v" \
+"../../../bd/soc_servo180/ipshared/39a7/hdl/myip_servo180.v" \
 "../../../bd/soc_servo180/ip/soc_servo180_myip_servo180_0_0/sim/soc_servo180_myip_servo180_0_0.v" \
 "../../../bd/soc_servo180/sim/soc_servo180.v" \
 

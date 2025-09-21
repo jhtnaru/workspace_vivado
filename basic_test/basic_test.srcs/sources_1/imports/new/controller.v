@@ -47,56 +47,6 @@ module fnd_cntr (
                     .seg_out(seg_7), .dp_out(dp));
 endmodule
 
-// 
-module fnd_cntr_direct_a (
-    input clk, reset_p,
-    input [31:0] fnd_value,
-    output reg [6:0] seg_7,
-    output reg dp,
-    output [3:0] com
-    );
-
-    reg [16:0] clk_div;             // Clock Divide
-
-    always @(posedge clk) begin
-        clk_div = clk_div + 1;
-    end
-
-    // Change FND Output Every 2^16 * 10ns 
-    anode_selector ring_com (.scan_count(clk_div[16:15]), .an_out(com));
-
-    always @(posedge clk or posedge reset_p) begin
-        if (reset_p) begin          // Single-Digit Value Reset
-            seg_7 = 7'b000_0000;    // FND Segment gfe_dcba
-            dp = 0;                 // Dot Point
-        end
-        else begin
-            case (com)              // Select Digit Value
-                4'b1110 : begin
-                    seg_7 = fnd_value [6:0];
-                    dp = fnd_value [7];
-                end
-                4'b1101 : begin
-                    seg_7 = fnd_value [14:8];
-                    dp = fnd_value [15];
-                end
-                4'b1011 : begin
-                    seg_7 = fnd_value [22:16];
-                    dp = fnd_value [23];
-                end
-                4'b0111 : begin
-                    seg_7 = fnd_value [30:24];
-                    dp = fnd_value [31];
-                end
-                default : begin
-                    seg_7 = 7'b000_0000;
-                    dp = 0;
-                end
-            endcase
-        end
-    end
-endmodule
-
 // Button Debounce 
 module button_debounce (
     input clk,
@@ -139,686 +89,6 @@ module btn_cntr (
     button_debounce btn_debounce (.clk(clk), .noise_btn(btn), .clean_btn(debounced_btn));
     edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
         .cp(debounced_btn), .p_edge(btn_pedge), .n_edge(btn_ndege));
-endmodule
-
-// Watch Module, Second & Minute, Set Increase & Count
-module watch (
-    input clk, reset_p,
-    input btn_mode, inc_sec, inc_min, btn_clear,    // Input Button
-    output reg [7:0] sec, min,                      // Output Time
-    output reg set_watch                            // Output State
-    );
-
-    reg [26:0] cnt_sysclk;                          // Clock Division
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin                          // Mode Reset
-            set_watch = 0;                          // Start Mode
-        end
-        else if (btn_mode) begin
-            set_watch = ~set_watch;                 // Mode Toggle, Start ↔ Set
-        end
-    end
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin                          // Time Reset
-            cnt_sysclk = 1;
-            sec = 0;
-            min = 0;
-        end
-        else begin
-            if (set_watch) begin                    // Set Mode
-                if (inc_sec) begin
-                    if (sec >= 59) begin            // 0 ~ 59 Second Count
-                        sec = 0;
-                    end
-                    else begin
-                        sec = sec + 1;              // Second Increase
-                    end
-                end
-                if (inc_min) begin
-                    if (min >= 59) begin            // 0 ~ 59 Minute Count
-                        min = 0;
-                    end
-                    else begin
-                        min = min + 1;              // Minute Increase
-                    end
-                end
-            end
-            else begin                              // Start Mode
-                if (cnt_sysclk >= 27'd100_000_000) begin    // 10ns x 100,000,000 = 1s
-                    cnt_sysclk = 1;
-                    if (sec >= 59) begin            // 0 ~ 59 Second Count
-                        sec = 0;
-                        if (min >= 59) begin        // 0 ~ 59 Minute Count
-                            min = 0;
-                        end
-                        else begin
-                            min = min + 1;          // Secound Count
-                        end
-                    end
-                    else begin
-                        sec = sec + 1;              // Minute Count
-                    end
-                end
-                cnt_sysclk = cnt_sysclk + 1;        // Count for Clock Division
-            end
-            if (btn_clear) begin
-                cnt_sysclk = 1;
-                sec = 0;
-                min = 0;
-            end
-        end
-    end
-endmodule
-
-// Timer Module, Set Time & Down Count, Alarm when Time Up
-module cook_timer (
-    input clk, reset_p,
-    input btn_mode, inc_sec, inc_min, btn_clear,
-    output reg [7:0] sec, min,
-    output reg start_set, alarm
-    );
-
-    reg [26:0] cnt_sysclk;                          // Clock Division Count
-    reg [7:0] set_sec, set_min;
-    reg set_flag;                                   // Alarm Off Flag
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin                          // State Reset
-            start_set = 0;                          // State Stop, Set Mode
-            alarm = 0;                              // Alarm Off
-            set_flag = 0;
-        end
-        // Mode Button Input & State Stop
-        else if (btn_mode && start_set == 0 && alarm == 0) begin
-            // Start Only when Seconds and Minutes not 0
-            if (sec != 0 || min != 0) begin
-                start_set = 1;                      // Mode Start
-                set_sec = sec;                      // Save Previous Seconds
-                set_min = min;                      // Save Previous Minutes
-            end
-        end
-        // Mode Button Input & State Start
-        else if (btn_mode && start_set && alarm == 0) begin
-            start_set = 0;                          // Mode Stop
-        end
-        // Alarm when 0 Minutes, 0 Seconds Pass
-        else if (start_set && min == 0 && sec == 0) begin
-            start_set = 0;                          // Mode Start → Stop
-            alarm = 1;                              // Alarm On
-        end
-        // Button Input → Alarm Off
-        else if (alarm && (inc_sec || inc_min || btn_mode)) begin
-            alarm = 0;                              // Alarm Off
-            set_flag = 1;                           // Alarm Flag On
-        end
-        // Alarm Flag On & Seconds and Minutes not 0
-        else if (set_flag && (sec != 0 || min != 0)) begin
-            set_flag = 0;                           // Alarm Flag Clear
-        end
-        else if (btn_clear) begin
-            start_set = 0;
-            alarm = 0;
-            set_flag = 0;
-            set_sec = 0;
-            set_min = 0;
-        end
-    end
-
-    always @(posedge clk, posedge reset_p) begin
-        // Time Reset
-        if (reset_p) begin
-            cnt_sysclk = 1;                         // Clock Division Count Reset
-            sec = 0;                                // Second Reset
-            min = 0;                                // Minute Reset
-        end
-        else begin
-            // State Start
-            if (start_set) begin
-                // Clock Divide, 10ns x 100,000,000 = 1 Second
-                if (cnt_sysclk >= 100_000_000) begin
-                    cnt_sysclk = 1;                 // Clock Division Count Reset
-                    if (sec == 0) begin             // 0 Seconds Pass
-                        if (min) begin              // Minutes not 0
-                            sec = 59;               // 0 ~ 59 Second Count
-                            min = min - 1;          // Minute Down Count
-                        end
-                    end
-                    else begin
-                        sec = sec - 1;              // Second Down Count
-                    end
-                end
-                else begin
-                    cnt_sysclk = cnt_sysclk + 1;    // Count for Clock Division
-                end
-            end
-            else begin                              // State Stop & Set Mode
-                if (inc_sec && alarm == 0) begin    // Input Increase Second Button & Alarm Off State
-                    if(sec >= 59) begin             // 0 ~ 59 Second Set
-                        sec = 0;
-                    end
-                    else begin
-                        sec = sec + 1;              // Second Increase
-                    end
-                end
-                if (inc_min && alarm == 0) begin    // Input Increase Minute Button & Alarm Off State
-                    if (min >= 59) begin            // 0 ~ 59 Minute Set
-                        min = 0;
-                    end
-                    else begin
-                        min = min + 1;              // Minute Increase
-                    end
-                end
-                if (set_flag) begin                 // Alarm Flag On
-                    sec = set_sec;                  // Previous Second Set
-                    min = set_min;                  // Previous Minute Set
-                end
-            end
-            if (btn_clear) begin
-                cnt_sysclk = 1;
-                sec = 0;
-                min = 0;
-            end
-        end
-    end
-endmodule
-
-// Stop Watch Module
-module stop_watch (
-    input clk, reset_p,
-    input btn_start, btn_lap, btn_clear,
-    output [7:0] fnd_csec, fnd_sec,
-    output reg start_stop, lap
-    );
-    
-    reg [26:0] cnt_sysclk;                          // Clock Division Count
-    reg [7:0] sec, csec;                            // HEX Format Time, Second, Subsecond
-    reg [7:0] lap_sec, lap_csec;                    // Middle Record Time
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            start_stop = 0;                         // Reset, Stop Mode
-        end
-        else if (btn_start) begin
-            start_stop = ~start_stop;               // Mode Toggle, Start ↔ Stop
-        end
-    end
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            lap = 0;                                // Lap Clear
-            lap_sec = 0;                            // Middle Record Reset
-            lap_csec = 0;
-        end
-        else if (btn_lap && (csec != 0 || sec != 0)) begin                     // Input Lap Button
-            lap = ~lap;                             // Mode Toggle, Middle Record Show ↔ Not Show
-            lap_sec = sec;                          // Time Middle Record
-            lap_csec = csec;
-        end
-        else if (btn_clear) begin                   // Input Clear Button
-            lap = 0;                                // Lap Clear
-            lap_sec = 0;                            // Middle Record Reset
-            lap_csec = 0;
-        end
-    end
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            cnt_sysclk = 1;                         // Clock Division Count Reset
-            csec = 0;
-            sec = 0;                                // Time Reset
-        end
-        else begin
-            if (start_stop) begin
-                if (cnt_sysclk >= 1_000_000) begin  // 1ns * 1,000,000 = 0.01s
-                    cnt_sysclk = 1;                 // Clock Division Count Reset
-                    if (csec >= 99) begin           // 0 ~ 99 Sub Second Count
-                        csec = 0;
-                        if (sec >= 99) begin        // 0 ~ 99 Second Count
-                            sec = 0;
-                        end
-                        else begin
-                            sec = sec + 1;          // Second Up Count
-                        end
-                    end
-                    else begin
-                        csec = csec + 1;            // Sub Second Up Count
-                    end
-                end
-                else begin
-                    cnt_sysclk = cnt_sysclk + 1;    // Count for Clock Division
-                end
-            end
-            if (btn_clear) begin                    // Input Clear Button, Maintain Start State
-                cnt_sysclk = 1;                     // Clock Division Count Reset
-                csec = 0;                           // Time Reset
-                sec = 0;
-            end
-        end
-    end
-
-    // Determine FND Output by Middle Recode Mode
-    assign fnd_csec = lap ? lap_csec : csec;
-    assign fnd_sec = lap ? lap_sec : sec;
-endmodule
-
-// Humidity & Temperature Sensor data read & write, FSM
-module dht11_cntr (
-    input clk, reset_p,
-    inout dht11_data,                           // Input + Output, reg Declaration Not Possible
-    output reg [7:0] humidity, temperature,     // Output Measurement
-    output [15:0] led                           // for Debugging
-    );
-
-    // Change State Using Shift
-    localparam S_IDLE       = 6'b00_0001;       // Standby State
-    localparam S_LOW_18MS   = 6'b00_0010;       // MCU Sends Out Start Signal
-    localparam S_HIGH_20US  = 6'b00_0100;       // MCU Pull Up & Wait for Sensor Response
-    localparam S_LOW_80US   = 6'b00_1000;       // DHT Sends Out Response Signal
-    localparam S_HIGH_80US  = 6'b01_0000;       // DHT Pull Up & Get Ready Data
-    localparam S_READ_DATA  = 6'b10_0000;       // DHT Data Read
-
-    localparam S_WAIT_PEDGE = 2'b01;            // Start to Transmit 1-bit Data
-    localparam S_WAIT_NEDGE = 2'b10;            // Voltage Length Measurement
-
-
-    // Clock Divide 100, 10ns x 100 = 1us
-    wire clk_usec_nedge;                        // Divide Clock 1us
-    clock_div_100 us_clk (.clk(clk), .reset_p(reset_p), .nedge_div_100(clk_usec_nedge));
-
-    // us Unit Count
-    reg [21:0] cnt_usec;                        // us Count
-    reg cnt_usec_e;                             // us Count Enable
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) cnt_usec = 0;              // Count Clear
-        else if (clk_usec_nedge && cnt_usec_e) begin    // Count Start when Enable & us Negative Edge
-            cnt_usec = cnt_usec + 1;            // Count During Enable
-        end
-        else if (!cnt_usec_e) cnt_usec = 0;     // Count Clear when Disable
-    end
-
-    // Edge Detection of DHT Signal
-    wire dht_nedge, dht_pedge;
-    edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
-        .cp(dht11_data), .p_edge(dht_pedge), .n_edge(dht_nedge));
-
-    // Input Cannot be Declared as reg, Use Buffer
-    reg dht11_buffer;                           // Buffer
-    reg dht11_data_out_e;                       // Write Mode Enable Output, Disable Input
-    assign dht11_data = dht11_data_out_e ? dht11_buffer : 'bz; // Output dout, Input Impedance Value
-
-    reg [5:0] state, next_state;                // Current & Next State
-    assign led [5:0] = state;                   // State LED Output
-    reg [1:0] read_state;                       // Data Read State
-    // Change State in Negative Edge
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) state = S_IDLE;            // Basic Standby State
-        else state = next_state;                // Change State in Negative Edge
-    end
-
-    reg [39:0] temp_data;                       // DHT Output Data 40-bit
-    reg [5:0] data_cnt;                         // Counting to 40
-    assign led [11:6] = data_cnt;
-    // Set Next State in Positive Edge
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            next_state = S_IDLE;                // Basic Stanby State
-            temp_data = 0;                      // DHT Data Reset
-            data_cnt = 0;                       // DHT Data Count Reset
-            dht11_data_out_e = 0;               // DHT Write Disable, Input
-            read_state = S_WAIT_PEDGE;          // Data Read Pull-Up High
-        end
-        else begin
-            case (state)
-                S_IDLE      : begin             // Standby State
-                    if (cnt_usec < 22'd3_000_000) begin     // Real 3_000_000, Test 3_000
-                        cnt_usec_e = 1;         // us Count Enable
-                        dht11_data_out_e = 0;   // DHT Input Mode
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // Count Clear
-                        next_state = S_LOW_18MS;// Change State S_LOW_18MS
-                    end
-                end
-                S_LOW_18MS  : begin             // MCU Sends Out Start Signal
-                    if (cnt_usec < 22'd18_000) begin    // Real 18_000, Test 18
-                        cnt_usec_e = 1;         // us Count Enable
-                        dht11_data_out_e = 1;   // DHT Output Mode
-                        dht11_buffer = 0;       // Buffer Reset
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_HIGH_20US;   // Change State S_HIGH_20US
-                        dht11_data_out_e = 0;   // DHT Input Mode
-                    end
-                end
-                // It is Supposed to Respond after 20us, but in Reality, Response Occurs before that.
-                // Remove 20us Waiting Part
-                S_HIGH_20US : begin             // MCU Pull Up & Wait for Sensor Response
-                    cnt_usec_e = 1;             // Count for Checking Response Time
-                    if (cnt_usec > 22'd100_000) begin   // No Response 100ms, Comunication Error, Etc..
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_IDLE;    // Change State S_IDLE
-                    end
-                    if (dht_nedge) begin        // DHT Response, No Count
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_LOW_80US;    // Change State S_LOW_80US
-                    end
-                end
-                S_LOW_80US  : begin             // DHT Sends Out Response Signal
-                    cnt_usec_e = 1;             // Count for Checking Response Time
-                    if (cnt_usec > 22'd100_000) begin   // No Response 100ms, Comunication Error, Etc..
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_IDLE;    // Change State S_IDLE
-                    end
-                    if (dht_pedge) begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_HIGH_80US;    // No Need to Count, Change State
-                    end
-                end
-                S_HIGH_80US : begin             // DHT Pull Up & Get Ready Data
-                    cnt_usec_e = 1;             // Count for Checking Response Time
-                    if (cnt_usec > 22'd100_000) begin   // No Response 100ms, Comunication Error, Etc..
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_IDLE;    // Change State S_IDLE
-                    end
-                    if (dht_nedge) begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_READ_DATA;    // No Need to Count, Change State
-                    end
-                end
-                S_READ_DATA : begin             // DHT Data Read
-                    case (read_state)
-                        S_WAIT_PEDGE : begin    // Current Low, Wait High
-                            // High Signal Generation
-                            if (dht_pedge) read_state = S_WAIT_NEDGE;   // Change State
-                            cnt_usec_e = 0;     // us Count Disable, Clear
-                        end
-                        S_WAIT_NEDGE : begin    // Current High, Wait Low
-                            // Low Signal Generation
-                            if (dht_nedge) begin
-                                read_state = S_WAIT_PEDGE;              // Change State
-                                data_cnt = data_cnt + 1;                // Counting to 40
-                            if (cnt_usec < 50) begin        // Distinguish by Signal Length
-                                    temp_data = {temp_data[38:0], 1'b0};    // Shift Left & Enter Value in LSM
-                                end
-                                else begin
-                                    temp_data = {temp_data[38:0], 1'b1};
-                                end
-                            end
-                            else begin
-                                cnt_usec_e = 1;     // us Count Enable
-                                if (cnt_usec > 22'd100_000) begin   // No Response 100ms, Comunication Error, Etc..
-                                    cnt_usec_e = 0;         // us Count Disable, Clear
-                                    next_state = S_IDLE;
-                                    data_cnt = 0;           // DHT Data Count Reset
-                                    read_state = S_WAIT_PEDGE;
-                                end
-                            end
-                        end
-                    endcase
-
-                    if (data_cnt >= 40) begin   // 40-bit Read Completed
-                        next_state = S_IDLE;    // Basic Stanby State
-                        data_cnt = 0;           // DHT Data Count Reset
-    // DHT11 Data = Humidity Integral 8-bit + Decimal 8-bit + Temperature Integral 8-bit + Decimal 8-bit + Check Sum 8-bit
-                        // Compare Upper 32-bits of Sum with Checksum
-                        if ((temp_data[39:32] + temp_data[31:24] + temp_data[23:16] + temp_data[15:8]) == temp_data[7:0]) begin
-                            humidity = temp_data[39:32];        // Use only Integer Values
-                            temperature = temp_data[23:16];
-                        end
-                    end
-                end
-                default : next_state = S_IDLE;  // Basic Stanby State
-            endcase
-        end
-    end
-endmodule
-
-// Ultrasonic Sensor, FSM
-module ultrasonic_cntr (
-    input clk, reset_p,
-    input ultra_echo,                           // Input Echo Pulse
-    output reg ultra_trig,                      // Output Initiate Signal
-    output reg [11:0] distance,                 // Distance Calculation
-    output [15:0] led                           // for Debugging, State Output
-    );
-    
-    // Change State Using Shift
-    localparam S_IDLE   = 5'b0_0001;            // Standby State
-    localparam S_TIRG_H = 5'b0_0010;            // Trig Pin High Signal Transmission
-    localparam S_TIRG_L = 5'b0_0100;            // Trig Pin Low Signal Transmission
-    localparam S_ECHO_H = 5'b0_1000;            // Echo Pin High Signal Reception
-    localparam S_ECHO_L = 5'b1_0000;            // Echo Pin Low Signal Reception & Distance Calculation
-
-    // Clock Divide 100, 10ns x 100 = 1us
-    wire clk_usec_nedge;                        // Divide Clock 1us
-    clock_div_100 us_clk (.clk(clk), .reset_p(reset_p), .nedge_div_100(clk_usec_nedge));
-
-    // us Unit Count
-    reg [21:0] cnt_usec;                        // us Count
-    reg cnt_usec_e;                             // us Count Enable
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) cnt_usec = 0;              // Count Clear
-        else if (clk_usec_nedge && cnt_usec_e) begin    // Count Start when Enable & us Negative Edge
-            cnt_usec = cnt_usec + 1;            // Count During Enable
-        end
-        else if (!cnt_usec_e) cnt_usec = 0;     // Count Clear when Disable
-    end
-
-    reg [21:0] div_usec_58;                     // Count for Division by 58
-    reg div_usec_58_e;                          // Count Enable
-    reg [11:0] cnt_dist;                        // Distance Count
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            div_usec_58 = 0;                    // Count Reset
-            cnt_dist = 0;                       // Distance Count Reset
-        end
-        else if (clk_usec_nedge && div_usec_58_e) begin    // Count Start when Enable & us Negative Edge
-            if (div_usec_58 >= 57) begin        // When 58us
-                div_usec_58 = 0;                // Count Reset
-                cnt_dist = cnt_dist + 1;        // Distance Increase
-            end
-            else div_usec_58 = div_usec_58 + 1; // Count During Enable
-        end
-        else if (!div_usec_58_e) begin
-            div_usec_58 = 0;                    // Count Reset when Disable
-            cnt_dist = 0;                       // Distance Reset when Disable
-        end
-    end
-
-    // Edge Detection of Ultrasonic Echo Signal
-    wire ultra_nedge, ultra_pedge;
-    edge_detector_pos btn_ed (.clk(clk), .reset_p(reset_p),
-        .cp(ultra_echo), .p_edge(ultra_pedge), .n_edge(ultra_nedge));
-
-    reg [4:0] state, next_state;                // Current & Next State
-    assign led [4:0] = state;                   // State LED Output
-    assign led [5] = ultra_trig;                // Trig Signal LED Output
-    assign led [6] = ultra_echo;                // Echo Signal LED Output
-    // Change State in Negative Edge
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) state = S_IDLE;            // Basic Standby State
-        else state = next_state;                // Change State in Negative Edge
-    end
-
-    // reg [14:0] echo_time;                       // Echo Pulse Width
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            next_state = S_IDLE;                // Basic Standby State
-        end
-        else begin
-            case (state)
-                S_IDLE   : begin                // Standby State
-                    if (cnt_usec < 22'd200_000) begin   // Real 200_000, Test 1_000
-                        cnt_usec_e = 1;         // us Count Enable
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_TIRG_H;  // Change State S_TIRG_H
-                    end
-                end
-                S_TIRG_H : begin                // Trig Pin High Signal Transmission
-                    if (cnt_usec < 22'd10) begin    // Hold High Signal for 10us
-                        cnt_usec_e = 1;         // us Count Enable
-                        ultra_trig = 1;         // Trig Pin High Signal
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_TIRG_L;  // Change State S_TIRG_L
-                    end
-                end
-                S_TIRG_L : begin                // Trig Pin Low Signal Transmission
-                    ultra_trig = 0;             // Trig Pin Low Signal
-                    cnt_usec_e = 1;             // Count for Checking Response Time
-                    if (cnt_usec > 22'd200_000) begin   // No Response 200ms, Error, Etc..
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        next_state = S_IDLE;    // Change State S_IDLE
-                    end
-                    if (ultra_pedge) begin      // Check Echo High Signal
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        div_usec_58_e = 1;      // Enable 58us Count
-                        next_state = S_ECHO_H;  // Change State S_ECHO_H
-                    end
-                end
-                S_ECHO_H : begin                // Echo Pin High Signal Reception
-                    cnt_usec_e = 1;             // us Count Enable
-                    if (cnt_usec > 22'd25_000) begin   // No Response 25ms, Error, Etc..
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        div_usec_58_e = 0;      // 
-                        next_state = S_IDLE;    // Change State S_IDLE
-                    end
-                    if (ultra_nedge) begin      // Check Echo Low Signal
-                        // echo_time = cnt_usec;   // Echo Pulse Width Record, us
-                        distance = cnt_dist;    // Distance Record
-                        next_state = S_ECHO_L;  // Change State S_ECHO_L
-                    end
-                end
-                S_ECHO_L : begin                // Echo Pin Low Signal Reception
-                    cnt_usec_e = 0;             // us Count Disable, Clear
-                    div_usec_58_e = 0;          // 58us Count Disable, Clear
-                    // distance = echo_time / 58;  // Distance Calculation
-                    next_state = S_IDLE;        // Change State S_IDLE
-                end
-                default  : next_state = S_IDLE; // Basic Stanby State
-            endcase
-        end
-    end
-endmodule
-
-// 4 x 4 Keypad, FSM
-module keypad_cntr (
-    input clk, reset_p,
-    input [3:0] row,                            // Input Row Values when Column is High
-    output reg [3:0] col,                       // Output High Values by Changing Column
-    output reg [3:0] key_value,                 // Output Values According to Row and Column Inputs
-    output reg key_valid,                       // Key Input Flag
-    output [15:0] led                           // for Debugging
-    );
-
-    // Change State Using Shift
-    localparam SCAN_0       = 5'b00001;         // Check Row Value of 1st Column
-    localparam SCAN_1       = 5'b00010;         // Check Row Value of 2nd Column
-    localparam SCAN_2       = 5'b00100;         // Check Row Value of 3rd Column
-    localparam SCAN_3       = 5'b01000;         // Check Row Value of 4th Column
-    localparam KEY_PROCESS  = 5'b10000;         // When Key Input
-
-    assign led[0] = key_valid;                  // Key Input LED Output
-    assign led[4:1] = col;                      // Column LED Output
-    assign led[8:5] = row;                      // Row LED Output
-
-    reg [19:0] clk_10ms;                        // 2^20ns = 10_485_760ns, About 10ms
-    always @(posedge clk) clk_10ms = clk_10ms + 1;
-
-    wire clk_10ms_pedge, clk_10ms_nedge;
-    // Edge Detection of 20th High-Order Clock bit
-    edge_detector_pos ms_10_ed (.clk(clk), .reset_p(reset_p),
-        .cp(clk_10ms[19]), .p_edge(clk_10ms_pedge), .n_edge(clk_10ms_nedge));
-
-    // State Change Sequential Circuit
-    reg [4:0] state, next_state;
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) state = SCAN_0;            // Basic Check 1st Column
-        else if (clk_10ms_pedge) state = next_state;    // Change State when 10ms Positive Edge 
-    end
-
-    // State Processing Combinational Circuit
-    always @* begin                             // All Variables Detection, Combinational Circuit
-        case (state)
-            SCAN_0      : begin                         // Check 1st Column
-                if (row == 0) next_state = SCAN_1;      // Row Value 0 → Change State SCAN_1
-                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
-            end
-            SCAN_1      : begin                         // Check 2nd Column
-                if (row == 0) next_state = SCAN_2;      // Row Value 0 → Change State SCAN_2
-                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
-            end
-            SCAN_2      : begin                         // Check 3rd Column
-                if (row == 0) next_state = SCAN_3;      // Row Value 0 → Change State SCAN_3
-                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
-            end
-            SCAN_3      : begin                         // Check 4th Column
-                if (row == 0) next_state = SCAN_0;      // Row Value 0 → Change State SCAN_0
-                else next_state = KEY_PROCESS;          // Check High in Any Row → Change State KEY_PROCESS
-            end
-            KEY_PROCESS : begin                         // When Key Input
-                if (row == 0) next_state = SCAN_0;      // Change Row Value 0 → Change State SCAN_0
-                else next_state = KEY_PROCESS;          // Check High in Any Row → Maintain State KEY_PROCESS
-            end
-            default : next_state = SCAN_0;              // Basic Check 1st Column
-        endcase
-    end
-
-    // Function Implementation Sequential Circuit
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            col = 4'b0001;                      // Basic 1st Column
-            key_value = 0;                      // Key Value Reset
-            key_valid = 0;                      // Key State Reset
-        end
-        else if (clk_10ms_nedge) begin          // Change Column of High Value when 10ms Negative Edge
-            case (state)
-                SCAN_0      : begin             // Check 1st Column
-                    col = 4'b0001;              // 1st Column Output High
-                    key_valid = 0;              // Basic Key Input Flag Clear
-                end
-                SCAN_1      : begin             // Check 2nd Column
-                    col = 4'b0010;              // 2nd Column Output High
-                    key_valid = 0;              // Basic Key Input Flag Clear
-                end
-                SCAN_2      : begin             // Check 3rd Column
-                    col = 4'b0100;              // 3rd Column Output High
-                    key_valid = 0;              // Basic Key Input Flag Clear
-                end
-                SCAN_3      : begin             // Check 4rd Column
-                    col = 4'b1000;              // 4th Column Output High
-                    key_valid = 0;              // Basic Key Input Flag Clear
-                end
-                KEY_PROCESS : begin             // When Key Input
-                    key_valid = 1;              // Basic Key Input Flag Set
-                    case ({row, col})           // Check Row and Column
-                        8'b0001_0001 : key_value = 4'h0;    // S1
-                        8'b0001_0010 : key_value = 4'h1;    // S2
-                        8'b0001_0100 : key_value = 4'h2;    // S3
-                        8'b0001_1000 : key_value = 4'h3;    // S4
-                        8'b0010_0001 : key_value = 4'h4;    // S5
-                        8'b0010_0010 : key_value = 4'h5;    // S6
-                        8'b0010_0100 : key_value = 4'h6;    // S7
-                        8'b0010_1000 : key_value = 4'h7;    // S8
-                        8'b0100_0001 : key_value = 4'h8;    // S9
-                        8'b0100_0010 : key_value = 4'h9;    // S10
-                        8'b0100_0100 : key_value = 4'ha;    // S11
-                        8'b0100_1000 : key_value = 4'hb;    // S12
-                        8'b1000_0001 : key_value = 4'hc;    // S13
-                        8'b1000_0010 : key_value = 4'hd;    // S14
-                        8'b1000_0100 : key_value = 4'he;    // S15
-                        8'b1000_1000 : key_value = 4'hf;    // S16
-                    endcase
-                end
-            endcase
-        end
-    end
 endmodule
 
 // Input Address or Data, 100㎑ I2C Communication When Start-bit High
@@ -976,146 +246,6 @@ module i2c_master (
     end
 endmodule
 
-// Sending to LCD Using I2C Communication in Nibble(4-bit) Unit
-module i2c_lcd_send_byte (
-    input clk, reset_p,
-    input [6:0] addr,                           // Slave Address
-    input [7:0] send_buffer,                    // Transmission Data Buffer
-    input send, rs,                             // Send Start-bit, Register Select
-    output scl, sda,                            // Serial Clock , Serial Data
-    output reg busy,                            // Communication Situation
-    output [15:0] led                           // for Debugging
-    );
-
-    // Change State Using Shift
-    localparam I2C_IDLE                 = 6'b00_0001;   // Standby State
-    localparam SEND_HIGH_NIBBLE_DISABLE = 6'b00_0010;   // High Nibble(4-bit) Transmit in Enable Clear
-    localparam SEND_HIGH_NIBBLE_ENABLE  = 6'b00_0100;   // Enable Set
-    localparam SEND_LOW_NIBBLE_DISABLE  = 6'b00_1000;   // Low Nibble(4-bit) Transmit in Enable Clear
-    localparam SEND_LOW_NIBBLE_ENABLE   = 6'b01_0000;   // Enable Set
-    localparam SEND_DISABLE             = 6'b10_0000;   // Byte(8-bit) Transmission Complete
-
-    reg [7:0] data;                             // 4-bit Unit Transmission, D7 ~ D4, BL, E, RW, RS
-    reg comm_start;                             // Communication Start-bit
-
-    // Clock Divide 100, 10ns x 100 = 1us
-    wire clk_usec_nedge, clk_usec_pedge; // Divide Clock 1us
-    clock_div_100 us_clk (.clk(clk), .reset_p(reset_p),
-        .nedge_div_100(clk_usec_nedge), .pedge_div_100(clk_usec_pedge));
-
-    // Edge Detection of Send Signal
-    wire send_pedge, send_nedge;
-    edge_detector_pos comm_start_ed (.clk(clk), .reset_p(reset_p),
-        .cp(send), .p_edge(send_pedge), .n_edge(send_nedge));
-
-    // us Unit Count
-    reg [21:0] cnt_usec;                        // us Count
-    reg cnt_usec_e;                             // us Count Enable
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) cnt_usec = 0;              // Count Clear
-        else if (clk_usec_nedge && cnt_usec_e) begin    // Count Start when Enable & us Negative Edge
-            cnt_usec = cnt_usec + 1;            // Count During Enable
-        end
-        else if (!cnt_usec_e) cnt_usec = 0;     // Count Clear when Disable
-    end
-
-    // Using Module, Address & Data Transmission, I2C Communication
-    i2c_master master (clk, reset_p, addr, data, 1'b0, comm_start, scl, sda);
-
-    reg [5:0] state, next_state;                // Current & Next State
-    always @(negedge clk, posedge reset_p) begin
-        if (reset_p) state = I2C_IDLE;          // Basic Standby
-        else state = next_state;                // Change State in Negative Edge
-    end
-
-    always @(posedge clk, posedge reset_p) begin
-        if (reset_p) begin
-            next_state = I2C_IDLE;              // Basic Standby
-            comm_start = 0;                     // Communication Disable
-            cnt_usec_e = 0;                     // us Count Disable, Clear
-            data = 0;                           // Transmission Data Reset
-            busy = 0;                           // Communication Available
-        end
-        else begin
-            case (state)
-                I2C_IDLE                 : begin    // Standby State
-                    if (send_pedge) begin       // Send Start
-                        next_state = SEND_HIGH_NIBBLE_DISABLE;  // Change State SEND_HIGH_NIBBLE_DISABLE
-                        busy = 1;               // Communicating
-                    end
-                end
-                SEND_HIGH_NIBBLE_DISABLE : begin    // High Nibble(4-bit) Transmit in Enable Clear
-                    if (cnt_usec < 22'd200) begin   // About 200us Required to Complete Transmission
-                        data = {send_buffer[7:4], 3'b100, rs};  // High Nibble Transmission
-                        comm_start = 1;         // Communication Start
-                        cnt_usec_e = 1;         // us Count Enable
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        comm_start = 0;         // Communication Start-bit Clear
-                        next_state = SEND_HIGH_NIBBLE_ENABLE;   // Change State SEND_HIGH_NIBBLE_ENABLE
-                    end
-                end
-                SEND_HIGH_NIBBLE_ENABLE  : begin    // Enable Set
-                    if (cnt_usec < 22'd200) begin   // About 200us Required to Complete Transmission
-                        data = {send_buffer[7:4], 3'b110, rs};  // E Pin Enable
-                        comm_start = 1;         // Communication Start
-                        cnt_usec_e = 1;         // us Count Enable
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        comm_start = 0;         // Communication Start-bit Clear
-                        next_state = SEND_LOW_NIBBLE_DISABLE;   // Change State SEND_LOW_NIBBLE_DISABLE
-                    end
-                end
-                SEND_LOW_NIBBLE_DISABLE  : begin    // Low Nibble(4-bit) Transmit in Enable Clear
-                    if (cnt_usec < 22'd200) begin   // About 200us Required to Complete Transmission
-                        data = {send_buffer[3:0], 3'b100, rs};  // Low Nibble Transmission
-                        comm_start = 1;         // Communication Start
-                        cnt_usec_e = 1;         // us Count Enable
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        comm_start = 0;         // Communication Start-bit Clear
-                        next_state = SEND_LOW_NIBBLE_ENABLE;    // Change State SEND_LOW_NIBBLE_ENABLE
-                    end
-                end
-                SEND_LOW_NIBBLE_ENABLE   : begin    // Enable Set
-                    if (cnt_usec < 22'd200) begin   // About 200us Required to Complete Transmission
-                        data = {send_buffer[3:0], 3'b110, rs};  // E Pin Enable
-                        comm_start = 1;         // Communication Start
-                        cnt_usec_e = 1;         // us Count Enable
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        comm_start = 0;         // Communication Start-bit Clear
-                        next_state = SEND_DISABLE;  // Change State SEND_DISABLE
-                    end
-                end
-                SEND_DISABLE             : begin    // Byte(8-bit) Transmission Complete
-                    if (cnt_usec < 22'd200) begin   // About 200us Required to Complete Transmission
-                        data = {send_buffer[7:4], 3'b100, rs};  // E Pin Disable
-                        comm_start = 1;         // Communication Start
-                        cnt_usec_e = 1;         // us Count Enable
-                    end
-                    else begin
-                        cnt_usec_e = 0;         // us Count Disable, Clear
-                        comm_start = 0;         // Communication Start-bit Clear
-                        next_state = I2C_IDLE;  // Change State I2C_IDLE
-                        busy = 0;               // Communication Available
-                    end
-                end
-                default                  : begin
-                    cnt_usec_e = 0;             // us Count Disable, Clear
-                    comm_start = 0;             // Communication Start-bit Clear
-                    next_state = I2C_IDLE;      // Basic Standby
-                    busy = 0;                   // Communication Available
-                end
-            endcase
-        end
-    end
-endmodule
-
 // PWM Frequency Signal Output According to Duty Ratio
 module pwm_Nstep (
     input clk, reset_p,
@@ -1165,61 +295,484 @@ module pwm_Nstep (
     end
 endmodule
 
-//
-module stepper_cntr (
-    input clk, reset_p,       
-    input start_motor,              // 모터 구동 시작 신호, high일 때만 구동
-    input motor_dir,                // 모터의 회전 방향 1'b1 = 시계 방향, 1'b0 = 반시계 방향
-    output reg [3:0] motor_out,     // 모터 드라이버로 출력되는 4개의 신호 (IN1, IN2, IN3, IN4)
-    output [15:0] led
-    );
+// GY-65 BMP180 압력/온도 센서 제어 모듈
+module gy65_bmp180_cntr (
+    input wire clk,           // 시스템 클럭 (예: 100MHz)
+    input wire reset_p,       // 리셋 (active high)
+    input wire start,         // 측정 시작 신호
+    
+    // I2C 인터페이스
+    inout wire sda,           // I2C 데이터 라인
+    output wire scl,          // I2C 클럭 라인
+    
+    // 출력 데이터 (계산된 값만)
+    output reg [31:0] pressure_pa,     // 계산된 압력 (Pa)
+    output reg [15:0] temperature_c,   // 계산된 온도 (0.1도 단위)
+    output reg [31:0] altitude_cm,     // 계산된 고도 (cm)
+    
+    // 상태 신호
+    output reg data_ready,    // 데이터 준비 완료
+    output reg busy,          // 동작 중
+    output reg error          // 에러 발생
+);
 
-    reg [23:0] cnt_sysclk = 0;      //스텝 지연 시간을 제어하기 위한 카운터
-    reg [2:0] step_index = 0;       //배열의 인덱스를 나타냄  0에서 7까지 반복하며 모터를 회전
-    reg [3:0] half_step [7:0];      //8개의 하프 스텝 시퀀스를 배열로 정의
+// BMP180 I2C 주소 및 레지스터
+localparam BMP180_ADDR = 7'h77;
+localparam REG_CAL_AC1 = 8'hAA;
+localparam REG_CAL_AC2 = 8'hAC;
+localparam REG_CAL_AC3 = 8'hAE;
+localparam REG_CAL_AC4 = 8'hB0;
+localparam REG_CAL_AC5 = 8'hB2;
+localparam REG_CAL_AC6 = 8'hB4;
+localparam REG_CAL_B1  = 8'hB6;
+localparam REG_CAL_B2  = 8'hB8;
+localparam REG_CAL_MB  = 8'hBA;
+localparam REG_CAL_MC  = 8'hBC;
+localparam REG_CAL_MD  = 8'hBE;
+localparam REG_CONTROL = 8'hF4;
+localparam REG_DATA    = 8'hF6;
 
-    initial begin
-        half_step[0] = 4'b1000;
-        half_step[1] = 4'b1100;
-        half_step[2] = 4'b0100;
-        half_step[3] = 4'b0110;
-        half_step[4] = 4'b0010;
-        half_step[5] = 4'b0011;
-        half_step[6] = 4'b0001;
-        half_step[7] = 4'b1001;
+// 측정 명령
+localparam CMD_TEMP    = 8'h2E;
+localparam CMD_PRESS   = 8'h34; // OSS=0
+
+// 상태 머신
+localparam IDLE         = 4'd0;
+localparam READ_CAL     = 4'd1;
+localparam START_TEMP   = 4'd2;
+localparam WAIT_TEMP    = 4'd3;
+localparam READ_TEMP    = 4'd4;
+localparam START_PRESS  = 4'd5;
+localparam WAIT_PRESS   = 4'd6;
+localparam READ_PRESS   = 4'd7;
+localparam CALCULATE    = 4'd8;
+localparam DONE         = 4'd9;
+localparam ERROR_STATE  = 4'd10;
+
+reg [3:0] state, next_state;
+reg [31:0] counter;
+reg [7:0] cal_step;
+
+// 교정 계수들
+reg signed [15:0] ac1, ac2, ac3, b1, b2, mb, mc, md;
+reg [15:0] ac4, ac5, ac6;
+
+// I2C 제어 신호
+reg i2c_start;
+reg i2c_stop;
+reg i2c_write;
+reg i2c_read;
+reg [7:0] i2c_data_tx;
+wire [7:0] i2c_data_rx;
+wire i2c_busy;
+wire i2c_ack;
+
+// 내부 변수
+reg [15:0] ut, up; // 온도/압력 원시 데이터
+reg signed [31:0] x1, x2, x3, b3, b5, b6, p;
+reg [31:0] b4, b7;
+
+// I2C 마스터 모듈 인스턴스
+i2c_master_io i2c_inst (
+    .clk(clk),
+    .reset_p(reset_p),
+    .start(i2c_start),
+    .stop(i2c_stop),
+    .write(i2c_write),
+    .read(i2c_read),
+    .slave_addr(BMP180_ADDR),
+    .data_tx(i2c_data_tx),
+    .data_rx(i2c_data_rx),
+    .busy(i2c_busy),
+    .ack(i2c_ack),
+    .sda(sda),
+    .scl(scl)
+);
+
+// 메인 상태 머신
+always @(posedge clk or posedge reset_p) begin
+    if (reset_p) begin
+        state <= IDLE;
+        counter <= 0;
+        cal_step <= 0;
+        data_ready <= 0;
+        busy <= 0;
+        error <= 0;
+    end else begin
+        state <= next_state;
+        
+        // 카운터 관리
+        if (state != next_state)
+            counter <= 0;
+        else
+            counter <= counter + 1;
     end
+end
 
-    assign led[0] = start_motor;
-    assign led[1] = motor_dir;
-    assign led[5:2] = motor_out;
-    always @(posedge clk or posedge reset_p) begin
-        if (reset_p)begin
-            cnt_sysclk <= 0;
-            step_index <= 0;
-            motor_out <= 4'b0000;
-        end else begin
-            if (start_motor) begin
-                if (cnt_sysclk >= 200_000) begin
-                    cnt_sysclk <= 0;
-                    motor_out <= half_step[step_index];
-                    if (motor_dir) begin    // 시계 방향
-                        if (step_index >= 7) step_index <= 0;
-                        else step_index = step_index + 1;
-                    end
-                    else begin              // 반시계 방향
-                        if (step_index <= 0) step_index <= 7;
-                        else step_index <= step_index - 1;
-                    end
-                end
-                else begin
-                    cnt_sysclk <= cnt_sysclk + 1;
-                end
-            end
-            else begin // 정지 동작 
-                cnt_sysclk <= 0;
-                step_index <= 0;
-                motor_out <= 4'b0000;
+// 상태 머신 로직
+always @(*) begin
+    next_state = state;
+    i2c_start = 0;
+    i2c_stop = 0;
+    i2c_write = 0;
+    i2c_read = 0;
+    i2c_data_tx = 8'h00;
+    
+    case (state)
+        IDLE: begin
+            busy = 0;
+            data_ready = 0;
+            if (start) begin
+                next_state = READ_CAL;
+                busy = 1;
+                cal_step = 0;
             end
         end
+        
+        READ_CAL: begin
+            // 교정 계수 읽기 (간소화된 버전)
+            if (counter == 0) begin
+                i2c_start = 1;
+                i2c_write = 1;
+                i2c_data_tx = REG_CAL_AC1;
+            end else if (counter > 100 && !i2c_busy) begin
+                if (cal_step < 11) begin
+                    cal_step = cal_step + 1;
+                    // 실제 구현에서는 각 교정 계수를 순차적으로 읽음
+                end else begin
+                    next_state = START_TEMP;
+                end
+            end
+        end
+        
+        START_TEMP: begin
+            // 온도 측정 시작
+            if (counter == 0) begin
+                i2c_start = 1;
+                i2c_write = 1;
+                i2c_data_tx = REG_CONTROL;
+            end else if (counter == 50) begin
+                i2c_write = 1;
+                i2c_data_tx = CMD_TEMP;
+            end else if (counter == 100) begin
+                i2c_stop = 1;
+                next_state = WAIT_TEMP;
+            end
+        end
+        
+        WAIT_TEMP: begin
+            // 온도 변환 대기 (4.5ms)
+            if (counter > 450000) begin // 100MHz 기준
+                next_state = READ_TEMP;
+            end
+        end
+        
+        READ_TEMP: begin
+            // 온도 데이터 읽기
+            if (counter == 0) begin
+                i2c_start = 1;
+                i2c_write = 1;
+                i2c_data_tx = REG_DATA;
+            end else if (counter == 50) begin
+                i2c_read = 1;
+            end else if (counter == 150 && !i2c_busy) begin
+                ut[15:8] = i2c_data_rx;
+                i2c_read = 1;
+            end else if (counter == 200 && !i2c_busy) begin
+                ut[7:0] = i2c_data_rx;
+                i2c_stop = 1;
+                next_state = START_PRESS;
+            end
+        end
+        
+        START_PRESS: begin
+            // 압력 측정 시작
+            if (counter == 0) begin
+                i2c_start = 1;
+                i2c_write = 1;
+                i2c_data_tx = REG_CONTROL;
+            end else if (counter == 50) begin
+                i2c_write = 1;
+                i2c_data_tx = CMD_PRESS;
+            end else if (counter == 100) begin
+                i2c_stop = 1;
+                next_state = WAIT_PRESS;
+            end
+        end
+        
+        WAIT_PRESS: begin
+            // 압력 변환 대기 (4.5ms, OSS=0)
+            if (counter > 450000) begin
+                next_state = READ_PRESS;
+            end
+        end
+        
+        READ_PRESS: begin
+            // 압력 데이터 읽기 (3바이트)
+            if (counter == 0) begin
+                i2c_start = 1;
+                i2c_write = 1;
+                i2c_data_tx = REG_DATA;
+            end else if (counter == 50) begin
+                i2c_read = 1;
+            end else if (counter == 150 && !i2c_busy) begin
+                up[15:8] = i2c_data_rx;
+                i2c_read = 1;
+            end else if (counter == 200 && !i2c_busy) begin
+                up[7:0] = i2c_data_rx;
+                i2c_stop = 1;
+                next_state = CALCULATE;
+            end
+        end
+        
+        CALCULATE: begin
+            // 온도 및 압력 계산 (BMP180 알고리즘)
+            if (counter == 0) begin
+                // 온도 계산
+                x1 = (ut - ac6) * ac5 / 32768;
+                x2 = mc * 2048 / (x1 + md);
+                b5 = x1 + x2;
+                temperature_c = (b5 + 8) / 16;
+            end else if (counter == 10) begin
+                // 압력 계산
+                b6 = b5 - 4000;
+                x1 = (b2 * (b6 * b6 / 4096)) / 2048;
+                x2 = ac2 * b6 / 2048;
+                x3 = x1 + x2;
+                b3 = (((ac1 * 4 + x3) + 2) / 4);
+                x1 = ac3 * b6 / 8192;
+                x2 = (b1 * (b6 * b6 / 4096)) / 65536;
+                x3 = ((x1 + x2) + 2) / 4;
+                b4 = ac4 * (x3 + 32768) / 32768;
+                b7 = (up - b3) * 50000;
+                
+                if (b7 < 80000000) p = (b7 * 2) / b4;
+                else p = (b7 / b4) * 2;
+                    
+                x1 = (p / 256) * (p / 256);
+                x1 = (x1 * 3038) / 65536;
+                x2 = (-7357 * p) / 65536;
+                pressure_pa = p + (x1 + x2 + 3791) / 16;
+                
+                // 고도 계산 (해수면 압력 101325 Pa 기준)
+                altitude_cm = 4433000 * (1 - ((pressure_pa * 100) / 10132500));
+                
+                next_state = DONE;
+            end
+        end
+        
+        DONE: begin
+            data_ready = 1;
+            busy = 0;
+            next_state = IDLE;
+        end
+        
+        ERROR_STATE: begin
+            error = 1;
+            busy = 0;
+            next_state = IDLE;
+        end
+        
+        default: next_state = IDLE;
+    endcase
+end
+
+endmodule
+
+module i2c_master_io (
+    input  wire clk,
+    input  wire reset_p,
+
+    // Control
+    input  wire start,
+    input  wire stop,
+    input  wire write,
+    input  wire read,
+    input  wire [6:0] slave_addr,
+    input  wire [7:0] data_tx,
+    output reg  [7:0] data_rx,
+
+    // Status
+    output reg busy,
+    output reg ack,       // ACK/NACK 상태 유지
+
+    // I2C lines
+    inout  wire sda,
+    output wire scl
+);
+
+    // -------------------------------
+    // SCL Generator (100kHz from 100MHz)
+    // -------------------------------
+    reg [9:0] clk_div;
+    reg [1:0] scl_phase;
+    reg scl_tick;
+    reg scl_reg;
+
+    assign scl = scl_reg;
+
+    always @(posedge clk or posedge reset_p) begin
+        if (reset_p) begin
+            clk_div   <= 0;
+            scl_phase <= 0;
+            scl_tick  <= 0;
+        end else if (busy) begin
+            if (clk_div == 499) begin
+                clk_div   <= 0;
+                scl_phase <= scl_phase + 1;
+                scl_tick  <= 1;
+            end else begin
+                clk_div  <= clk_div + 1;
+                scl_tick <= 0;
+            end
+        end else begin
+            clk_div   <= 0;
+            scl_phase <= 0;
+            scl_tick  <= 0;
+        end
+    end
+
+    // SCL output
+    always @(posedge clk or posedge reset_p) begin
+        if (reset_p) scl_reg <= 1;
+        else begin
+            case (scl_phase)
+                2'b00, 2'b01: scl_reg <= 0;
+                2'b10, 2'b11: scl_reg <= 1;
+            endcase
+        end
+    end
+
+    // -------------------------------
+    // SDA Control
+    // -------------------------------
+    reg sda_out;
+    reg sda_oe;
+    assign sda = sda_oe ? sda_out : 1'bz;
+
+    // -------------------------------
+    // FSM
+    // -------------------------------
+    localparam [3:0]
+        ST_IDLE   = 0,
+        ST_START  = 1,
+        ST_ADDR   = 2,
+        ST_ACK    = 3,
+        ST_TX     = 4,
+        ST_TX_ACK = 5,
+        ST_RX     = 6,
+        ST_RX_ACK = 7,
+        ST_STOP   = 8,
+        ST_ERROR  = 9;
+
+    reg [3:0] state, next_state;
+    reg [7:0] shift_reg;
+    reg [2:0] bit_cnt;
+
+    // Sequential FSM
+    always @(posedge clk or posedge reset_p) begin
+        if (reset_p) begin
+            state     <= ST_IDLE;
+            busy      <= 0;
+            ack       <= 0;
+            data_rx   <= 0;
+            bit_cnt   <= 0;
+            shift_reg <= 0;
+        end else if (scl_tick) state <= next_state;
+    end
+
+    // Combinational FSM
+    always @(*) begin
+        // defaults
+        next_state = state;
+        sda_out = 1;
+        sda_oe  = 0;
+        busy     = (state != ST_IDLE);
+
+        case (state)
+            ST_IDLE: begin
+                if (start) next_state = ST_START;
+            end
+
+            ST_START: begin
+                sda_out = 0; sda_oe = 1; // START condition
+                if (scl_phase == 2'b10) begin
+                    shift_reg = {slave_addr, (read?1'b1:1'b0)};
+                    bit_cnt   = 7;
+                    next_state = ST_ADDR;
+                end
+            end
+
+            ST_ADDR: begin
+                sda_out = shift_reg[bit_cnt]; sda_oe = 1;
+                if (scl_phase == 2'b01 && scl_tick) begin
+                    if (bit_cnt==0) next_state=ST_ACK;
+                    else bit_cnt = bit_cnt-1;
+                end
+            end
+
+            ST_ACK: begin
+                sda_oe = 0; // Release SDA for ACK
+                if (scl_phase == 2'b10 && scl_tick) begin
+                    ack = ~sda; // ACK=1, NACK=0
+                    if (ack) begin
+                        if (write) begin
+                            shift_reg = data_tx;
+                            bit_cnt   = 7;
+                            next_state= ST_TX;
+                        end else if (read) begin
+                            bit_cnt   = 7;
+                            next_state= ST_RX;
+                        end
+                    end else next_state = ST_ERROR;
+                end
+            end
+
+            ST_TX: begin
+                sda_out = shift_reg[bit_cnt]; sda_oe = 1;
+                if (scl_phase==2'b01 && scl_tick) begin
+                    if (bit_cnt==0) next_state=ST_TX_ACK;
+                    else bit_cnt=bit_cnt-1;
+                end
+            end
+
+            ST_TX_ACK: begin
+                sda_oe = 0; // Release SDA
+                if (scl_phase==2'b10 && scl_tick) begin
+                    next_state = stop ? ST_STOP : ST_IDLE;
+                end
+            end
+
+            ST_RX: begin
+                sda_oe = 0; // Read mode
+                if (scl_phase==2'b10 && scl_tick) begin
+                    shift_reg[bit_cnt] = sda;
+                    if (bit_cnt==0) begin
+                        data_rx = shift_reg;
+                        next_state = ST_RX_ACK;
+                    end else bit_cnt=bit_cnt-1;
+                end
+            end
+
+            ST_RX_ACK: begin
+                sda_out = 0; sda_oe = 1; // Send ACK
+                if (scl_phase==2'b10 && scl_tick) begin
+                    next_state = stop ? ST_STOP : ST_IDLE;
+                end
+            end
+
+            ST_STOP: begin
+                sda_out = 0; sda_oe = 1;
+                if (scl_phase==2'b10) begin
+                    sda_out=1; sda_oe=1; // STOP
+                    next_state=ST_IDLE;
+                end
+            end
+
+            ST_ERROR: begin
+                next_state = ST_IDLE;
+            end
+        endcase
     end
 endmodule
+

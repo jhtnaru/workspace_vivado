@@ -7,4 +7,4 @@
 # Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 #
 
-vivado -log soc_fan_motor_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_fan_motor_wrapper.tcl
+vivado -log soc_servo180_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_servo180_wrapper.tcl

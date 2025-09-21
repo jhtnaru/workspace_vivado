@@ -48,7 +48,7 @@
 
 
 // IP VLNV: user.org:user:myip_servo180:1.0
-// IP Revision: 3
+// IP Revision: 5
 
 (* X_CORE_INFO = "myip_servo180,Vivado 2024.2" *)
 (* CHECK_LICENSE_TYPE = "soc_servo180_myip_servo180_0_0,myip_servo180,{}" *)

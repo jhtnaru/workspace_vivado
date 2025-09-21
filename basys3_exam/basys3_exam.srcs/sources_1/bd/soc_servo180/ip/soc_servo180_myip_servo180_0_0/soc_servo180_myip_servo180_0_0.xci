@@ -4,7 +4,7 @@
     "xci_name": "soc_servo180_myip_servo180_0_0",
     "cell_name": "myip_servo180_0",
     "component_reference": "user.org:user:myip_servo180:1.0",
-    "ip_revision": "3",
+    "ip_revision": "5",
     "gen_directory": "../../../../../../basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_myip_servo180_0_0",
     "parameters": {
       "component_parameters": {
@@ -33,7 +33,7 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "3" } ],
+        "IPREVISION": [ { "value": "5" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_myip_servo180_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],

@@ -990,7 +990,7 @@
       },
       "myip_servo180_0": {
         "vlnv": "user.org:user:myip_servo180:1.0",
-        "ip_revision": "3",
+        "ip_revision": "5",
         "xci_name": "soc_servo180_myip_servo180_0_0",
         "xci_path": "ip/soc_servo180_myip_servo180_0_0/soc_servo180_myip_servo180_0_0.xci",
         "inst_hier_path": "myip_servo180_0"

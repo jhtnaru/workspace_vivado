@@ -37,4 +37,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log port_test_top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source port_test_top.tcl
+EAStep vivado -log gy65_top_system.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source gy65_top_system.tcl
