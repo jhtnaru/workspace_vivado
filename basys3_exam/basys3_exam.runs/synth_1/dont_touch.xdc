@@ -3,115 +3,133 @@
 
 # XDC: imports/workspace_vivado/Basys-3-Master.xdc
 
-# Block Designs: bd/soc_servo180/soc_servo180.bd
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180 || ORIG_REF_NAME==soc_servo180} -quiet] -quiet
+# Block Designs: bd/soc_servo/soc_servo.bd
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo || ORIG_REF_NAME==soc_servo} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_proc_sys_reset_0_0/soc_servo180_proc_sys_reset_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_servo180_proc_sys_reset_0_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_proc_sys_reset_0_0/soc_servo_proc_sys_reset_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_servo_proc_sys_reset_0_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_clk_wiz_0/soc_servo180_clk_wiz_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_clk_wiz_0 || ORIG_REF_NAME==soc_servo180_clk_wiz_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_clk_wiz_0/soc_servo_clk_wiz_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_clk_wiz_0 || ORIG_REF_NAME==soc_servo_clk_wiz_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_0/soc_servo180_microblaze_riscv_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_microblaze_riscv_0_0/soc_servo_microblaze_riscv_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_dlmb_v10_0/soc_servo180_dlmb_v10_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_dlmb_v10_0 || ORIG_REF_NAME==soc_servo180_dlmb_v10_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_dlmb_v10_0/soc_servo_dlmb_v10_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_dlmb_v10_0 || ORIG_REF_NAME==soc_servo_dlmb_v10_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_ilmb_v10_0/soc_servo180_ilmb_v10_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_ilmb_v10_0 || ORIG_REF_NAME==soc_servo180_ilmb_v10_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_ilmb_v10_0/soc_servo_ilmb_v10_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_ilmb_v10_0 || ORIG_REF_NAME==soc_servo_ilmb_v10_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_dlmb_bram_if_cntlr_0/soc_servo180_dlmb_bram_if_cntlr_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_dlmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_servo180_dlmb_bram_if_cntlr_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_dlmb_bram_if_cntlr_0/soc_servo_dlmb_bram_if_cntlr_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_dlmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_servo_dlmb_bram_if_cntlr_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_ilmb_bram_if_cntlr_0/soc_servo180_ilmb_bram_if_cntlr_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_ilmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_servo180_ilmb_bram_if_cntlr_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_ilmb_bram_if_cntlr_0/soc_servo_ilmb_bram_if_cntlr_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_ilmb_bram_if_cntlr_0 || ORIG_REF_NAME==soc_servo_ilmb_bram_if_cntlr_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_lmb_bram_0/soc_servo180_lmb_bram_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_lmb_bram_0 || ORIG_REF_NAME==soc_servo180_lmb_bram_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_lmb_bram_0/soc_servo_lmb_bram_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_lmb_bram_0 || ORIG_REF_NAME==soc_servo_lmb_bram_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_servo180_microblaze_riscv_0_axi_periph_imp_xbar_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_axi_periph_imp_xbar_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_axi_periph_imp_xbar_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_servo_microblaze_riscv_0_axi_periph_imp_xbar_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_axi_periph_imp_xbar_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_axi_periph_imp_xbar_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_periph_0/soc_servo180_microblaze_riscv_0_axi_periph_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_axi_periph_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_axi_periph_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_periph_0/soc_servo_microblaze_riscv_0_axi_periph_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_axi_periph_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_axi_periph_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_intc_0/soc_servo180_microblaze_riscv_0_axi_intc_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_axi_intc_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_intc_0/soc_servo_microblaze_riscv_0_axi_intc_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_axi_intc_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_xlconcat_0/soc_servo180_microblaze_riscv_0_xlconcat_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_xlconcat_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_xlconcat_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_microblaze_riscv_0_xlconcat_0/soc_servo_microblaze_riscv_0_xlconcat_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_xlconcat_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_xlconcat_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_mdm_1_0/soc_servo180_mdm_1_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_mdm_1_0 || ORIG_REF_NAME==soc_servo180_mdm_1_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_mdm_1_0/soc_servo_mdm_1_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_mdm_1_0 || ORIG_REF_NAME==soc_servo_mdm_1_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_axi_uartlite_0_0/soc_servo180_axi_uartlite_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_axi_uartlite_0_0 || ORIG_REF_NAME==soc_servo180_axi_uartlite_0_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_axi_uartlite_0_0/soc_servo_axi_uartlite_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_axi_uartlite_0_0 || ORIG_REF_NAME==soc_servo_axi_uartlite_0_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_axi_gpio_0_0/soc_servo180_axi_gpio_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_axi_gpio_0_0 || ORIG_REF_NAME==soc_servo180_axi_gpio_0_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_axi_gpio_0_0/soc_servo_axi_gpio_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_axi_gpio_0_0 || ORIG_REF_NAME==soc_servo_axi_gpio_0_0} -quiet] -quiet
 
-# IP: bd/soc_servo180/ip/soc_servo180_myip_servo180_0_0/soc_servo180_myip_servo180_0_0.xci
-set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo180_myip_servo180_0_0 || ORIG_REF_NAME==soc_servo180_myip_servo180_0_0} -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_0_0/soc_servo_myip_servo_0_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_0_0 || ORIG_REF_NAME==soc_servo_myip_servo_0_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_proc_sys_reset_0_0/soc_servo180_proc_sys_reset_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_servo180_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_1_0/soc_servo_myip_servo_1_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_1_0 || ORIG_REF_NAME==soc_servo_myip_servo_1_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_proc_sys_reset_0_0/soc_servo180_proc_sys_reset_0_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_servo180_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_2_0/soc_servo_myip_servo_2_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_2_0 || ORIG_REF_NAME==soc_servo_myip_servo_2_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_clk_wiz_0/soc_servo180_clk_wiz_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_clk_wiz_0 || ORIG_REF_NAME==soc_servo180_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_3_0/soc_servo_myip_servo_3_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_3_0 || ORIG_REF_NAME==soc_servo_myip_servo_3_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_clk_wiz_0/soc_servo180_clk_wiz_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_clk_wiz_0 || ORIG_REF_NAME==soc_servo180_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_4_0/soc_servo_myip_servo_4_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_4_0 || ORIG_REF_NAME==soc_servo_myip_servo_4_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_clk_wiz_0/soc_servo180_clk_wiz_0_ooc.xdc
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_5_0/soc_servo_myip_servo_5_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_5_0 || ORIG_REF_NAME==soc_servo_myip_servo_5_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_0/soc_servo180_microblaze_riscv_0_0.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# IP: bd/soc_servo/ip/soc_servo_myip_servo_6_0/soc_servo_myip_servo_6_0.xci
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==soc_servo_myip_servo_6_0 || ORIG_REF_NAME==soc_servo_myip_servo_6_0} -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_0/soc_servo180_microblaze_riscv_0_0_ooc_debug.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_proc_sys_reset_0_0/soc_servo_proc_sys_reset_0_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_servo_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_dlmb_v10_0/soc_servo180_dlmb_v10_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_proc_sys_reset_0_0/soc_servo_proc_sys_reset_0_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_proc_sys_reset_0_0 || ORIG_REF_NAME==soc_servo_proc_sys_reset_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_ilmb_v10_0/soc_servo180_ilmb_v10_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_clk_wiz_0/soc_servo_clk_wiz_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_clk_wiz_0 || ORIG_REF_NAME==soc_servo_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_dlmb_bram_if_cntlr_0/soc_servo180_dlmb_bram_if_cntlr_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_clk_wiz_0/soc_servo_clk_wiz_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_clk_wiz_0 || ORIG_REF_NAME==soc_servo_clk_wiz_0} -quiet] {/inst } ]/inst ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_ilmb_bram_if_cntlr_0/soc_servo180_ilmb_bram_if_cntlr_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_clk_wiz_0/soc_servo_clk_wiz_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_lmb_bram_0/soc_servo180_lmb_bram_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_microblaze_riscv_0_0/soc_servo_microblaze_riscv_0_0.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_servo180_microblaze_riscv_0_axi_periph_imp_xbar_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_microblaze_riscv_0_0/soc_servo_microblaze_riscv_0_0_ooc_debug.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_intc_0/soc_servo180_microblaze_riscv_0_axi_intc_0.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_dlmb_v10_0/soc_servo_dlmb_v10_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_intc_0/soc_servo180_microblaze_riscv_0_axi_intc_0_clocks.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_servo180_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_ilmb_v10_0/soc_servo_ilmb_v10_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_microblaze_riscv_0_axi_intc_0/soc_servo180_microblaze_riscv_0_axi_intc_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_dlmb_bram_if_cntlr_0/soc_servo_dlmb_bram_if_cntlr_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_mdm_1_0/soc_servo180_mdm_1_0.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_mdm_1_0 || ORIG_REF_NAME==soc_servo180_mdm_1_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_ilmb_bram_if_cntlr_0/soc_servo_ilmb_bram_if_cntlr_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_mdm_1_0/soc_servo180_mdm_1_0_ooc_trace.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_lmb_bram_0/soc_servo_lmb_bram_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_axi_uartlite_0_0/soc_servo180_axi_uartlite_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_axi_uartlite_0_0 || ORIG_REF_NAME==soc_servo180_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_periph_imp_xbar_0/soc_servo_microblaze_riscv_0_axi_periph_imp_xbar_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_axi_uartlite_0_0/soc_servo180_axi_uartlite_0_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_intc_0/soc_servo_microblaze_riscv_0_axi_intc_0.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_axi_uartlite_0_0/soc_servo180_axi_uartlite_0_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_axi_uartlite_0_0 || ORIG_REF_NAME==soc_servo180_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_intc_0/soc_servo_microblaze_riscv_0_axi_intc_0_clocks.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_microblaze_riscv_0_axi_intc_0 || ORIG_REF_NAME==soc_servo_microblaze_riscv_0_axi_intc_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_axi_gpio_0_0/soc_servo180_axi_gpio_0_0_board.xdc
-set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_axi_gpio_0_0 || ORIG_REF_NAME==soc_servo180_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_microblaze_riscv_0_axi_intc_0/soc_servo_microblaze_riscv_0_axi_intc_0_ooc.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_axi_gpio_0_0/soc_servo180_axi_gpio_0_0_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_mdm_1_0/soc_servo_mdm_1_0.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_mdm_1_0 || ORIG_REF_NAME==soc_servo_mdm_1_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/ip/soc_servo180_axi_gpio_0_0/soc_servo180_axi_gpio_0_0.xdc
-#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo180_axi_gpio_0_0 || ORIG_REF_NAME==soc_servo180_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_mdm_1_0/soc_servo_mdm_1_0_ooc_trace.xdc
 
-# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo180/soc_servo180_ooc.xdc
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_axi_uartlite_0_0/soc_servo_axi_uartlite_0_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_axi_uartlite_0_0 || ORIG_REF_NAME==soc_servo_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_axi_uartlite_0_0/soc_servo_axi_uartlite_0_0_ooc.xdc
+
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_axi_uartlite_0_0/soc_servo_axi_uartlite_0_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_axi_uartlite_0_0 || ORIG_REF_NAME==soc_servo_axi_uartlite_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_axi_gpio_0_0/soc_servo_axi_gpio_0_0_board.xdc
+set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_axi_gpio_0_0 || ORIG_REF_NAME==soc_servo_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_axi_gpio_0_0/soc_servo_axi_gpio_0_0_ooc.xdc
+
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/ip/soc_servo_axi_gpio_0_0/soc_servo_axi_gpio_0_0.xdc
+#dup# set_property KEEP_HIERARCHY SOFT [get_cells [split [join [get_cells -hier -filter {REF_NAME==soc_servo_axi_gpio_0_0 || ORIG_REF_NAME==soc_servo_axi_gpio_0_0} -quiet] {/U0 } ]/U0 ] -quiet] -quiet
+
+# XDC: /home/user16/workspace_vivado/basys3_exam/basys3_exam.gen/sources_1/bd/soc_servo/soc_servo_ooc.xdc

@@ -67,6 +67,8 @@ xadc_wiz_0 your_instance_name (
   .vn_in(vn_in),              // input wire vn_in
   .vauxp6(vauxp6),            // input wire vauxp6
   .vauxn6(vauxn6),            // input wire vauxn6
+  .vauxp14(vauxp14),          // input wire vauxp14
+  .vauxn14(vauxn14),          // input wire vauxn14
   .channel_out(channel_out),  // output wire [4 : 0] channel_out
   .eoc_out(eoc_out),          // output wire eoc_out
   .alarm_out(alarm_out),      // output wire alarm_out

@@ -1316,6 +1316,7 @@ module servo_cntr (
                         end
                         ONETIME  : begin
                             if (step < (40 + servo_angle)) step <= step + 1;
+                            else if (step > (40 + servo_angle)) step <= step - 1;
                         end
                         default  : begin
                             if (step <= 40) servo_dir <= 1;
