@@ -19,20 +19,20 @@ preplace inst mdm_1 -pg 1 -lvl 2 -x 400 -y 90 -defaultsOSRD
 preplace inst axi_uartlite_0 -pg 1 -lvl 5 -x 1580 -y 340 -defaultsOSRD
 preplace inst axi_smc -pg 1 -lvl 4 -x 1290 -y 270 -defaultsOSRD
 preplace inst myip_ultrasonic_0 -pg 1 -lvl 5 -x 1580 -y 190 -defaultsOSRD
-preplace netloc mdm_1_debug_sys_rst 1 1 2 230 20 570
-preplace netloc microblaze_riscv_0_Clk 1 1 4 220 180 600 180 1150 190 1440
-preplace netloc myip_ultrasonic_0_led 1 5 1 1710 200n
+preplace netloc mdm_1_debug_sys_rst 1 1 2 220 20 580
+preplace netloc microblaze_riscv_0_Clk 1 1 4 210 180 590 180 1140 190 1450
+preplace netloc myip_ultrasonic_0_led 1 5 1 1700 200n
 preplace netloc myip_ultrasonic_0_ultra_trig 1 5 1 NJ 180
-preplace netloc proc_sys_reset_0_bus_struct_reset 1 2 2 NJ 280 1110
-preplace netloc proc_sys_reset_0_mb_reset 1 2 1 610 120n
-preplace netloc proc_sys_reset_0_peripheral_aresetn 1 2 3 N 340 1160 350 1450
-preplace netloc reset_1 1 0 2 10 280 NJ
+preplace netloc proc_sys_reset_0_bus_struct_reset 1 2 2 NJ 280 1120
+preplace netloc proc_sys_reset_0_mb_reset 1 2 1 600 120n
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 2 3 N 340 1150 350 1460
+preplace netloc reset_1 1 0 2 20 280 NJ
 preplace netloc sys_clock_1 1 0 1 NJ 360
-preplace netloc ultra_echo_0_1 1 0 5 NJ 180 210J 190 NJ 190 1160J 180 NJ
-preplace netloc axi_smc_M00_AXI 1 4 1 1430 260n
-preplace netloc axi_smc_M01_AXI 1 4 1 1420 160n
+preplace netloc ultra_echo_0_1 1 0 5 NJ 180 200J 190 NJ 190 1150J 180 NJ
+preplace netloc axi_smc_M00_AXI 1 4 1 1440 260n
+preplace netloc axi_smc_M01_AXI 1 4 1 1430 160n
 preplace netloc axi_uartlite_0_UART 1 5 1 NJ 330
-preplace netloc microblaze_riscv_0_M_AXI_DP 1 3 1 1120 110n
+preplace netloc microblaze_riscv_0_M_AXI_DP 1 3 1 1130 110n
 preplace netloc microblaze_riscv_0_debug 1 2 1 N 80
 preplace netloc microblaze_riscv_0_dlmb_1 1 3 1 N 70
 preplace netloc microblaze_riscv_0_ilmb_1 1 3 1 N 90

@@ -464,7 +464,7 @@
       },
       "myip_ultrasonic_0": {
         "vlnv": "user.org:user:myip_ultrasonic:1.0",
-        "ip_revision": "2",
+        "ip_revision": "3",
         "xci_name": "soc_ultrasonic_myip_ultrasonic_0_0",
         "xci_path": "ip/soc_ultrasonic_myip_ultrasonic_0_0/soc_ultrasonic_myip_ultrasonic_0_0.xci",
         "inst_hier_path": "myip_ultrasonic_0"

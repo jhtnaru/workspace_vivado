@@ -975,7 +975,7 @@
       },
       "myip_fan_0": {
         "vlnv": "user.org:user:myip_fan:1.0",
-        "ip_revision": "2",
+        "ip_revision": "3",
         "xci_name": "soc_fan_motor_myip_fan_0_0",
         "xci_path": "ip/soc_fan_motor_myip_fan_0_0/soc_fan_motor_myip_fan_0_0.xci",
         "inst_hier_path": "myip_fan_0"

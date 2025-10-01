@@ -4,7 +4,7 @@
     "xci_name": "soc_fan_motor_myip_fan_0_0",
     "cell_name": "myip_fan_0",
     "component_reference": "user.org:user:myip_fan:1.0",
-    "ip_revision": "2",
+    "ip_revision": "3",
     "gen_directory": "../../../../../../basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_myip_fan_0_0",
     "parameters": {
       "component_parameters": {
@@ -33,7 +33,7 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "2" } ],
+        "IPREVISION": [ { "value": "3" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../basys3_exam.gen/sources_1/bd/soc_fan_motor/ip/soc_fan_motor_myip_fan_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],

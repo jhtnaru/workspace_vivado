@@ -2,10 +2,10 @@
 <Root MajorVersion="0" MinorVersion="43">
   <CompositeFile CompositeFileTopName="soc_fan_motor" CanBeSetAsTop="true" CanDisplayChildGraph="true">
     <Description>Composite Fileset</Description>
-    <Generation Name="SYNTHESIS" State="RESET" Timestamp="1758267119"/>
-    <Generation Name="SIMULATION" State="RESET" Timestamp="1758267119"/>
-    <Generation Name="IMPLEMENTATION" State="RESET" Timestamp="1758267119"/>
-    <Generation Name="HW_HANDOFF" State="RESET" Timestamp="1758267119"/>
+    <Generation Name="SYNTHESIS" State="STALE" Timestamp="1759279086"/>
+    <Generation Name="SIMULATION" State="RESET" Timestamp="1759279056"/>
+    <Generation Name="IMPLEMENTATION" State="STALE" Timestamp="1759279086"/>
+    <Generation Name="HW_HANDOFF" State="RESET" Timestamp="1759279056"/>
     <FileCollection Name="SOURCES" Type="SOURCES"/>
   </CompositeFile>
 </Root>
