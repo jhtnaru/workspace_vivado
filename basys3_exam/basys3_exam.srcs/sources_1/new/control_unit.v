@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/01/2025 02:14:18 PM
+// Create Date: 10/02/2025 10:56:26 AM
 // Design Name: 
-// Module Name: instruction_mem
+// Module Name: control_unit
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,19 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 //
-module instruction_mem (
-    output [31:0] inst,
-    input clk,
-    input inst_wen,
-    input [31:0] inst_data,
-    input [6:0] pc, inst_addr
+module control_unit (
+    input [31:0] instruction,
+    output [3:0] ALUSel
     );
 
-    reg [31:0] inst_reg [0:127];
+    wire [8:0] inst_opcode = {instruction[30], instruction[14:12], instruction[6:2]};
 
-    always @(posedge clk) begin
-        if (inst_wen) inst_reg[inst_addr] = inst_data;
-    end
-
-    assign inst = inst_reg[pc];
+    assign ALUSel = inst_opcode[8:5];
 endmodule
