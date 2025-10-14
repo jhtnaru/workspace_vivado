@@ -24,7 +24,7 @@ module register_file (
     output [31:0] RD1, RD2,
     input [4:0] RR1, RR2, WR,
     input [31:0] WD,
-    input RegWrite, clk, rst
+    input RegWrite, clk, reset_p
     );
 
     reg [31:0] Register_file [0:31];
@@ -33,7 +33,7 @@ module register_file (
     assign RD2 = Register_file[RR2];
 
     always @(posedge clk) begin
-        if (rst) begin                  // 원래 Memory Reset 안함
+        if (reset_p) begin // 원래 Memory Reset 안함
             Register_file [0]  = 0;
             Register_file [1]  = 0;
             Register_file [2]  = 0;

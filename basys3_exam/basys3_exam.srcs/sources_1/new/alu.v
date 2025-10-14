@@ -20,33 +20,66 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 //
+// module ALU (
+//     output [31:0] ALU_o,
+//     input signed [31:0] A, B, // 음수까지 읽는 32-bit 변수
+//     input [3:0] ALUSel
+//     );
+
+//     wire signed [31:0] ADD, SRA, SLL, SRL, XOR, AND, OR, SR, SLT;
+//     wire signed [31:0] B_compliment = ALUSel[3] ? ~B : B;
+//     wire [4:0] shamt = B[4:0];
+
+//     assign ADD = A + B_compliment + ALUSel[3]; // ALUSel[3] 0 이면 덧셈, 1 이면 뺄셈
+//     assign XOR = A ^ B;
+//     assign AND = A & B;
+//     assign OR  = A | B;
+//     assign SLL = A << shamt;
+//     assign SRL = A >> shamt;
+//     assign SRA = A >>> shamt; // >>> 음수일 경우 최상위 1을 채우면서 Right Shift
+//     assign SR  = ALUSel[3] ? SRA : SRL;
+//     assign SLT = A < B;
+
+//     assign ALU_o =
+//         (ALUSel[2:0] == 3'b000) ? ADD :
+//         (ALUSel[2:0] == 3'b001) ? SLL :
+//         (ALUSel[2:0] == 3'b010) ? SLT :
+//         (ALUSel[2:0] == 3'b011) ? SLT :
+//         (ALUSel[2:0] == 3'b100) ? XOR :
+//         (ALUSel[2:0] == 3'b101) ? SR  :
+//         (ALUSel[2:0] == 3'b110) ? OR  :
+//         (ALUSel[2:0] == 3'b111) ? AND : 0;
+// endmodule
+
+//
 module ALU (
+    input signed [31:0] A, B,
     output [31:0] ALU_o,
-    input signed [31:0] A, B, // 음수까지 읽는 32-bit 변수
     input [3:0] ALUSel
     );
 
-    wire signed [31:0] ADD, SRA, SLL, SRL, XOR, AND, OR, SR, SLT;
-    wire signed [31:0] B_compliment = ALUSel[3] ? ~B : B;
-    wire [4:0] shamt = B[4:0];
+    wire signed [31:0] ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND;
 
-    assign ADD = A + B_compliment + ALUSel[3]; // ALUSel[3] 0 이면 덧셈, 1 이면 뺄셈
-    assign XOR = A ^ B;
-    assign AND = A & B;
-    assign OR  = A | B;
-    assign SLL = A << shamt;
-    assign SRL = A >> shamt;
-    assign SRA = A >>> shamt; // >>> 음수일 경우 최상위 1을 채우면서 Right Shift
-    assign SR  = ALUSel[3] ? SRA : SRL;
-    assign SLT = A < B;
+    assign ADD  = A + B;
+    assign SUB  = A - B;
+    assign SLL  = A << B;
+    assign SLT  = A < B;
+    assign SLTU = A < B;
+    assign XOR  = A ^ B;
+    assign SRL  = A >> B;
+    assign SRA  = A >>> B;
+    assign OR   = A | B;
+    assign AND  = A & B;
 
     assign ALU_o =
-        (ALUSel[2:0] == 3'b000) ? ADD :
-        (ALUSel[2:0] == 3'b001) ? SLL :
-        (ALUSel[2:0] == 3'b010) ? SLT :
-        (ALUSel[2:0] == 3'b011) ? SLT :
-        (ALUSel[2:0] == 3'b100) ? XOR :
-        (ALUSel[2:0] == 3'b101) ? SR  :
-        (ALUSel[2:0] == 3'b110) ? OR  :
-        (ALUSel[2:0] == 3'b111) ? AND : 0;
+        (ALUSel == 4'b0000) ? ADD  :
+        (ALUSel == 4'b1000) ? SUB  :
+        (ALUSel == 4'b0001) ? SLL  :
+        (ALUSel == 4'b0010) ? SLT  :
+        (ALUSel == 4'b0011) ? SLTU :
+        (ALUSel == 4'b0100) ? XOR  :
+        (ALUSel == 4'b0101) ? SRL  :
+        (ALUSel == 4'b1101) ? SRA  :
+        (ALUSel == 4'b0110) ? OR   :
+        (ALUSel == 4'b0111) ? AND  : 0;
 endmodule

@@ -21,18 +21,29 @@
 
 //
 module instruction_mem (
-    output [31:0] inst,
-    input clk,
-    input inst_wen,
-    input [31:0] inst_data,
-    input [6:0] pc, inst_addr
+    output [31:0] instruction,
+    input [6:0] PC
     );
 
     reg [31:0] inst_reg [0:127];
 
-    always @(posedge clk) begin
-        if (inst_wen) inst_reg[inst_addr] = inst_data;
-    end
-
-    assign inst = inst_reg[pc];
+    assign instruction = inst_reg[PC];
 endmodule
+
+//
+// module instruction_mem (
+//     output [31:0] instruction,
+//     input clk,
+//     input inst_wen,
+//     input [31:0] inst_data,
+//     input [6:0] PC, inst_addr
+//     );
+
+//     reg [31:0] inst_reg [0:127];
+
+//     always @(posedge clk) begin
+//         if (inst_wen) inst_reg[inst_addr] = inst_data;
+//     end
+
+//     assign instruction = inst_reg[PC];
+// endmodule

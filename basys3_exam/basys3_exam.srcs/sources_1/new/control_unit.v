@@ -19,13 +19,27 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//
+// Instruction Decoder
 module control_unit (
     input [31:0] instruction,
-    output [3:0] ALUSel
+    output [3:0] ALUSel,
+    output [2:0] ImmSel // I 0, B 1, U 2, J 3, S 4
     );
 
+    wire I_cond, B_cond, U_cond, J_cond, S_cond;
     wire [8:0] inst_opcode = {instruction[30], instruction[14:12], instruction[6:2]};
 
+    // opcode로 Type 구분
+    assign I_cond = {inst_opcode[4:3], inst_opcode[1:0]} == 4'b0000;
+    assign B_cond = inst_opcode[4:0] == 5'b11000;
+    assign U_cond = {inst_opcode[4], inst_opcode[2:0]} == 4'b0101;
+    assign J_cond = inst_opcode[4:0] == 5'b11011;
+    assign S_cond = inst_opcode[4:0] == 5'b01000;
+
     assign ALUSel = inst_opcode[8:5];
+    assign ImmSel = (I_cond == 1) ? 0 :
+                    (B_cond == 1) ? 1 :
+                    (U_cond == 1) ? 2 :
+                    (J_cond == 1) ? 3 :
+                    (S_cond == 1) ? 4 : 5;
 endmodule
