@@ -7,4 +7,4 @@
 # Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 #
 
-vivado -log soc_servo_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source soc_servo_wrapper.tcl -notrace
+vivado -log basic_top.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source basic_top.tcl -notrace
